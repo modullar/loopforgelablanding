@@ -257,6 +257,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Modal Functionality (Impressum & Disclaimer)
+    const impressumModal = document.getElementById('impressum-modal');
+    const impressumLink = document.getElementById('impressum-link');
+    const disclaimerModal = document.getElementById('disclaimer-modal');
+    const disclaimerLink = document.getElementById('disclaimer-link');
+    const closeBtns = document.querySelectorAll('.close');
+    
+    // Function to close any modal
+    function closeModal() {
+        impressumModal.style.display = 'none';
+        disclaimerModal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+    
+    // Open Impressum modal
+    if (impressumLink && impressumModal) {
+        impressumLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            impressumModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    // Open Disclaimer modal
+    if (disclaimerLink && disclaimerModal) {
+        disclaimerLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            disclaimerModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    // Close modals when X is clicked
+    closeBtns.forEach(btn => {
+        btn.addEventListener('click', closeModal);
+    });
+    
+    // Close modal when clicking outside of it
+    [impressumModal, disclaimerModal].forEach(modal => {
+        if (modal) {
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+        }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && 
+            (impressumModal.style.display === 'block' || disclaimerModal.style.display === 'block')) {
+            closeModal();
+        }
+    });
+    
     console.log('LoopForgeLab landing page initialized successfully! 🌱');
 });
 
