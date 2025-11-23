@@ -617,6 +617,15 @@ strong {
     transform: scale(1.05);
 }
 
+@media (max-width: 768px) {
+    .partners-track img:active,
+    .partners-track img:focus {
+        opacity: 1;
+        filter: grayscale(0%);
+        transform: none;
+    }
+}
+
 @keyframes scroll {
     0% {
         transform: translateX(0);
