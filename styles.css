@@ -5,6 +5,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 :root {
     /* Warm, earthy color palette */
     --forest-green: #2d5a3d;
@@ -348,7 +352,7 @@ strong {
 /* Journey Section */
 .journey {
     padding: var(--section-padding);
-    background: linear-gradient(135deg, var(--natural-blue-light) 0%, var(--natural-blue) 100%);
+    background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-green-dark) 100%);
     color: var(--white);
 }
 
