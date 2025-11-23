@@ -327,6 +327,21 @@ strong {
     border-color: var(--forest-green-light);
 }
 
+@supports (scroll-snap-type: y mandatory) {
+    @media (max-width: 768px) {
+        .focus-card {
+            scroll-snap-align: center;
+            scroll-snap-stop: always;
+        }
+        
+        .focus-card:in-view {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: var(--forest-green-light);
+        }
+    }
+}
+
 .focus-icon {
     width: 60px;
     height: 60px;
@@ -579,6 +594,12 @@ strong {
     animation-play-state: paused;
 }
 
+@media (max-width: 768px) {
+    .partners-track {
+        animation: scroll 25s linear infinite;
+    }
+}
+
 .partners-track img {
     height: 80px;
     width: auto;
@@ -777,12 +798,12 @@ strong {
     }
     
     .hero-title {
-        text-align: center;
+        text-align: left;
     }
     
     .hero-ctas {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
     }
     
     .hero-ctas .btn-primary,
@@ -797,9 +818,21 @@ strong {
         gap: 2rem;
     }
     
+    .focus-card {
+        text-align: left;
+    }
+    
+    .focus-icon {
+        margin: 0 0 1.5rem 0;
+    }
+    
     .journey-content {
         grid-template-columns: 1fr;
         gap: 3rem;
+    }
+    
+    .journey-text {
+        text-align: left;
     }
     
     .founder-cards {
@@ -812,14 +845,18 @@ strong {
         gap: 2rem;
     }
     
+    .involvement-card {
+        text-align: left;
+    }
+    
     .footer-content {
         grid-template-columns: 1fr;
-        text-align: center;
+        text-align: left;
         gap: 2rem;
     }
     
     .footer-nav {
-        justify-content: center;
+        justify-content: flex-start;
     }
     
     .newsletter-form {
@@ -890,6 +927,7 @@ strong {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
+    overflow: hidden;
 }
 
 .modal-content {
@@ -901,6 +939,7 @@ strong {
     max-width: 800px;
     max-height: 80vh;
     overflow-y: auto;
+    overflow-x: hidden;
     position: relative;
     box-shadow: var(--shadow-hover);
     animation: modalFadeIn 0.3s ease;
