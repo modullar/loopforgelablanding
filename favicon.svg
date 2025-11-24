@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <style>
+      .favicon-circle {
+        fill: #2d5a3d;
+      }
+      .favicon-text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 120px;
+        font-weight: 700;
+        fill: #ffffff;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+  </defs>
+  <!-- Background circle -->
+  <circle class="favicon-circle" cx="100" cy="100" r="100"/>
+  <!-- L letter -->
+  <text class="favicon-text" x="100" y="100">L</text>
+</svg>
