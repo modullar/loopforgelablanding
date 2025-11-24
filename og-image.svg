@@ -1,86 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <!-- Forest Green Gradient Background -->
   <defs>
     <linearGradient id="forestGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#2d5a3d;stop-opacity:1" />
       <stop offset="100%" style="stop-color:#1e3d2b;stop-opacity:1" />
     </linearGradient>
-    <style>
-      .og-title {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 72px;
-        font-weight: 700;
-        fill: #ffffff;
-      }
-      .og-subtitle {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 36px;
-        font-weight: 500;
-        fill: rgba(255, 255, 255, 0.9);
-      }
-      .og-description {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 28px;
-        font-weight: 400;
-        fill: rgba(255, 255, 255, 0.8);
-      }
-      .phase-circle {
-        fill: rgba(255, 255, 255, 0.2);
-      }
-      .phase-circle-active {
-        fill: #f59e0b;
-      }
-      .phase-number {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 48px;
-        font-weight: 700;
-        fill: #ffffff;
-        text-anchor: middle;
-        dominant-baseline: central;
-      }
-      .phase-label {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        font-size: 20px;
-        font-weight: 500;
-        fill: #ffffff;
-        text-anchor: middle;
-      }
-      .accent-line {
-        stroke: #f59e0b;
-        stroke-width: 4;
-      }
-    </style>
   </defs>
   
   <!-- Background -->
   <rect width="1200" height="630" fill="url(#forestGradient)"/>
   
   <!-- Main Content -->
-  <text class="og-title" x="60" y="100">LoopForgeLab</text>
-  <text class="og-subtitle" x="60" y="160">Designing Products for Tomorrow, Today</text>
+  <text x="60" y="100" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="700" fill="#ffffff">LoopForgeLab</text>
+  
+  <text x="60" y="160" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" font-weight="500" fill="rgba(255, 255, 255, 0.95)">Designing Products for Tomorrow, Today</text>
   
   <!-- Accent line -->
-  <line class="accent-line" x1="60" y1="180" x2="400" y2="180"/>
+  <line x1="60" y1="180" x2="400" y2="180" stroke="#f59e0b" stroke-width="4"/>
   
   <!-- Description -->
-  <text class="og-description" x="60" y="250">Research for Sustainable Product Futures</text>
-  <text class="og-description" x="60" y="300">Helping CAD, CAE, and PLM users integrate</text>
-  <text class="og-description" x="60" y="350">circular economy principles</text>
+  <text x="60" y="250" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="400" fill="rgba(255, 255, 255, 0.85)">Research for Sustainable Product Futures</text>
+  <text x="60" y="295" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="400" fill="rgba(255, 255, 255, 0.8)">Helping CAD, CAE, and PLM users integrate</text>
+  <text x="60" y="335" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="400" fill="rgba(255, 255, 255, 0.8)">circular economy principles</text>
   
   <!-- Research Phases Visualization -->
   <!-- Phase 1 (Active) -->
-  <circle class="phase-circle-active" cx="900" cy="480" r="50"/>
-  <text class="phase-number" x="900" y="480">1</text>
-  <text class="phase-label" x="900" y="560">Discovery</text>
+  <circle cx="900" cy="480" r="50" fill="#f59e0b"/>
+  <text x="900" y="490" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="900" y="560" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#ffffff" text-anchor="middle">Discovery</text>
   
   <!-- Line between phases -->
-  <line x1="970" y1="480" x2="1020" y2="480" stroke="rgba(255, 255, 255, 0.3)" stroke-width="3"/>
+  <line x1="970" y1="480" x2="1020" y2="480" stroke="rgba(255, 255, 255, 0.4)" stroke-width="3"/>
   
   <!-- Phase 2 -->
-  <circle class="phase-circle" cx="1070" cy="480" r="50"/>
-  <text class="phase-number" x="1070" y="480">2</text>
-  <text class="phase-label" x="1070" y="560">Design</text>
+  <circle cx="1070" cy="480" r="50" fill="rgba(255, 255, 255, 0.25)"/>
+  <text x="1070" y="490" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="1070" y="560" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#ffffff" text-anchor="middle">Design</text>
   
-  <!-- Branding corner -->
-  <text style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 18px; fill: rgba(255, 255, 255, 0.6);" x="60" y="620">loopforgelab.com</text>
+  <!-- Branding footer -->
+  <text x="60" y="620" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="400" fill="rgba(255, 255, 255, 0.6)">loopforgelab.com</text>
 </svg>
