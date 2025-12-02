@@ -151,6 +151,21 @@ strong {
     justify-content: space-between;
 }
 
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo-icon {
+    height: 60px;
+    width: auto;
+    transition: var(--transition);
+}
+
+.logo-icon:hover {
+    transform: scale(1.05);
+}
+
 .logo h1 {
     color: var(--forest-green);
     font-size: 1.5rem;
@@ -800,6 +815,10 @@ strong {
     
     .hamburger {
         display: flex;
+    }
+    
+    .logo-icon {
+        height: 50px;
     }
     
     .hero {
