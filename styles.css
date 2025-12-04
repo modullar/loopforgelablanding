@@ -23,7 +23,7 @@ html {
     --white: #ffffff;
     --accent-orange: #d97706;
     --accent-orange-light: #f59e0b;
-    
+
     /* Typography */
     --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-weight-light: 300;
@@ -31,14 +31,14 @@ html {
     --font-weight-medium: 500;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    
+
     /* Spacing */
     --section-padding: 5rem 0;
     --container-padding: 0 2rem;
     --border-radius: 12px;
     --shadow-soft: 0 4px 24px rgba(45, 90, 61, 0.08);
     --shadow-hover: 0 8px 32px rgba(45, 90, 61, 0.12);
-    
+
     /* Transitions */
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -59,7 +59,9 @@ body {
 }
 
 /* Typography */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     color: var(--forest-green-dark);
     font-weight: var(--font-weight-semibold);
     line-height: 1.3;
@@ -91,7 +93,8 @@ strong {
 }
 
 /* Buttons */
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     display: inline-block;
     padding: 1rem 2rem;
     border-radius: var(--border-radius);
@@ -157,7 +160,7 @@ strong {
 }
 
 .logo-icon {
-    height: 60px;
+    height: 90px;
     width: auto;
     transition: var(--transition);
 }
@@ -348,7 +351,7 @@ strong {
             scroll-snap-align: center;
             scroll-snap-stop: always;
         }
-        
+
         .focus-card:in-view {
             transform: translateY(-4px);
             box-shadow: var(--shadow-hover);
@@ -386,7 +389,8 @@ strong {
     color: var(--white);
 }
 
-.journey h2, .journey h3 {
+.journey h2,
+.journey h3 {
     color: var(--white);
 }
 
@@ -585,7 +589,7 @@ strong {
     margin-bottom: 1rem;
 }
 
-.partners > .container > p {
+.partners>.container>p {
     text-align: center;
     margin-bottom: 4rem;
     color: var(--warm-gray);
@@ -633,6 +637,7 @@ strong {
 }
 
 @media (max-width: 768px) {
+
     .partners-track img:active,
     .partners-track img:focus {
         opacity: 1;
@@ -645,6 +650,7 @@ strong {
     0% {
         transform: translateX(0);
     }
+
     100% {
         transform: translateX(-50%);
     }
@@ -808,89 +814,89 @@ strong {
         transition: var(--transition);
         gap: 1rem;
     }
-    
+
     .nav-menu.active {
         transform: translateX(0);
     }
-    
+
     .hamburger {
         display: flex;
     }
-    
+
     .logo-icon {
         height: 50px;
     }
-    
+
     .hero {
         padding: 6rem 0 4rem;
     }
-    
+
     .hero-title {
         text-align: left;
     }
-    
+
     .hero-ctas {
         flex-direction: column;
         align-items: flex-start;
     }
-    
+
     .hero-ctas .btn-primary,
     .hero-ctas .btn-secondary {
         width: 100%;
         max-width: 300px;
         text-align: center;
     }
-    
+
     .focus-areas {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .focus-card {
         text-align: left;
     }
-    
+
     .focus-icon {
         margin: 0 0 1.5rem 0;
     }
-    
+
     .journey-content {
         grid-template-columns: 1fr;
         gap: 3rem;
     }
-    
+
     .journey-text {
         text-align: left;
     }
-    
+
     .founder-cards {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .involvement-options {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .involvement-card {
         text-align: left;
     }
-    
+
     .footer-content {
         grid-template-columns: 1fr;
         text-align: left;
         gap: 2rem;
     }
-    
+
     .footer-nav {
         justify-content: flex-start;
     }
-    
+
     .newsletter-form {
         flex-direction: column;
     }
-    
+
     :root {
         --section-padding: 3rem 0;
     }
@@ -900,22 +906,22 @@ strong {
     .container {
         padding: 0 1rem;
     }
-    
+
     .hero-insight {
         padding: 1.5rem;
     }
-    
+
     .focus-card,
     .founder-card,
     .involvement-card {
         padding: 2rem 1.5rem;
     }
-    
+
     .research-phases {
         flex-direction: column;
         gap: 2rem;
     }
-    
+
     .partners-track {
         gap: 2rem;
     }
@@ -923,12 +929,15 @@ strong {
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-    
+
     .partners-track {
         animation: none;
     }
@@ -978,6 +987,7 @@ strong {
         opacity: 0;
         transform: translateY(-50px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1046,7 +1056,7 @@ strong {
         width: 95%;
         max-height: 85vh;
     }
-    
+
     .close {
         right: 1rem;
         top: 1rem;

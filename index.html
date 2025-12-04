@@ -44,10 +44,10 @@
     <meta name="revisit-after" content="7 days">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+    <link rel="icon" type="image/png" href="assets/favicon.png?v=2">
     <link rel="icon" type="image/x-icon" href="favicon.ico?v=2">
     <link rel="shortcut icon" href="favicon.ico?v=2">
-    <link rel="apple-touch-icon" href="favicon.svg?v=2">
+    <link rel="apple-touch-icon" href="assets/favicon.png?v=2">
 
     <!-- Stylesheet and Fonts -->
     <link rel="stylesheet" href="styles.css">
@@ -67,18 +67,28 @@
             <div class="nav-container">
                 <div class="logo">
                     <svg class="logo-icon" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Main circle representing circularity -->
-                        <circle cx="30" cy="30" r="20" stroke="#2d5a3d" stroke-width="2.5" fill="none"/>
-                        
-                        <!-- Dotted rectangle inside circle representing discrete manufacturing -->
-                        <rect x="18" y="18" width="24" height="24" stroke="#4a7c59" stroke-width="2" stroke-dasharray="3,2" fill="none" rx="2"/>
-                        
-                        <!-- Central focus point -->
-                        <circle cx="30" cy="30" r="3" fill="#2d5a3d"/>
-                        
+                        <!-- Outer Circle - Circular Economy -->
+                        <circle cx="30" cy="30" r="25.5" fill="none" stroke="var(--forest-green)" stroke-width="2.4"
+                            opacity="0.9" />
+
+                        <!-- Dotted Rectangle - Discrete Manufacturing -->
+                        <rect x="15" y="15" width="30" height="30" fill="none" stroke="var(--accent-orange)"
+                            stroke-width="1.8" stroke-dasharray="3.6 2.4" stroke-linecap="round" opacity="0.95" />
+
+                        <!-- Center Dot - Driving Force -->
+                        <circle cx="30" cy="30" r="3.6" fill="var(--accent-orange)" />
+
+                        <!-- Subtle glow effect (Animated) -->
+                        <circle cx="30" cy="30" r="3.6" fill="var(--accent-orange)" opacity="0.3">
+                            <animate attributeName="r" from="3.6" to="6" dur="2s" repeatCount="indefinite" />
+                            <animate attributeName="opacity" from="0.3" to="0" dur="2s" repeatCount="indefinite" />
+                        </circle>
+
                         <!-- Company name -->
-                        <text x="60" y="25" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#2d5a3d">LoopForge</text>
-                        <text x="60" y="40" font-family="Inter, sans-serif" font-size="16" font-weight="600" fill="#2d5a3d">Lab</text>
+                        <text x="65" y="25" font-family="Inter, sans-serif" font-size="16" font-weight="600"
+                            fill="var(--forest-green)">LoopForge</text>
+                        <text x="65" y="40" font-family="Inter, sans-serif" font-size="16" font-weight="600"
+                            fill="var(--forest-green)">Lab</text>
                     </svg>
                 </div>
                 <ul class="nav-menu">
