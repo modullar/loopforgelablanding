@@ -278,7 +278,7 @@ strong {
     min-height: 420px;
     border-radius: var(--border-radius);
     overflow: hidden;
-    background: var(--forest-green);
+    background: transparent;
 }
 
 #impossible-triangle-container {
