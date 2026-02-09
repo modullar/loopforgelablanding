@@ -110,18 +110,28 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <div class="hero-content">
-                <h1 class="hero-title">Designing Products for Tomorrow, Today</h1>
-                <div class="hero-insight">
-                    <p>Here's something we think about: <strong>80% of a product's lifetime emissions are determined at
-                            the design stage.</strong> That's a massive opportunity.</p>
+            <div class="hero-inner">
+                <div class="hero-content">
+                    <h1 class="hero-title">Designing Products for Tomorrow, Today</h1>
+                    <div class="hero-insight">
+                        <p>Here's something we think about: <strong>80% of a product's lifetime emissions are determined at
+                                the design stage.</strong> That's a massive opportunity.</p>
+                    </div>
+                    <p class="hero-intro">LoopForgeLab is a research initiative exploring how we can help product designers
+                        and engineers make sustainability the easy choice.</p>
+                    <p class="hero-context">We're currently in customer discovery - having conversations with CAD, CAE, and
+                        PLM users to understand the real challenges in sustainable product design.</p>
+                    <div class="hero-ctas">
+                        <a href="mailto:hello@loopforgelab.com" class="btn-primary">Chat With Us</a>
+                    </div>
                 </div>
-                <p class="hero-intro">LoopForgeLab is a research initiative exploring how we can help product designers
-                    and engineers make sustainability the easy choice.</p>
-                <p class="hero-context">We're currently in customer discovery - having conversations with CAD, CAE, and
-                    PLM users to understand the real challenges in sustainable product design.</p>
-                <div class="hero-ctas">
-                    <a href="mailto:hello@loopforgelab.com" class="btn-primary">Chat With Us</a>
+                <div class="hero-visual">
+                    <div id="impossible-triangle-container">
+                        <div id="impossible-triangle-info" class="impossible-triangle-info" style="display: none;">
+                            <h3 id="impossible-triangle-title"></h3>
+                            <p id="impossible-triangle-desc"></p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -431,6 +441,8 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="impossible-triangle.js"></script>
     <script src="script.js"></script>
 </body>
 
