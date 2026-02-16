@@ -11,7 +11,7 @@
   <rect width="1200" height="630" fill="url(#forestGradient)"/>
   
   <!-- Main Content -->
-  <text x="60" y="100" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="700" fill="#ffffff">LoopForgeLab</text>
+  <text x="60" y="100" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="700" fill="#ffffff">TriForge</text>
   
   <text x="60" y="160" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" font-weight="500" fill="rgba(255, 255, 255, 0.95)">Designing Products for Tomorrow, Today</text>
   
@@ -38,5 +38,5 @@
   <text x="1070" y="560" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#ffffff" text-anchor="middle">Design</text>
   
   <!-- Branding footer -->
-  <text x="60" y="620" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="400" fill="rgba(255, 255, 255, 0.6)">loopforgelab.com</text>
+  <text x="60" y="620" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="400" fill="rgba(255, 255, 255, 0.6)">triforge.com</text>
 </svg>

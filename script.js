@@ -1,4 +1,4 @@
-// LoopForgeLab Landing Page JavaScript
+// TriForge Landing Page JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
     
@@ -68,8 +68,30 @@ document.addEventListener('DOMContentLoaded', function() {
     
     window.addEventListener('scroll', handleScroll);
 
-    
-    
+    // How It Works — scroll-triggered reveals
+    const howItWorksIO = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('vis');
+
+            if (e.target.classList.contains('how-it-works-path')) {
+                const steps = e.target.querySelectorAll('.how-it-works-p-step');
+                steps.forEach((s, i) => {
+                    setTimeout(() => s.classList.add('vis'), 150 + i * 120);
+                });
+                const res = e.target.querySelector('.how-it-works-result');
+                if (res) setTimeout(() => res.classList.add('vis'), 200 + steps.length * 120);
+            }
+
+            howItWorksIO.unobserve(e.target);
+        });
+    }, { threshold: 0.2 });
+
+    ['#how-it-works-title', '#how-it-works-sub', '#how-it-works-origin', '#how-it-works-fork', '#how-it-works-path-today', '#how-it-works-path-tri'].forEach(sel => {
+        const el = document.querySelector(sel);
+        if (el) howItWorksIO.observe(el);
+    });
+
     // Newsletter Form Handling
     const newsLetterForms = document.querySelectorAll('.newsletter-form');
     
@@ -313,7 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    console.log('LoopForgeLab landing page initialized successfully! 🌱');
+    console.log('TriForge landing page initialized successfully! 🌱');
 });
 
 // Utility Functions
