@@ -24,8 +24,9 @@ html {
     --accent-orange: #d97706;
     --accent-orange-light: #f59e0b;
 
-    /* Typography */
-    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    /* Typography — company font: DM Serif Display */
+    --font-heading: 'DM Serif Display', serif;
+    --font-primary: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     --font-weight-light: 300;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
@@ -62,6 +63,7 @@ body {
 h1,
 h2,
 h3 {
+    font-family: var(--font-heading);
     color: var(--forest-green-dark);
     font-weight: var(--font-weight-semibold);
     line-height: 1.3;
@@ -547,7 +549,7 @@ strong {
 
     padding: var(--section-padding);
     background: var(--cream);
-    font-family: 'DM Sans', sans-serif;
+    font-family: var(--font-primary);
 }
 
 .how-it-works-scene {
@@ -557,7 +559,6 @@ strong {
 }
 
 .how-it-works .how-it-works-title {
-    font-family: 'DM Serif Display', serif;
     font-size: clamp(2rem, 4.5vw, 2.8rem);
     text-align: center;
     color: var(--how-forest);
@@ -742,7 +743,7 @@ strong {
 }
 
 .how-it-works-path-title {
-    font-family: 'DM Serif Display', serif;
+    font-family: var(--font-heading);
     font-size: 1.1rem;
     color: var(--how-forest);
 }
