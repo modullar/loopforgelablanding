@@ -261,15 +261,32 @@ strong {
 .hero-content {
     max-width: 100%;
     position: relative;
+    z-index: 10;
+}
+
+.hero-content::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    right: -50px;
+    bottom: -100px;
+    left: -100px;
+    background: transparent;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
 }
 
 .hero-visual {
     position: relative;
     display: flex;
     flex-direction: column;
-    border-radius: var(--border-radius);
-    overflow: hidden;
+    min-height: 480px;
     background: transparent;
+    z-index: 0;
 }
 
 #impossible-triangle-container {
@@ -394,14 +411,18 @@ strong {
 }
 
 .hero-3d-wrapper {
-    position: relative;
-    width: 100%;
-    height: 480px;
-    border-radius: var(--border-radius);
-    overflow: hidden;
+    position: absolute;
+    width: 200vw;
+    height: 150vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: -1;
+    pointer-events: none;
+    overflow: visible;
 }
 
 .floating-tag {
@@ -475,6 +496,8 @@ strong {
 
 /* Problem Section */
 .problem {
+    position: relative;
+    z-index: 10;
     padding: var(--section-padding);
     background: linear-gradient(135deg, var(--forest-green-dark) 0%, #162e1f 100%);
     color: var(--white);

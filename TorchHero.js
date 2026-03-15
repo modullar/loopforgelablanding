@@ -228,12 +228,13 @@ function TorchHero() {
       const theta = elapsed * 25e-5;
       const phiBase = phase === "beauty" ? 0.95 : 1.05;
       const phi = phiBase + Math.sin(elapsed * 15e-5) * 0.2;
+      const heightScale = h / 480;
       let targetR;
-      if (phase === "assembled") targetR = 8;
-      else if (phase === "exploding") targetR = 8 + easeInOut(progress) * 5;
-      else if (phase === "showcase") targetR = 13 + Math.sin(elapsed * 3e-4) * 0.8;
-      else if (phase === "imploding") targetR = 13 - easeInOut(progress) * 5.5;
-      else targetR = 7.5;
+      if (phase === "assembled") targetR = 8 * heightScale;
+      else if (phase === "exploding") targetR = (8 + easeInOut(progress) * 5) * heightScale;
+      else if (phase === "showcase") targetR = (13 + Math.sin(elapsed * 3e-4) * 0.8) * heightScale;
+      else if (phase === "imploding") targetR = (13 - easeInOut(progress) * 5.5) * heightScale;
+      else targetR = 7.5 * heightScale;
       lastRadius += (targetR - lastRadius) * 0.03;
       camera.position.setFromSphericalCoords(lastRadius, phi, theta);
       camera.position.add(lookAt);
