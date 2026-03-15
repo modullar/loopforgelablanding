@@ -32,7 +32,7 @@ const SEQ_DUR = HL_SEQ.reduce((s, h) => s + h.dur, 0);
 const CC = { cream: "#FAF7F2", forest: "#1B3A2D", forestMid: "#2A5A42", amber: "#D4891C", coral: "#D9534F", muted: "#94A39C" };
 function buildTorch(scene) {
   const parts = {}, group = new THREE.Group();
-  const L = (pts, s = 48) => new THREE.LatheGeometry(pts.map(([x, y]) => new THREE.Vector2(x, y)), s);
+  const L = (pts, s = 32) => new THREE.LatheGeometry(pts.map(([x, y]) => new THREE.Vector2(x, y)), s);
   const P = (c, s = 60) => new THREE.MeshPhongMaterial({ color: c, shininess: s });
   const A = (id, m, y, bx = 0) => {
     m.position.set(bx, y, 0);
@@ -41,8 +41,10 @@ function buildTorch(scene) {
     group.add(m);
   };
   const tc = new THREE.Mesh(L([[0, 0], [0.52, 0], [0.52, 0.04], [0.56, 0.04], [0.56, 0.32], [0.52, 0.32], [0.52, 0.36], [0, 0.36]]), P(2763306));
+  const tRingGeo = new THREE.TorusGeometry(0.545, 0.01, 4, 32);
+  const tRingMat = P(1710618);
   for (let i = 0; i < 5; i++) {
-    const r = new THREE.Mesh(new THREE.TorusGeometry(0.545, 0.01, 6, 48), P(1710618));
+    const r = new THREE.Mesh(tRingGeo, tRingMat);
     r.rotation.x = Math.PI / 2;
     r.position.y = 0.06 + i * 0.045;
     tc.add(r);
@@ -50,33 +52,39 @@ function buildTorch(scene) {
   A("tail_cap", tc, -2.2);
   const sG = new THREE.Group();
   const sC = [];
-  for (let i = 0; i <= 160; i++) {
-    const t = i / 160;
+  for (let i = 0; i <= 80; i++) {
+    const t = i / 80;
     sC.push(new THREE.Vector3(Math.cos(t * Math.PI * 10) * 0.15, t * 0.22, Math.sin(t * Math.PI * 10) * 0.15));
   }
-  sG.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sC), 100, 0.016, 8), P(13412932, 80)));
-  sG.add(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.025, 24), P(13412932, 80)));
+  const sMat = P(13412932, 80);
+  sG.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sC), 60, 0.016, 6), sMat));
+  sG.add(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.025, 20), sMat));
   A("tail_spring", sG, -1.88);
   const sw = new THREE.Group();
-  sw.add(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.05, 32), P(2254387)));
-  const a2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.13, 0.08, 16), P(3377237));
+  sw.add(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.05, 24), P(2254387)));
+  const a2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.13, 0.08, 12), P(3377237));
   a2.position.y = -0.06;
   sw.add(a2);
+  const swDotGeo = new THREE.SphereGeometry(0.025, 6, 6);
+  const swDotMat = P(13421772, 100);
   for (let i = 0; i < 4; i++) {
-    const s = new THREE.Mesh(new THREE.SphereGeometry(0.025, 8, 8), P(13421772, 100));
+    const s = new THREE.Mesh(swDotGeo, swDotMat);
     const a = i / 4 * Math.PI * 2;
     s.position.set(Math.cos(a) * 0.26, 0.03, Math.sin(a) * 0.26);
     sw.add(s);
   }
   A("tail_switch", sw, -2.12);
-  A("tail_boot", new THREE.Mesh(L([[0, 0], [0.15, 0], [0.17, 0.05], [0.12, 0.1], [0.1, 0.1], [0.08, 0.05], [0, 0.03]]), P(4478344, 20)), -2.38);
+  A("tail_boot", new THREE.Mesh(L([[0, 0], [0.15, 0], [0.17, 0.05], [0.12, 0.1], [0.1, 0.1], [0.08, 0.05], [0, 0.03]], 24), P(4478344, 20)), -2.38);
   const oM = P(1118481, 10);
-  const oT = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 12, 48), oM);
+  const oT = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 8, 32), oM);
   oT.rotation.x = Math.PI / 2;
   A("oring_tail", oT, -1.84);
   const bT = new THREE.Mesh(L([[0.44, 0], [0.48, 0], [0.48, 1.8], [0.44, 1.8]]), P(3815994, 50));
+  const bTRingGeo = new THREE.TorusGeometry(0.485, 7e-3, 4, 32);
+  const bTRingMat1 = P(4473924);
+  const bTRingMat2 = P(2763306);
   for (let i = 0; i < 18; i++) {
-    const k = new THREE.Mesh(new THREE.TorusGeometry(0.485, 7e-3, 6, 48), P(i % 3 === 0 ? 4473924 : 2763306));
+    const k = new THREE.Mesh(bTRingGeo, i % 3 === 0 ? bTRingMat1 : bTRingMat2);
     k.rotation.x = Math.PI / 2;
     k.position.y = 0.3 + i * 0.07;
     bT.add(k);
@@ -104,12 +112,14 @@ function buildTorch(scene) {
   ft.position.y = 0.048;
   dG.add(ft);
   A("driver_pcb", dG, -0.06);
-  const oH = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 12, 48), oM.clone());
+  const oH = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 8, 32), oM.clone());
   oH.rotation.x = Math.PI / 2;
   A("oring_head", oH, 0);
   const hH = new THREE.Mesh(L([[0.44, 0], [0.48, 0], [0.48, 0.15], [0.66, 0.28], [0.68, 0.32], [0.68, 0.9], [0.66, 0.94], [0.64, 0.94], [0.64, 0.9], [0.64, 0.36], [0.48, 0.24], [0.44, 0.24]]), P(3355443, 50));
+  const fGeo = new THREE.TorusGeometry(0.665, 0.012, 4, 32);
+  const fMat = P(2763306);
   for (let i = 0; i < 4; i++) {
-    const f = new THREE.Mesh(new THREE.TorusGeometry(0.665, 0.012, 6, 48), P(2763306));
+    const f = new THREE.Mesh(fGeo, fMat);
     f.rotation.x = Math.PI / 2;
     f.position.y = 0.4 + i * 0.12;
     hH.add(f);
@@ -130,14 +140,14 @@ function buildTorch(scene) {
   lG.add(dm);
   A("led_emitter", lG, 0.32);
   A("reflector", new THREE.Mesh(L([[0.07, 0], [0.58, 0.58], [0.62, 0.58], [0.62, 0.55], [0.1, 0.015], [0.07, 0]]), new THREE.MeshPhongMaterial({ color: 14540253, shininess: 120, specular: 16777215 })), 0.34);
-  const gk = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.018, 8, 48), P(3355443, 5));
+  const gk = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.018, 6, 32), P(3355443, 5));
   gk.rotation.x = Math.PI / 2;
   A("lens_gasket", gk, 0.92);
   A("lens", new THREE.Mesh(L([[0, 0.025], [0.58, 0.025], [0.58, -0.025], [0, -0.012]]), new THREE.MeshPhongMaterial({ color: 8956620, transparent: true, opacity: 0.45, shininess: 120, specular: 16777215 })), 0.94);
   A("bezel_ring", new THREE.Mesh(L([[0.58, 0], [0.68, 0], [0.69, 0.015], [0.69, 0.08], [0.67, 0.1], [0.58, 0.1]]), new THREE.MeshPhongMaterial({ color: 6710886, shininess: 90, specular: 8947848 })), 0.9);
   const cl = new THREE.Group();
   cl.add(new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.2, 0.18), P(8947848, 80)));
-  const cu = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.025, 8, 12, Math.PI), P(8947848, 80));
+  const cu = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.025, 6, 8, Math.PI), P(8947848, 80));
   cu.position.y = -0.6;
   cu.rotation.z = Math.PI / 2;
   cl.add(cu);
@@ -174,9 +184,9 @@ function TorchHero() {
     if (w === 0 || h === 0) return;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(28, w / h, 0.1, 100);
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
     renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     container.appendChild(renderer.domElement);
     scene.add(new THREE.AmbientLight(9741212, 0.6));
     const k = new THREE.DirectionalLight(16777215, 1.2);
