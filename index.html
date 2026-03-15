@@ -56,6 +56,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap"
         rel="stylesheet">
+
+    <!-- React for rendering the component directly in the browser -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
     <script>
         window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
     </script>
@@ -103,20 +108,9 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <div id="hero-3d-container" class="hero-3d-wrapper">
-                        <!-- Three.js Canvas will be injected here -->
-                        <div class="floating-tag tag-cost">
-                            <span class="tag-label">Cost</span>
-                            <span class="tag-value text-down">↓ €12.40</span>
-                        </div>
-                        <div class="floating-tag tag-carbon">
-                            <span class="tag-label">Carbon</span>
-                            <span class="tag-value text-down">↓ 4.2 kg CO₂</span>
-                        </div>
-                        <div class="floating-tag tag-risk">
-                            <span class="tag-label">Supply Risk</span>
-                            <span class="tag-value text-up">↑ 14%</span>
-                        </div>
+                    <div id="hero-3d-container" class="hero-3d-wrapper"
+                        style="padding: 0; background: transparent; overflow: hidden; border-radius: 16px;">
+                        <!-- The React component will be injected here by TorchHero.jsx -->
                     </div>
                 </div>
             </div>
@@ -609,7 +603,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="hero-3d.js"></script>
+    <script src="TorchHero.js"></script>
     <script src="script.js"></script>
 </body>
 
