@@ -44,7 +44,7 @@ html {
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-body {
+html, body {
     font-family: var(--font-primary);
     font-weight: var(--font-weight-regular);
     line-height: 1.7;
@@ -247,6 +247,7 @@ strong {
     background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-green-dark) 100%);
     position: relative;
     color: var(--white);
+    overflow: hidden;
 }
 
 .hero-inner {
@@ -604,6 +605,7 @@ strong {
     border-radius: 4px;
     z-index: 10;
     backdrop-filter: blur(4px);
+    white-space: nowrap;
 }
 
 .split-label-left {
@@ -638,55 +640,241 @@ strong {
     height: 100%;
 }
 
-.fake-window {
+.app-window {
     position: absolute;
-    background: white;
+    background: #fff;
     border-radius: 6px;
-    padding: 2rem 1rem 1rem;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    font-family: monospace;
-    font-size: 0.75rem;
-    color: #475569;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     border: 1px solid #cbd5e1;
 }
 
-.fake-window::before {
-    content: '';
-    position: absolute;
-    top: 0.5rem;
-    left: 0.5rem;
-    width: 0.5rem;
-    height: 0.5rem;
+.app-header {
+    height: 24px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    border-bottom: 1px solid #cbd5e1;
+}
+
+.app-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.app-dot {
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
-    background: #ef4444;
-    box-shadow: 1rem 0 0 #eab308, 2rem 0 0 #22c55e;
+    background: #cbd5e1;
 }
 
-.excel-window {
-    top: 10%;
-    left: 5%;
-    width: 280px;
-    height: 160px;
-    z-index: 1;
-    transform: rotate(-2deg);
+.app-dot:nth-child(1) { background: #ef4444; }
+.app-dot:nth-child(2) { background: #eab308; }
+.app-dot:nth-child(3) { background: #22c55e; }
+
+.app-title {
+    font-size: 0.65rem;
+    font-family: sans-serif;
+    color: #475569;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.browser-window {
-    top: 40%;
-    left: 15%;
+.app-close {
+    font-size: 14px;
+    color: #94a3b8;
+    line-height: 1;
+    margin-left: auto;
+}
+
+/* Excel App */
+.excel-app {
+    top: 5%;
+    left: 2%;
     width: 260px;
     height: 180px;
-    z-index: 2;
-    transform: rotate(1deg);
+    z-index: 1;
 }
 
-.email-window {
-    top: 20%;
-    left: 30%;
-    width: 200px;
-    height: 140px;
+.excel-header {
+    background: #107c41;
+    border-bottom: none;
+}
+
+.excel-header .app-title {
+    color: white;
+}
+
+.excel-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #f8fafc;
+}
+
+.excel-toolbar {
+    height: 20px;
+    background: #f1f5f9;
+    border-bottom: 1px solid #cbd5e1;
+    display: flex;
+    gap: 6px;
+    padding: 2px 8px;
+    align-items: center;
+}
+
+.excel-tool {
+    width: 14px;
+    height: 8px;
+    background: #cbd5e1;
+    border-radius: 2px;
+}
+
+.excel-grid {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.6rem;
+    color: #334155;
+}
+
+.excel-row {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1.5fr;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.excel-row.header {
+    background: #f1f5f9;
+    font-weight: bold;
+}
+
+.excel-cell {
+    padding: 4px;
+    border-right: 1px solid #e2e8f0;
+}
+
+/* CAD App */
+.cad-app {
+    bottom: 5%;
+    left: 25%;
+    width: 280px;
+    height: 200px;
+    z-index: 2;
+    background: #1e1e1e;
+    border-color: #333;
+}
+
+.cad-header {
+    background: #2d2d2d;
+    border-bottom: 1px solid #444;
+}
+
+.cad-header .app-title {
+    color: #aaa;
+}
+
+.cad-body {
+    flex: 1;
+    display: flex;
+}
+
+.cad-sidebar {
+    width: 40px;
+    background: #252526;
+    border-right: 1px solid #444;
+}
+
+.cad-viewport {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cad-cube {
+    width: 80px;
+    height: 80px;
+    border: 1px solid #3b82f6;
+    position: relative;
+    transform: perspective(400px) rotateX(20deg) rotateY(-30deg);
+    transform-style: preserve-3d;
+}
+
+.cad-cube::before, .cad-cube::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #3b82f6;
+}
+
+.cad-cube::before {
+    transform: translateZ(-40px);
+}
+
+.cad-cube::after {
+    transform: rotateY(90deg) translateZ(-40px);
+}
+
+/* ERP App */
+.erp-app {
+    top: 35%;
+    right: 5%;
+    width: 220px;
+    height: 160px;
     z-index: 3;
-    transform: rotate(3deg);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.erp-header {
+    background: #334155;
+}
+
+.erp-header .app-title {
+    color: white;
+}
+
+.erp-body {
+    flex: 1;
+    padding: 16px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+}
+
+.erp-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #475569;
+    margin-bottom: 4px;
+}
+
+.erp-input {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    background: white;
+    padding: 4px 8px;
+    font-size: 0.6rem;
+    color: #94a3b8;
+    border-radius: 2px;
+}
+
+.erp-btn {
+    margin-top: auto;
+    width: 100%;
+    background: var(--forest-green);
+    color: white;
+    text-align: center;
+    padding: 6px;
+    font-size: 0.65rem;
+    border-radius: 2px;
+    font-weight: bold;
 }
 
 /* After Content Details */
@@ -902,16 +1090,30 @@ strong {
     background: var(--forest-green-dark);
 }
 
-.anim-rfq .anim-clock::after {
+.anim-rfq .anim-clock::before {
     content: '';
     position: absolute;
-    top: 4px;
+    top: 2px;
     left: 9px;
     width: 2px;
     height: 8px;
     background: var(--accent-orange-light);
     transform-origin: bottom center;
-    animation: spin 2s infinite linear;
+    animation: spin 1s infinite linear;
+    border-radius: 2px;
+}
+
+.anim-rfq .anim-clock::after {
+    content: '';
+    position: absolute;
+    top: 4.5px;
+    left: 9px;
+    width: 2px;
+    height: 5.5px;
+    background: rgba(255, 255, 255, 0.9);
+    transform-origin: bottom center;
+    animation: spin 12s infinite linear;
+    border-radius: 2px;
 }
 
 /* 3. Operator Anim */
@@ -922,12 +1124,15 @@ strong {
 
 .anim-operator .anim-chart-line {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top right, transparent 48%, var(--accent-orange-light) 49%, var(--accent-orange-light) 51%, transparent 52%);
-    clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    border-bottom: 2px solid var(--accent-orange-light);
+    border-left: 2px solid var(--accent-orange-light);
+    border-bottom-left-radius: 100%;
+    background: transparent;
+    clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
     animation: reveal-chart 3s infinite ease-out;
 }
 
@@ -1009,12 +1214,12 @@ strong {
 
     0%,
     20% {
-        clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+        clip-path: polygon(0 0, 0 100%, 0 100%, 0 0);
     }
 
     80%,
     100% {
-        clip-path: polygon(0 100%, 100% 100%, 100% 0, 0 0);
+        clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0);
     }
 }
 
@@ -2038,7 +2243,7 @@ strong {
     }
 
     .hero-visual {
-        min-height: auto;
+        min-height: 350px;
     }
 
     #impossible-triangle-container {
@@ -2077,6 +2282,26 @@ strong {
 
     .problem-visual {
         order: -1;
+        height: 380px;
+    }
+
+    .split-content {
+        padding: 1.5rem 1rem;
+    }
+
+    .messy-desk-viz {
+        transform: scale(0.8);
+        transform-origin: center left;
+    }
+
+    .clean-ui-viz {
+        transform: scale(0.85);
+        transform-origin: center left;
+    }
+
+    .split-label {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.6rem;
     }
 
     .solution-cards {
@@ -2144,6 +2369,18 @@ strong {
 
     .partners-track {
         gap: 2rem;
+    }
+
+    .problem-visual {
+        height: 300px;
+    }
+
+    .messy-desk-viz {
+        transform: scale(0.65);
+    }
+
+    .clean-ui-viz {
+        transform: scale(0.75);
     }
 }
 

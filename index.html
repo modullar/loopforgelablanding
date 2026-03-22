@@ -119,67 +119,8 @@
     </section>
 
     <!-- Problem Section -->
-    <section id="problem" class="problem">
-        <div class="container">
-            <div class="problem-inner">
-                <div class="problem-content">
-                    <h2>The "Status Quo" Gap</h2>
-                    <p class="problem-text"><strong>80% of environmental impact is decided at the design stage, yet
-                            engineers are designing in the dark.</strong></p>
-
-                    <div class="pain-points">
-                        <div class="pain-point">
-                            <h3>1. Manual Data Stitching</h3>
-                            <p>ERP, CAD, and Excel silos force engineers into endless data gathering instead of
-                                designing.</p>
-                        </div>
-                        <div class="pain-point">
-                            <h3>2. Tribal Knowledge</h3>
-                            <p>Critical manufacturing expertise leaves the workforce when senior engineers retire.</p>
-                        </div>
-                        <div class="pain-point">
-                            <h3>3. The Redesign Trap</h3>
-                            <p>Finding out it's too expensive or dirty only after prototyping — leading to costly
-                                rework.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="problem-visual">
-                    <div class="split-slider-wrapper">
-                        <div class="split-slider" id="split-slider">
-                            <!-- Background: After (LoopForgeLab) -->
-                            <div class="split-after">
-                                <span class="split-label split-label-right">After: LoopForgeLab</span>
-                                <div class="split-content clean-ui-viz">
-                                    <div class="ui-header"><span class="ui-dot green"></span> Product Intelligence
-                                        Engine</div>
-                                    <div class="ui-card">Cost: <strong>€12.40/unit</strong></div>
-                                    <div class="ui-card">Carbon: <strong>4.2kg CO₂</strong></div>
-                                    <div class="ui-chart-bar"></div>
-                                </div>
-                            </div>
-
-                            <!-- Foreground: Before (Status Quo) -->
-                            <div class="split-before" id="split-before">
-                                <span class="split-label split-label-left">Before: The Data Desert</span>
-                                <div class="split-content messy-desk-viz">
-                                    <div class="fake-window excel-window">Excel - Bom_v14_Final_REAL.xlsx</div>
-                                    <div class="fake-window browser-window">ERP Login - Session Expired</div>
-                                    <div class="fake-window email-window">RE: Vendor Quote (delayed)</div>
-                                </div>
-                            </div>
-
-                            <!-- Slider Handle -->
-                            <div class="split-slider-handle" id="split-slider-handle">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M8 9l-4 3 4 3M16 9l4 3-4 3" />
-                                </svg>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <section id="problem" class="problem" style="padding: 0;">
+        <div id="status-quo-container"></div>
     </section>
 
     <!-- Solution Section -->
@@ -377,10 +318,6 @@
         <div class="container">
             <div class="market-header">
                 <h2>The Market Reality</h2>
-                <blockquote class="mj-quote">
-                    "Some people want it to happen, some wish it would happen, others make it happen."<br>
-                    <span>— Michael Jordan</span>
-                </blockquote>
             </div>
 
             <div class="market-metrics">
@@ -624,6 +561,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="TorchHero.js"></script>
+    <script src="StatusQuoGap.js"></script>
     <script src="script.js"></script>
 </body>
 
