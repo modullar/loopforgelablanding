@@ -1,7 +1,8 @@
 const { useState, useEffect, useRef } = React;
 
 const C = {
-  bg: "#faf9f7",
+  bgLight: "#faf9f7",
+  bgDark: "#172a1e", // Subdued dark forest green per user request
   white: "#ffffff",
   forestGreen: "#2d5a3d",
   forestGreenLight: "#4a7c59",
@@ -9,40 +10,42 @@ const C = {
   warmGray: "#6b6b6b",
   warmGrayLight: "#9a9a9a",
   warmGrayLighter: "#f5f5f4",
-  cream: "#faf9f7",
-  orange: "#d97706",
-  orangeLight: "#f59e0b",
-  orangeDim: "rgba(217,119,6,0.08)",
-  orangeGlow: "rgba(217,119,6,0.25)",
+  orange: "#f97316",
+  orangeLight: "#fdba74",
+  orangeDim: "rgba(249,115,22,0.12)",
+  orangeGlow: "rgba(249,115,22,0.3)",
   greenDim: "rgba(45,90,61,0.08)",
   greenGlow: "rgba(45,90,61,0.25)",
-  border: "rgba(45,90,61,0.1)",
+  borderLight: "rgba(45,90,61,0.1)",
+  borderDark: "rgba(255,255,255,0.08)",
+  cardDark: "#1e3828", // Slightly lighter subdued green
+  textDark: "#f5f5f5",
+  textDarkMuted: "#a3bcae", // Pale green-gray
 };
 
 const BEFORE = [
-  { time: "Day 1", type: "neutral", label: "New Brief", short: "Design brief lands. Target: −8% unit cost, meet updated EU compliance." },
-  { time: "Day 1–4", type: "pain", tag: "Data Stitching", label: "The Data Desert", short: "ERP, CAD, Excel — days of gathering instead of designing.", waste: 72, wasteLabel: "time lost" },
-  { time: "Day 5", type: "neutral", label: "Rough Estimate", short: "Finally has a cost picture. Starts exploring alternatives." },
-  { time: "Day 5–9", type: "pain", tag: "Tribal Knowledge", label: "The Expertise Drain", short: "Senior expert on leave. No one else knows the manufacturing limits.", waste: 58, wasteLabel: "unguided decisions" },
-  { time: "Day 10", type: "neutral", label: "Design Review", short: "Presents new assembly. Costing was based on outdated vendor quotes." },
-  { time: "Day 10–14", type: "pain", tag: "Redesign Trap", label: "Back to Square One", short: "Too expensive. Too dirty. Found out too late. Costly rework begins.", waste: 85, wasteLabel: "rework probability" },
-  { time: "Day 15+", type: "neutral", label: "Cycle Repeats", short: "Cost target unvalidated. Compliance unknown. Start over." },
+  { time: "Day 1", type: "neutral", label: "New Brief", short: "Design brief lands. Target: −8% unit cost." },
+  { time: "Day 1–4", type: "pain", tag: "Data Stitching", label: "Data Desert", short: "ERP, CAD, Excel — days of gathering.", waste: 72, wasteLabel: "time lost" },
+  { time: "Day 5", type: "neutral", label: "Estimate", short: "Finally has a cost picture." },
+  { time: "Day 5–9", type: "pain", tag: "Brain Drain", label: "Expertise Gap", short: "Senior expert on leave.", waste: 58, wasteLabel: "blind spots" },
+  { time: "Day 10", type: "neutral", label: "Review", short: "Presents new assembly." },
+  { time: "Day 10–14", type: "pain", tag: "Redesign", label: "Square One", short: "Too expensive. Discovered too late.", waste: 85, wasteLabel: "rework prob." },
+  { time: "Day 15+", type: "neutral", label: "Repeats", short: "Cost target unvalidated. Start over." },
 ];
 
 const AFTER = [
-  { time: "0 min", type: "neutral", label: "Same Brief", short: "Same brief. Same targets. Forge Engine is connected." },
-  { time: "2 min", type: "solved", tag: "Data Stitching", ref: "Data Desert", label: "Instant Cost Picture", short: "BOM auto-parsed. ERP, vendor, and cost data unified in seconds." },
-  { time: "5 min", type: "neutral", label: "Exploring Alternatives", short: "Engineer explores design variants with live cost and carbon feedback." },
-  { time: "8 min", type: "solved", tag: "Tribal Knowledge", ref: "Expertise Drain", label: "Guided Decisions", short: "Manufacturing constraints and tribal know-how surfaced automatically." },
-  { time: "12 min", type: "neutral", label: "Design Review", short: "Presents validated design. Numbers are current. Confidence is high." },
-  { time: "15 min", type: "solved", tag: "Redesign Trap", ref: "Redesign Trap", label: "First-Time Right", short: "Cost, carbon, and compliance validated before any prototype." },
-  { time: "20 min", type: "neutral", label: "Done", short: "Design approved. Targets met. No rework. Move to next project." },
+  { time: "0 min", type: "neutral", label: "Same Brief", short: "Same targets. Engine connected." },
+  { time: "2 min", type: "solved", tag: "Data Stitching", ref: "Data Desert", label: "Instant Cost", short: "BOM auto-parsed and unified." },
+  { time: "5 min", type: "neutral", label: "Exploring", short: "Engineer explores design variants." },
+  { time: "8 min", type: "solved", tag: "Tribal Know.", ref: "Expertise Gap", label: "Guided Moves", short: "Manufacturing constraints surfaced." },
+  { time: "12 min", type: "neutral", label: "Review", short: "Presents validated design." },
+  { time: "15 min", type: "solved", tag: "Redesign", ref: "Square One", label: "1st-Time Right", short: "Everything validated before prototype." },
+  { time: "20 min", type: "neutral", label: "Done", short: "Design approved. Targets met." },
 ];
 
 const STATS = [
-  { value: "41–194%", label: "more engineering hours over 20 years" },
-  { value: "80%", label: "of cost & impact locked at design" },
-  { value: "0", label: "tools bridging design to outcomes" },
+  { value: "41–194%", label: "more hours over 20 years" },
+  { value: "80%", label: "of impact locked at design" },
 ];
 
 function Ring({ percent, active, delay, variant }) {
@@ -120,7 +123,7 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
     };
     timerRef.current = setTimeout(run, autoDelay);
     return () => clearTimeout(timerRef.current);
-  }, [visible]);
+  }, [visible, autoplay, autoDelay, steps.length]);
 
   const handleClick = (i) => {
     setAutoplay(false);
@@ -130,20 +133,22 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
   };
 
   const d = active >= 0 ? steps[active] : null;
+  const isDark = isPain;
   const painType = isPain ? "pain" : "solved";
   const dotColor = isPain ? C.orange : C.forestGreen;
   const glowColor = isPain ? C.orangeGlow : C.greenGlow;
 
   return (
     <div ref={ref} style={{
-      width: "100%", maxWidth: 960, margin: "0 auto",
+      width: "100%", maxWidth: 1000, margin: "0 auto",
       opacity: visible ? 1 : 0, transform: visible ? "none" : "translateY(40px)",
       transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
+      display: "flex", flexDirection: "column"
     }}>
-      <div style={{ textAlign: "center", marginBottom: 44 }}>
+      <div style={{ textAlign: "center", marginBottom: 64 }}>
         <h3 style={{
-          fontFamily: "'DM Serif Display',serif", fontSize: "clamp(1.4rem,3vw,2rem)",
-          fontWeight: 600, color: C.forestGreenDark, margin: 0,
+          fontFamily: "'DM Serif Display',serif", fontSize: "clamp(1.4rem,2.5vw,2.2rem)",
+          fontWeight: 600, color: isDark ? C.white : C.forestGreenDark, margin: 0,
         }}>
           {title} <span style={{ color: accent, fontStyle: "italic" }}>{subtitle}</span>
         </h3>
@@ -151,11 +156,11 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
 
       <div style={{
         display: "flex", alignItems: "flex-start", width: "100%",
-        position: "relative", justifyContent: "center", padding: "0 8px",
+        position: "relative", justifyContent: "space-between", padding: "0 4vw"
       }}>
         <div style={{
-          position: "absolute", top: 30, left: "7%", right: "7%", height: 2,
-          background: `linear-gradient(to right, transparent, ${isPain ? C.warmGrayLight + "60" : C.forestGreenLight + "40"}, ${isPain ? C.warmGrayLight + "60" : C.forestGreenLight + "40"}, transparent)`,
+          position: "absolute", top: 30, left: "7%", right: "7%", height: 3,
+          background: `linear-gradient(to right, transparent, ${isDark ? C.borderDark : C.forestGreenLight + "40"}, ${isDark ? C.borderDark : C.forestGreenLight + "40"}, transparent)`,
         }} />
 
         {steps.map((step, i) => {
@@ -164,36 +169,36 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
           const isHighlight = step.type === painType;
           return (
             <div key={i} style={{
-              flex: 1, display: "flex", flexDirection: "column", alignItems: "center",
+              flex: 1, minWidth: 0, display: "flex", flexDirection: "column", alignItems: "center",
               cursor: "pointer", position: "relative", zIndex: isActive ? 10 : 1,
             }} onClick={() => handleClick(i)}
                onMouseEnter={() => { if (!autoplay) setActive(i); }}>
 
               <div style={{
-                fontSize: "0.58rem", color: isActive ? accent : C.warmGrayLight,
-                marginBottom: 8, letterSpacing: "0.08em", fontWeight: isActive ? 700 : 400,
+                fontSize: "0.6rem", color: isActive ? accent : (isDark ? C.textDarkMuted : C.warmGrayLight),
+                marginBottom: 10, letterSpacing: "0.08em", fontWeight: isActive ? 700 : 500,
                 transition: "color 0.3s", whiteSpace: "nowrap",
                 fontFamily: "'DM Sans',sans-serif",
               }}>{step.time}</div>
 
               <div style={{
-                width: isActive ? 20 : isHighlight ? 14 : 10,
-                height: isActive ? 20 : isHighlight ? 14 : 10,
+                width: isActive ? 24 : isHighlight ? 16 : 12,
+                height: isActive ? 24 : isHighlight ? 16 : 12,
                 borderRadius: "50%",
-                background: isActive ? (isHighlight ? dotColor : C.warmGray) : (isRevealed && isHighlight ? dotColor : "transparent"),
-                border: `2px solid ${isHighlight ? dotColor : (isActive ? C.warmGray : C.warmGrayLight + "80")}`,
+                background: isActive ? (isHighlight ? dotColor : (isDark ? "#525252" : C.warmGray)) : (isRevealed && isHighlight ? dotColor : (isDark ? C.bgDark : "transparent")),
+                border: `3px solid ${isHighlight ? dotColor : (isActive ? (isDark ? "#888" : C.warmGray) : (isDark ? "#446655" : C.warmGrayLight + "80"))}`,
                 transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
-                boxShadow: isActive ? `0 0 20px ${isHighlight ? glowColor : "rgba(107,107,107,0.15)"}` : "none",
+                boxShadow: isActive ? `0 0 24px ${isHighlight ? glowColor : (isDark ? "rgba(255,255,255,0.05)" : "rgba(107,107,107,0.15)")}` : "none",
                 position: "relative", zIndex: 2,
               }}>
                 {isActive && isHighlight && <Pulse color={dotColor} />}
               </div>
 
               <div style={{
-                marginTop: 10, fontSize: "0.55rem", textTransform: "uppercase",
+                marginTop: 14, fontSize: "0.55rem", textTransform: "uppercase",
                 letterSpacing: "0.08em", textAlign: "center", fontWeight: 700,
                 fontFamily: "'DM Sans',sans-serif",
-                color: isActive ? (isHighlight ? dotColor : C.warmGray) : C.warmGrayLight,
+                color: isActive ? (isHighlight ? dotColor : (isDark ? C.white : C.warmGray)) : (isDark ? C.textDarkMuted : C.warmGrayLight),
                 opacity: isRevealed ? 1 : 0, transform: isRevealed ? "none" : "translateY(8px)",
                 transition: "all 0.4s ease", maxWidth: 80, lineHeight: 1.3,
               }}>
@@ -204,27 +209,29 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
         })}
       </div>
 
-      <div style={{ marginTop: 40, width: "100%", maxWidth: 540, minHeight: 140, margin: "40px auto 0" }}>
+      <div style={{ marginTop: 50, width: "100%", maxWidth: 640, minHeight: 160, margin: "50px auto 0", display: "flex", flexDirection: "column" }}>
         {d ? (
           <div key={`${isPain}-${active}`} style={{
-            background: C.white,
-            border: `1px solid ${d.type === painType ? (isPain ? C.orange + "30" : C.forestGreen + "30") : C.border}`,
-            borderRadius: 14, padding: "28px 32px",
-            borderLeft: d.type === painType ? `3px solid ${isPain ? C.orange : C.forestGreen}` : undefined,
+            background: isDark ? C.cardDark : C.white,
+            border: `1px solid ${d.type === painType ? (isPain ? C.orange + "50" : C.forestGreen + "30") : (isDark ? C.borderDark : C.borderLight)}`,
+            borderRadius: 16, padding: "32px",
+            borderLeft: d.type === painType ? `4px solid ${isPain ? C.orange : C.forestGreen}` : undefined,
             animation: "cardIn 0.4s cubic-bezier(0.4,0,0.2,1) forwards",
-            display: "flex", gap: 20, alignItems: "center",
-            boxShadow: "0 4px 24px rgba(45,90,61,0.06)",
+            display: "flex", gap: 24, alignItems: "center",
+            boxShadow: isDark ? "0 12px 40px rgba(0,0,0,0.4)" : "0 8px 32px rgba(45,90,61,0.08)",
+            flex: 1,
+            justifyContent: "center"
           }}>
             <style>{`@keyframes cardIn { from{opacity:0;transform:translateY(14px) scale(0.97)} to{opacity:1;transform:none}}`}</style>
 
             {d.type === "pain" && <Ring percent={d.waste} active={revealed.has(active)} delay={0.15} variant="orange" />}
             {d.type === "solved" && (
               <div style={{
-                width: 64, height: 64, borderRadius: "50%", flexShrink: 0,
+                width: 72, height: 72, borderRadius: "50%", flexShrink: 0,
                 background: C.greenDim, display: "flex", alignItems: "center", justifyContent: "center",
                 border: `2px solid ${C.forestGreen}30`,
               }}>
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                <svg width="32" height="32" viewBox="0 0 28 28" fill="none">
                   <path d="M5 15L11 21L23 7" stroke={C.forestGreen} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <animate attributeName="stroke-dashoffset" from="40" to="0" dur="0.6s" fill="freeze" />
                     <animate attributeName="stroke-dasharray" from="0 40" to="40 0" dur="0.6s" fill="freeze" />
@@ -235,15 +242,15 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
 
             <div style={{ flex: 1 }}>
               {d.type === "pain" && (
-                <div style={{ fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: C.orange, marginBottom: 5, fontFamily: "'DM Sans',sans-serif" }}>
+                <div style={{ fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.12em", color: C.orange, marginBottom: 8, fontFamily: "'DM Sans',sans-serif" }}>
                   {d.wasteLabel}
                 </div>
               )}
               {d.type === "solved" && d.ref && (
                 <div style={{
-                  display: "inline-flex", alignItems: "center", gap: 5,
-                  fontSize: "0.58rem", fontWeight: 700, textTransform: "uppercase",
-                  letterSpacing: "0.1em", color: C.forestGreen, marginBottom: 5,
+                  display: "inline-flex", alignItems: "center", gap: 6,
+                  fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase",
+                  letterSpacing: "0.1em", color: C.forestGreen, marginBottom: 8,
                   fontFamily: "'DM Sans',sans-serif",
                 }}>
                   <CheckIcon /> {d.ref} → resolved
@@ -251,15 +258,15 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
               )}
               <div style={{
                 fontFamily: "'DM Serif Display',serif",
-                fontSize: d.type === "neutral" ? "1.05rem" : "1.2rem",
-                fontWeight: 600, color: C.forestGreenDark, marginBottom: 6,
+                fontSize: d.type === "neutral" ? "1.15rem" : "1.35rem",
+                fontWeight: 600, color: isDark ? C.white : C.forestGreenDark, marginBottom: 8,
               }}>{d.label}</div>
-              <div style={{ fontSize: "0.82rem", color: C.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans',sans-serif" }}>{d.short}</div>
+              <div style={{ fontSize: "0.9rem", color: isDark ? C.textDarkMuted : C.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans',sans-serif" }}>{d.short}</div>
             </div>
           </div>
         ) : (
-          <div style={{ textAlign: "center", color: C.warmGrayLight, fontSize: "0.8rem", paddingTop: 32, fontStyle: "italic", fontFamily: "'DM Sans',sans-serif" }}>
-            Click any point on the timeline
+          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: isDark ? "#668877" : C.warmGrayLight, fontSize: "0.85rem", fontStyle: "italic", fontFamily: "'DM Sans',sans-serif" }}>
+             Interact with the timeline to explore
           </div>
         )}
       </div>
@@ -268,122 +275,211 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
 }
 
 function StatusQuoGap() {
+  const [sliderPos, setSliderPos] = useState(50);
+  const containerRef = useRef(null);
   const [headerVis, setHeaderVis] = useState(false);
-  const [dividerVis, setDividerVis] = useState(false);
-  const divRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => { setTimeout(() => setHeaderVis(true), 200); }, []);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) { setDividerVis(true); obs.disconnect(); }
-    }, { threshold: 0.5 });
-    if (divRef.current) obs.observe(divRef.current);
-    return () => obs.disconnect();
-  }, []);
+    const handleMove = (e) => {
+      if (!isDragging) return;
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      let x = e.clientX ?? (e.touches && e.touches.length > 0 ? e.touches[0].clientX : 0);
+      let pos = ((x - rect.left) / rect.width) * 100;
+      setSliderPos(Math.max(0, Math.min(100, pos)));
+    };
+    const handleUp = () => setIsDragging(false);
+
+    if (isDragging) {
+      window.addEventListener('pointermove', handleMove);
+      window.addEventListener('touchmove', handleMove, { passive: false });
+      window.addEventListener('pointerup', handleUp);
+      window.addEventListener('touchend', handleUp);
+    }
+
+    return () => {
+      window.removeEventListener('pointermove', handleMove);
+      window.removeEventListener('touchmove', handleMove);
+      window.removeEventListener('pointerup', handleUp);
+      window.removeEventListener('touchend', handleUp);
+    };
+  }, [isDragging]);
+
+  const handleDragStart = (e) => {
+    // Only drag on left click or touch
+    if (e.type === 'pointerdown' && e.button !== 0) return;
+    setIsDragging(true);
+  };
 
   return (
     <div style={{
-      background: C.bg, minHeight: "100vh",
       fontFamily: "'DM Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif",
-      position: "relative", overflow: "hidden",
+      width: "100%",
     }}>
-      <div style={{ padding: "80px 24px 40px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-
-        <div style={{
-          textAlign: "center", marginBottom: 64, maxWidth: 620,
-          opacity: headerVis ? 1 : 0, transform: headerVis ? "none" : "translateY(20px)",
-          transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
+      <style>{`
+        .sqg-slider-layer {
+          grid-area: 1 / 1;
+          width: 100vw;
+          min-height: 100vh;
+          padding: 80px 24px 100px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          isolation: isolate;
+        }
+        .sqg-drag-handle {
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .sqg-drag-handle:hover {
+          transform: scale(1.1);
+          box-shadow: 0 0 30px rgba(249,115,22,0.5);
+        }
+        .sqg-drag-handle:active {
+          transform: scale(0.95);
+        }
+      `}</style>
+      
+      <div 
+        ref={containerRef}
+        style={{
+          display: 'grid',
+          width: '100vw',
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        {/* ===== BACKGROUND LAYER: FORGE ENGINE (LIGHT THEME) ===== */}
+        <div className="sqg-slider-layer" style={{ 
+          background: C.bgLight, 
         }}>
-          <h2 style={{
-            fontFamily: "'DM Serif Display',serif", fontSize: "clamp(2rem,5vw,3rem)",
-            fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.3, margin: 0,
+          <div style={{
+            textAlign: "center", marginBottom: 72, maxWidth: 620, margin: "0 auto 72px",
+            opacity: headerVis ? 1 : 0, transform: headerVis ? "none" : "translateY(20px)",
+            transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
           }}>
-            The <span style={{ color: C.orange, fontStyle: "italic" }}>"Status Quo"</span> Gap
-          </h2>
-          <p style={{ color: C.warmGray, fontSize: "0.95rem", marginTop: 16, lineHeight: 1.7 }}>
-            <span style={{ color: C.forestGreen, fontWeight: 700 }}>80%</span> of environmental impact
-            is decided at the design stage, yet engineers are designing in the dark.
-          </p>
-        </div>
-
-        <TimelineSection
-          title="Today:"
-          subtitle="2–3 weeks of friction"
-          accent={C.orange}
-          steps={BEFORE}
-          autoDelay={600}
-          isPain={true}
-        />
-
-        <div style={{
-          display: "flex", gap: 14, marginTop: 48, maxWidth: 720, width: "100%",
-          justifyContent: "center", flexWrap: "wrap", padding: "0 12px",
-        }}>
-          {STATS.map((s, i) => (
-            <div key={i} style={{
-              flex: "1 1 190px", textAlign: "center", padding: "20px 14px",
-              background: C.white, border: `1px solid ${C.border}`,
-              borderRadius: 12, borderTop: `2px solid ${C.orange}`,
-              boxShadow: "0 2px 12px rgba(45,90,61,0.04)",
+            <h2 style={{
+              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(2rem,4vw,2.75rem)",
+              fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.3, margin: 0,
             }}>
-              <div style={{
-                fontFamily: "'DM Serif Display',serif", fontSize: "1.6rem",
-                fontWeight: 700, color: C.orange, lineHeight: 1,
-              }}>{s.value}</div>
-              <div style={{ fontSize: "0.68rem", color: C.warmGray, marginTop: 6, lineHeight: 1.5 }}>{s.label}</div>
+              <span style={{ color: C.forestGreen, fontStyle: "italic" }}>Forge Engine</span> Clarity
+            </h2>
+            <p style={{ color: C.warmGray, fontSize: "1.05rem", marginTop: 16, lineHeight: 1.7 }}>
+              Embed market, cost, and carbon data directly into the workflow. Stop the redesign trap before it starts.
+            </p>
+          </div>
+
+          <TimelineSection
+            title="With Forge Engine:"
+            subtitle="20 minutes"
+            accent={C.forestGreen}
+            steps={AFTER}
+            autoDelay={1800} // delayed auto-play so it doesn't distract right away
+            isPain={false}
+          />
+
+          <div style={{
+            marginTop: 80, textAlign: "center", maxWidth: 480, margin: "80px auto 0"
+          }}>
+            <div style={{
+              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(1.4rem,2.5vw,1.8rem)",
+              fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.4, marginBottom: 8,
+            }}>
+              Weeks → <span style={{ color: C.forestGreen }}>Minutes.</span>
             </div>
-          ))}
+            <div style={{
+              fontSize: "0.95rem", color: C.warmGray, lineHeight: 1.6,
+            }}>
+              The economic brain for mechanical product innovation.
+            </div>
+          </div>
         </div>
 
-        <div ref={divRef} style={{
-          margin: "72px 0", display: "flex", flexDirection: "column", alignItems: "center", gap: 16,
-          opacity: dividerVis ? 1 : 0, transition: "opacity 1s ease",
+        {/* ===== FOREGROUND LAYER: STATUS QUO (DARK GREEN THEME) ===== */}
+        <div className="sqg-slider-layer" style={{ 
+          background: C.bgDark, 
+          clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
         }}>
           <div style={{
-            width: 48, height: 48, borderRadius: "50%",
-            background: `linear-gradient(135deg, ${C.forestGreen}, ${C.forestGreenLight})`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            boxShadow: `0 0 30px ${C.greenGlow}`,
-            animation: dividerVis ? "divPulse 2.5s ease-in-out infinite" : "none",
+            textAlign: "center", marginBottom: 72, maxWidth: 620, margin: "0 auto 72px",
+            opacity: headerVis ? 1 : 0, transform: headerVis ? "none" : "translateY(20px)",
+            transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
           }}>
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              <path d="M11 4V18M11 18L6 13M11 18L16 13" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+            <h2 style={{
+              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(2rem,4vw,2.75rem)",
+              fontWeight: 600, color: C.white, lineHeight: 1.3, margin: 0,
+            }}>
+              The <span style={{ color: C.orange, fontStyle: "italic" }}>"Status Quo"</span> Gap
+            </h2>
+            <p style={{ color: C.textDarkMuted, fontSize: "1.05rem", marginTop: 16, lineHeight: 1.7 }}>
+              <span style={{ color: C.orange, fontWeight: 700 }}>80%</span> of environmental impact
+              is decided at the design stage, yet engineers are designing in the dark.
+            </p>
           </div>
-          <style>{`@keyframes divPulse { 0%,100%{box-shadow:0 0 20px ${C.greenGlow}} 50%{box-shadow:0 0 50px ${C.greenGlow}}}`}</style>
+
+          <TimelineSection
+            title="Today:"
+            subtitle="2–3 weeks of friction"
+            accent={C.orange}
+            steps={BEFORE}
+            autoDelay={600}
+            isPain={true}
+          />
+
           <div style={{
-            fontSize: "0.7rem", textTransform: "uppercase", letterSpacing: "0.18em",
-            color: C.forestGreen, fontWeight: 700,
+            display: "flex", gap: 16, marginTop: 72, maxWidth: 600, width: "100%",
+            justifyContent: "center", flexWrap: "wrap", margin: "72px auto 0"
           }}>
-            What if it didn't have to be this way?
+            {STATS.map((s, i) => (
+              <div key={i} style={{
+                flex: "auto", minWidth: 200, textAlign: "center", padding: "24px 16px",
+                background: C.cardDark, border: `1px solid ${C.borderDark}`,
+                borderRadius: 14, borderTop: `3px solid ${C.orange}`,
+                boxShadow: "0 12px 40px rgba(0,0,0,0.3)",
+              }}>
+                <div style={{
+                  fontFamily: "'DM Serif Display',serif", fontSize: "1.8rem",
+                  fontWeight: 700, color: C.orangeLight, lineHeight: 1,
+                }}>{s.value}</div>
+                <div style={{ fontSize: "0.75rem", color: C.textDarkMuted, marginTop: 8, lineHeight: 1.5 }}>{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <TimelineSection
-          title="With Forge Engine:"
-          subtitle="20 minutes"
-          accent={C.forestGreen}
-          steps={AFTER}
-          autoDelay={600}
-          isPain={false}
-        />
-
+        {/* ===== SLIDER DIVIDER & HANDLE ===== */}
         <div style={{
-          marginTop: 64, textAlign: "center", maxWidth: 480,
-          animation: "fadeUp 0.6s ease forwards",
+          position: 'absolute',
+          top: 0, bottom: 0,
+          left: `${sliderPos}%`,
+          width: 4, marginLeft: -2,
+          background: C.orange,
+          zIndex: 50,
         }}>
-          <style>{`@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none}}`}</style>
-          <div style={{
-            fontFamily: "'DM Serif Display',serif", fontSize: "clamp(1.2rem,2.5vw,1.6rem)",
-            fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.4, marginBottom: 8,
-          }}>
-            Weeks → Minutes.
-          </div>
-          <div style={{
-            fontSize: "0.88rem", color: C.warmGray, lineHeight: 1.6,
-          }}>
-            The economic brain for mechanical product innovation.
+          {/* Invisible larger hit area for easier grabbing */}
+          <div 
+            onPointerDown={handleDragStart}
+            onTouchStart={handleDragStart}
+            style={{
+              position: 'absolute', top: 0, bottom: 0,
+              left: -20, right: -20,
+              cursor: 'col-resize',
+              display: 'flex', alignItems: 'center', justifyContent: 'center'
+            }}
+          >
+            <div className="sqg-drag-handle" style={{ 
+              width: 56, height: 56, borderRadius: '50%', background: C.orange,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 0 24px ${C.orangeGlow}`,
+              cursor: 'col-resize'
+            }}>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 18l-6-6 6-6" transform="translate(-4,0)"/>
+                <path d="M10 18l6-6-6-6" transform="translate(4,0)"/>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
