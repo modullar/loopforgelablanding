@@ -69,6 +69,8 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', handleScroll);
 
     // How It Works — scroll-triggered reveals
+    // On mobile the cards are in a slider, so force immediate visibility
+    const isMobileHIW = window.innerWidth <= 640;
     const howItWorksIO = new IntersectionObserver((entries) => {
         entries.forEach(e => {
             if (!e.isIntersecting) return;
@@ -76,16 +78,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (e.target.classList.contains('how-it-works-path')) {
                 const steps = e.target.querySelectorAll('.how-it-works-p-step');
+                const delay = isMobileHIW ? 0 : 150; // no delay on mobile
                 steps.forEach((s, i) => {
-                    setTimeout(() => s.classList.add('vis'), 150 + i * 120);
+                    setTimeout(() => s.classList.add('vis'), delay + i * (isMobileHIW ? 0 : 120));
                 });
                 const res = e.target.querySelector('.how-it-works-result');
-                if (res) setTimeout(() => res.classList.add('vis'), 200 + steps.length * 120);
+                if (res) setTimeout(() => res.classList.add('vis'), isMobileHIW ? 0 : 200 + steps.length * 120);
             }
 
             howItWorksIO.unobserve(e.target);
         });
-    }, { threshold: 0.2 });
+    }, { threshold: isMobileHIW ? 0.05 : 0.2 });
+
+    // On mobile: immediately force vis on both HIW cards so slider reveals content at once
+    if (isMobileHIW) {
+        ['#how-it-works-path-today', '#how-it-works-path-tri'].forEach(sel => {
+            const el = document.querySelector(sel);
+            if (!el) return;
+            el.classList.add('vis');
+            el.querySelectorAll('.how-it-works-p-step, .how-it-works-result').forEach(s => s.classList.add('vis'));
+        });
+    }
 
     ['#how-it-works-title', '#how-it-works-sub', '#how-it-works-origin', '#how-it-works-fork', '#how-it-works-path-today', '#how-it-works-path-tri'].forEach(sel => {
         const el = document.querySelector(sel);
@@ -387,3 +400,60 @@ if (typeof module !== 'undefined' && module.exports) {
         debounce
     };
 }
+// How It Works — Mobile drag-reveal slider
+// Status Quo is on the LEFT (bottom layer), LFL is on the RIGHT (top layer).
+// The LFL card is clipped from the LEFT — dragging right reveals more of it.
+document.addEventListener('DOMContentLoaded', () => {
+    const wrapper = document.getElementById('hiw-slider-wrapper');
+    const handle  = document.getElementById('hiw-slider-handle');
+    const cardLFL = document.getElementById('how-it-works-path-tri');
+
+    if (!wrapper || !handle || !cardLFL) return;
+
+    let dragging = false;
+
+    function applyPosition(clientX) {
+        const rect = wrapper.getBoundingClientRect();
+        let x = Math.max(0, Math.min(clientX - rect.left, rect.width));
+        const pct = (x / rect.width) * 100;
+        // Move the divider line
+        handle.style.left = pct + '%';
+        // Clip LFL card from the LEFT side.
+        // inset(top right bottom left) — left = (100-pct)%
+        // At pct=50: left-clip=50% → right half of LFL visible (LFL on right)
+        // Drag right (pct→100): left-clip→0% → all LFL visible
+        // Drag left  (pct→0):  left-clip→100% → LFL hidden (Status Quo fully visible)
+        cardLFL.style.clipPath = `inset(0 0 0 ${100 - pct}%)`;
+    }
+
+    // Only activate on mobile
+    function isMobile() { return window.innerWidth <= 640; }
+
+    handle.addEventListener('mousedown', (e) => {
+        if (!isMobile()) return;
+        dragging = true;
+        e.preventDefault();
+    });
+
+    handle.addEventListener('touchstart', (e) => {
+        if (!isMobile()) return;
+        dragging = true;
+        document.body.style.overflow = 'hidden';
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+        if (dragging) applyPosition(e.clientX);
+    });
+
+    window.addEventListener('touchmove', (e) => {
+        if (dragging && e.touches.length > 0) {
+            e.preventDefault();
+            applyPosition(e.touches[0].clientX);
+        }
+    }, { passive: false });
+
+    window.addEventListener('mouseup',    () => { dragging = false; });
+    window.addEventListener('touchend',   () => { dragging = false; document.body.style.overflow = ''; });
+    window.addEventListener('touchcancel',() => { dragging = false; document.body.style.overflow = ''; });
+});
+

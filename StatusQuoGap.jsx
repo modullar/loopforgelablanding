@@ -1,3 +1,4 @@
+(() => {
 const { useState, useEffect, useRef } = React;
 
 const C = {
@@ -23,24 +24,49 @@ const C = {
   textDarkMuted: "#a3bcae", // Pale green-gray
 };
 
+function MinimalIcon({ name }) {
+  let paths = null;
+  switch (name) {
+    case "doc": paths = <><rect x="5" y="3" width="14" height="18" rx="2" /><path d="M9 7h6M9 11h6M9 15h4" /></>; break;
+    case "desert": paths = <><path d="M12 3v18" strokeDasharray="4 4" opacity="0.6"/><circle cx="12" cy="12" r="3" fill="currentColor"/></>; break;
+    case "chart": paths = <><path d="M3 3v18h18"/><path d="M18 17V9M13 17V5M8 17v-3"/></>; break;
+    case "gap": paths = <><path d="M4 12h5" /><path d="M15 12h5" /><circle cx="12" cy="12" r="2" strokeDasharray="2 2" /></>; break;
+    case "search": paths = <><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></>; break;
+    case "return": paths = <><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></>; break;
+    case "loop": paths = <><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></>; break;
+    case "flash": paths = <><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></>; break;
+    case "compass": paths = <><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></>; break;
+    case "target": paths = <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></>; break;
+    case "eye": paths = <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></>; break;
+    case "check": paths = <><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></>; break;
+    case "done": paths = <><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></>; break;
+    default: return null;
+  }
+  return (
+    <svg viewBox="0 0 24 24" width="100%" height="100%" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      {paths}
+    </svg>
+  );
+}
+
 const BEFORE = [
-  { time: "Day 1", type: "neutral", label: "New Brief", short: "Design brief lands. Target: −8% unit cost." },
-  { time: "Day 1–4", type: "pain", tag: "Data Stitching", label: "Data Desert", short: "ERP, CAD, Excel — days of gathering.", waste: 72, wasteLabel: "time lost" },
-  { time: "Day 5", type: "neutral", label: "Estimate", short: "Finally has a cost picture." },
-  { time: "Day 5–9", type: "pain", tag: "Brain Drain", label: "Expertise Gap", short: "Senior expert on leave.", waste: 58, wasteLabel: "blind spots" },
-  { time: "Day 10", type: "neutral", label: "Review", short: "Presents new assembly." },
-  { time: "Day 10–14", type: "pain", tag: "Redesign", label: "Square One", short: "Too expensive. Discovered too late.", waste: 85, wasteLabel: "rework prob." },
-  { time: "Day 15+", type: "neutral", label: "Repeats", short: "Cost target unvalidated. Start over." },
+  { time: "Day 1", type: "neutral", icon: "doc", label: "New Brief", short: "Design brief lands. Target: −8% unit cost." },
+  { time: "Day 1–4", type: "pain", tag: "Data Stitching", icon: "desert", label: "Data Desert", short: "ERP, CAD, Excel — days of gathering.", waste: 72, wasteLabel: "time lost" },
+  { time: "Day 5", type: "neutral", icon: "chart", label: "Estimate", short: "Finally has a cost picture." },
+  { time: "Day 5–9", type: "pain", tag: "Brain Drain", icon: "gap", label: "Expertise Gap", short: "Senior expert on leave.", waste: 58, wasteLabel: "blind spots" },
+  { time: "Day 10", type: "neutral", icon: "search", label: "Review", short: "Presents new assembly." },
+  { time: "Day 10–14", type: "pain", tag: "Redesign", icon: "return", label: "Square One", short: "Too expensive. Discovered too late.", waste: 85, wasteLabel: "rework prob." },
+  { time: "Day 15+", type: "neutral", icon: "loop", label: "Repeats", short: "Cost target unvalidated. Start over." },
 ];
 
 const AFTER = [
-  { time: "0 min", type: "neutral", label: "Same Brief", short: "Same targets. Engine connected." },
-  { time: "2 min", type: "solved", tag: "Data Stitching", ref: "Data Desert", label: "Instant Cost", short: "BOM auto-parsed and unified." },
-  { time: "5 min", type: "neutral", label: "Exploring", short: "Engineer explores design variants." },
-  { time: "8 min", type: "solved", tag: "Tribal Know.", ref: "Expertise Gap", label: "Guided Moves", short: "Manufacturing constraints surfaced." },
-  { time: "12 min", type: "neutral", label: "Review", short: "Presents validated design." },
-  { time: "15 min", type: "solved", tag: "Redesign", ref: "Square One", label: "1st-Time Right", short: "Everything validated before prototype." },
-  { time: "20 min", type: "neutral", label: "Done", short: "Design approved. Targets met." },
+  { time: "0 min", type: "neutral", icon: "doc", label: "Same Brief", short: "Same targets. Engine connected." },
+  { time: "2 min", type: "solved", tag: "Data Stitching", ref: "Data Desert", icon: "flash", label: "Instant Cost", short: "BOM auto-parsed and unified." },
+  { time: "5 min", type: "neutral", icon: "compass", label: "Exploring", short: "Engineer explores design variants." },
+  { time: "8 min", type: "solved", tag: "Tribal Know.", ref: "Expertise Gap", icon: "target", label: "Guided Moves", short: "Manufacturing constraints surfaced." },
+  { time: "12 min", type: "neutral", icon: "eye", label: "Review", short: "Presents validated design." },
+  { time: "15 min", type: "solved", tag: "Redesign", ref: "Square One", icon: "check", label: "1st-Time Right", short: "Everything validated before prototype." },
+  { time: "20 min", type: "neutral", icon: "done", label: "Done", short: "Design approved. Targets met." },
 ];
 
 const STATS = [
@@ -84,10 +110,10 @@ function Pulse({ color }) {
   );
 }
 
-function CheckIcon() {
+function CheckIcon({ color = C.forestGreen }) {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-      <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke={C.forestGreen} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.5s" fill="freeze" />
         <animate attributeName="stroke-dasharray" from="0 20" to="20 0" dur="0.5s" fill="freeze" />
       </path>
@@ -95,7 +121,7 @@ function CheckIcon() {
   );
 }
 
-function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) {
+function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain, isDark }) {
   const [active, setActive] = useState(-1);
   const [revealed, setRevealed] = useState(new Set());
   const [autoplay, setAutoplay] = useState(true);
@@ -133,10 +159,9 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
   };
 
   const d = active >= 0 ? steps[active] : null;
-  const isDark = isPain;
   const painType = isPain ? "pain" : "solved";
-  const dotColor = isPain ? C.orange : C.forestGreen;
-  const glowColor = isPain ? C.orangeGlow : C.greenGlow;
+  const dotColor = accent;
+  const glowColor = accent === C.orange ? C.orangeGlow : (isDark ? "rgba(255,255,255,0.05)" : "rgba(107,107,107,0.15)");
 
   return (
     <div ref={ref} style={{
@@ -182,8 +207,8 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
               }}>{step.time}</div>
 
               <div style={{
-                width: isActive ? 24 : isHighlight ? 16 : 12,
-                height: isActive ? 24 : isHighlight ? 16 : 12,
+                width: isActive ? 34 : isHighlight ? 26 : 20,
+                height: isActive ? 34 : isHighlight ? 26 : 20,
                 borderRadius: "50%",
                 background: isActive ? (isHighlight ? dotColor : (isDark ? "#525252" : C.warmGray)) : (isRevealed && isHighlight ? dotColor : (isDark ? C.bgDark : "transparent")),
                 border: `3px solid ${isHighlight ? dotColor : (isActive ? (isDark ? "#888" : C.warmGray) : (isDark ? "#446655" : C.warmGrayLight + "80"))}`,
@@ -224,15 +249,15 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
           }}>
             <style>{`@keyframes cardIn { from{opacity:0;transform:translateY(14px) scale(0.97)} to{opacity:1;transform:none}}`}</style>
 
-            {d.type === "pain" && <Ring percent={d.waste} active={revealed.has(active)} delay={0.15} variant="orange" />}
+            {d.type === "pain" && <Ring percent={d.waste} active={revealed.has(active)} delay={0.15} variant="gray" />}
             {d.type === "solved" && (
               <div style={{
                 width: 72, height: 72, borderRadius: "50%", flexShrink: 0,
-                background: C.greenDim, display: "flex", alignItems: "center", justifyContent: "center",
-                border: `2px solid ${C.forestGreen}30`,
+                background: C.orangeDim, display: "flex", alignItems: "center", justifyContent: "center",
+                border: `2px solid ${C.orange}30`,
               }}>
                 <svg width="32" height="32" viewBox="0 0 28 28" fill="none">
-                  <path d="M5 15L11 21L23 7" stroke={C.forestGreen} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 15L11 21L23 7" stroke={C.orange} strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                     <animate attributeName="stroke-dashoffset" from="40" to="0" dur="0.6s" fill="freeze" />
                     <animate attributeName="stroke-dasharray" from="0 40" to="40 0" dur="0.6s" fill="freeze" />
                   </path>
@@ -250,17 +275,25 @@ function TimelineSection({ title, subtitle, accent, steps, autoDelay, isPain }) 
                 <div style={{
                   display: "inline-flex", alignItems: "center", gap: 6,
                   fontSize: "0.62rem", fontWeight: 700, textTransform: "uppercase",
-                  letterSpacing: "0.1em", color: C.forestGreen, marginBottom: 8,
+                  letterSpacing: "0.1em", color: C.orangeLight, marginBottom: 8,
                   fontFamily: "'DM Sans',sans-serif",
                 }}>
-                  <CheckIcon /> {d.ref} → resolved
+                  <CheckIcon color={C.orangeLight} /> {d.ref} → resolved
                 </div>
               )}
               <div style={{
                 fontFamily: "'DM Serif Display',serif",
                 fontSize: d.type === "neutral" ? "1.15rem" : "1.35rem",
                 fontWeight: 600, color: isDark ? C.white : C.forestGreenDark, marginBottom: 8,
-              }}>{d.label}</div>
+                display: "flex", alignItems: "center", gap: 10
+              }}>
+                {d.icon && (
+                  <span style={{ width: d.type === "neutral" ? 20 : 24, height: d.type === "neutral" ? 20 : 24, display: "inline-flex", color: d.type === "pain" ? C.warmGray : (d.type === "solved" ? C.orange : (isDark ? C.textDarkMuted : C.warmGrayLight)), opacity: 0.8 }}>
+                    <MinimalIcon name={d.icon} />
+                  </span>
+                )}
+                {d.label}
+              </div>
               <div style={{ fontSize: "0.9rem", color: isDark ? C.textDarkMuted : C.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans',sans-serif" }}>{d.short}</div>
             </div>
           </div>
@@ -351,56 +384,9 @@ function StatusQuoGap() {
           overflow: 'hidden',
         }}
       >
-        {/* ===== BACKGROUND LAYER: FORGE ENGINE (LIGHT THEME) ===== */}
-        <div className="sqg-slider-layer" style={{ 
-          background: C.bgLight, 
-        }}>
-          <div style={{
-            textAlign: "center", marginBottom: 72, maxWidth: 620, margin: "0 auto 72px",
-            opacity: headerVis ? 1 : 0, transform: headerVis ? "none" : "translateY(20px)",
-            transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
-          }}>
-            <h2 style={{
-              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(2rem,4vw,2.75rem)",
-              fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.3, margin: 0,
-            }}>
-              <span style={{ color: C.forestGreen, fontStyle: "italic" }}>Forge Engine</span> Clarity
-            </h2>
-            <p style={{ color: C.warmGray, fontSize: "1.05rem", marginTop: 16, lineHeight: 1.7 }}>
-              Embed market, cost, and carbon data directly into the workflow. Stop the redesign trap before it starts.
-            </p>
-          </div>
-
-          <TimelineSection
-            title="With Forge Engine:"
-            subtitle="20 minutes"
-            accent={C.forestGreen}
-            steps={AFTER}
-            autoDelay={1800} // delayed auto-play so it doesn't distract right away
-            isPain={false}
-          />
-
-          <div style={{
-            marginTop: 80, textAlign: "center", maxWidth: 480, margin: "80px auto 0"
-          }}>
-            <div style={{
-              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(1.4rem,2.5vw,1.8rem)",
-              fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.4, marginBottom: 8,
-            }}>
-              Weeks → <span style={{ color: C.forestGreen }}>Minutes.</span>
-            </div>
-            <div style={{
-              fontSize: "0.95rem", color: C.warmGray, lineHeight: 1.6,
-            }}>
-              The economic brain for mechanical product innovation.
-            </div>
-          </div>
-        </div>
-
-        {/* ===== FOREGROUND LAYER: STATUS QUO (DARK GREEN THEME) ===== */}
+        {/* ===== BACKGROUND LAYER: FORGE ENGINE (DARK THEME) ===== */}
         <div className="sqg-slider-layer" style={{ 
           background: C.bgDark, 
-          clipPath: `inset(0 ${100 - sliderPos}% 0 0)`,
         }}>
           <div style={{
             textAlign: "center", marginBottom: 72, maxWidth: 620, margin: "0 auto 72px",
@@ -411,10 +397,58 @@ function StatusQuoGap() {
               fontFamily: "'DM Serif Display',serif", fontSize: "clamp(2rem,4vw,2.75rem)",
               fontWeight: 600, color: C.white, lineHeight: 1.3, margin: 0,
             }}>
-              The <span style={{ color: C.orange, fontStyle: "italic" }}>"Status Quo"</span> Gap
+              <span style={{ color: C.orange, fontStyle: "italic" }}>Forge Engine</span> Clarity
             </h2>
             <p style={{ color: C.textDarkMuted, fontSize: "1.05rem", marginTop: 16, lineHeight: 1.7 }}>
-              <span style={{ color: C.orange, fontWeight: 700 }}>80%</span> of environmental impact
+              Embed market, cost, and carbon data directly into the workflow. Stop the redesign trap before it starts.
+            </p>
+          </div>
+
+          <TimelineSection
+            title="With Forge Engine:"
+            subtitle="20 minutes"
+            accent={C.orange}
+            steps={AFTER}
+            autoDelay={1800} // delayed auto-play so it doesn't distract right away
+            isPain={false}
+            isDark={true}
+          />
+
+          <div style={{
+            marginTop: 80, textAlign: "center", maxWidth: 480, margin: "80px auto 0"
+          }}>
+            <div style={{
+              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(1.4rem,2.5vw,1.8rem)",
+              fontWeight: 600, color: C.white, lineHeight: 1.4, marginBottom: 8,
+            }}>
+              Weeks → <span style={{ color: C.orange }}>Minutes.</span>
+            </div>
+            <div style={{
+              fontSize: "0.95rem", color: C.textDarkMuted, lineHeight: 1.6,
+            }}>
+              The economic brain for mechanical product innovation.
+            </div>
+          </div>
+        </div>
+
+        {/* ===== FOREGROUND LAYER: STATUS QUO (LIGHT THEME) — clips from right showing FE on right ===== */}
+        <div className="sqg-slider-layer" style={{ 
+          background: C.bgLight, 
+          clipPath: `inset(0 ${sliderPos}% 0 0)`,
+        }}>
+          <div style={{
+            textAlign: "center", marginBottom: 72, maxWidth: 620, margin: "0 auto 72px",
+            opacity: headerVis ? 1 : 0, transform: headerVis ? "none" : "translateY(20px)",
+            transition: "all 0.8s cubic-bezier(0.4,0,0.2,1)",
+          }}>
+            <h2 style={{
+              fontFamily: "'DM Serif Display',serif", fontSize: "clamp(2rem,4vw,2.75rem)",
+              fontWeight: 600, color: C.forestGreenDark, lineHeight: 1.3, margin: 0,
+            }}>
+              The <span style={{ color: C.warmGray, fontStyle: "italic" }}>"Status Quo"</span> Gap
+            </h2>
+            <p style={{ color: C.warmGray, fontSize: "1.05rem", marginTop: 16, lineHeight: 1.7 }}>
+              <span style={{ color: C.warmGray, fontWeight: 700 }}>80%</span> of environmental impact
               is decided at the design stage, yet engineers are designing in the dark.
             </p>
           </div>
@@ -422,10 +456,11 @@ function StatusQuoGap() {
           <TimelineSection
             title="Today:"
             subtitle="2–3 weeks of friction"
-            accent={C.orange}
+            accent={C.warmGray}
             steps={BEFORE}
             autoDelay={600}
             isPain={true}
+            isDark={false}
           />
 
           <div style={{
@@ -435,15 +470,15 @@ function StatusQuoGap() {
             {STATS.map((s, i) => (
               <div key={i} style={{
                 flex: "auto", minWidth: 200, textAlign: "center", padding: "24px 16px",
-                background: C.cardDark, border: `1px solid ${C.borderDark}`,
-                borderRadius: 14, borderTop: `3px solid ${C.orange}`,
-                boxShadow: "0 12px 40px rgba(0,0,0,0.3)",
+                background: C.white, border: `1px solid ${C.borderLight}`,
+                borderRadius: 14, borderTop: `3px solid ${C.warmGrayLight}`,
+                boxShadow: "0 8px 32px rgba(45,90,61,0.08)",
               }}>
                 <div style={{
                   fontFamily: "'DM Serif Display',serif", fontSize: "1.8rem",
-                  fontWeight: 700, color: C.orangeLight, lineHeight: 1,
+                  fontWeight: 700, color: C.warmGray, lineHeight: 1,
                 }}>{s.value}</div>
-                <div style={{ fontSize: "0.75rem", color: C.textDarkMuted, marginTop: 8, lineHeight: 1.5 }}>{s.label}</div>
+                <div style={{ fontSize: "0.75rem", color: C.warmGray, marginTop: 8, lineHeight: 1.5 }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -475,9 +510,11 @@ function StatusQuoGap() {
               boxShadow: `0 0 24px ${C.orangeGlow}`,
               cursor: 'col-resize'
             }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M14 18l-6-6 6-6" transform="translate(-4,0)"/>
-                <path d="M10 18l6-6-6-6" transform="translate(4,0)"/>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6"/>
+                <polyline points="9 18 3 12 9 6"/>
+                <polyline points="9 18 15 12 9 6"/>
+                <polyline points="15 18 21 12 15 6"/>
               </svg>
             </div>
           </div>
@@ -492,3 +529,4 @@ if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(React.createElement(StatusQuoGap, null));
 }
+})();

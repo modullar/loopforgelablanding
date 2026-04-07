@@ -247,7 +247,10 @@
                 </div>
             </div>
 
-            <div class="how-it-works-paths">
+            <!-- Mobile Slider wrapper: contains BOTH cards and the drag handle -->
+            <div class="how-it-works-slider-wrapper" id="hiw-slider-wrapper">
+
+                <!-- Card A: Status Quo (back layer, always visible) -->
                 <div class="how-it-works-path how-it-works-path-today" id="how-it-works-path-today">
                     <div class="how-it-works-path-header">
                         <span class="how-it-works-badge">Status Quo</span>
@@ -274,8 +277,7 @@
                         <div class="how-it-works-p-text">Redesigns from scratch</div>
                     </div>
                     <div class="how-it-works-result" id="how-it-works-res-today">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
                             <circle cx="12" cy="12" r="10" />
                             <path d="M8 12h8" />
                         </svg>
@@ -283,6 +285,7 @@
                     </div>
                 </div>
 
+                <!-- Card B: LoopForgeLab (top layer, clipped by slider) -->
                 <div class="how-it-works-path how-it-works-path-tri" id="how-it-works-path-tri">
                     <div class="how-it-works-path-header">
                         <span class="how-it-works-badge">LoopForgeLab</span>
@@ -301,16 +304,28 @@
                         <div class="how-it-works-p-text">Moves forward with confidence</div>
                     </div>
                     <div class="how-it-works-result" id="how-it-works-res-tri">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
                             <polyline points="22 4 12 14.01 9 11.01" />
                         </svg>
                         <span>Design right, first time</span>
                     </div>
                 </div>
-            </div>
-        </div>
+
+                <!-- Drag Handle - consistent with StatusQuoGap style -->
+                <div class="hiw-slider-handle" id="hiw-slider-handle">
+                    <div class="hiw-slider-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                            <polyline points="9 18 3 12 9 6"></polyline>
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                            <polyline points="15 18 21 12 15 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+            </div> <!-- closes how-it-works-slider-wrapper -->
+        </div> <!-- closes how-it-works-scene -->
     </section>
 
     <!-- Trust & Market Size Section -->

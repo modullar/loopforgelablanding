@@ -1510,7 +1510,8 @@ strong {
     stroke-dashoffset: 0;
 }
 
-.how-it-works-paths {
+.how-it-works-paths,
+.how-it-works-slider-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
@@ -1527,7 +1528,8 @@ strong {
 .how-it-works-path.vis {
     opacity: 1;
     transform: translateY(0);
-    transition: all 0.6s ease;
+    /* Explicitly list properties — clip-path must NOT be here or slider drags will lag */
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .how-it-works-path-today {
@@ -2026,6 +2028,17 @@ strong {
 @media (max-width: 768px) {
     .partners-track {
         animation: scroll 25s linear infinite;
+    }
+
+    .circular-inner {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .circular-visual {
+        width: 100%;
+        min-height: 300px;
+        transform: scale(0.9);
     }
 }
 
@@ -2528,5 +2541,119 @@ strong {
         --warm-gray: #333;
         --shadow-soft: 0 4px 24px rgba(0, 0, 0, 0.15);
         --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+}
+/* =============================================
+   How It Works — Mobile Slider (≤640px)
+   Architecture:
+   - .how-it-works-slider-wrapper  →  position:relative, NO overflow:hidden
+                                       (overflow:hidden would clip the handle pill)
+   - .how-it-works-path-today      →  bottom layer, takes natural height
+   - .how-it-works-path-tri        →  top layer, position:absolute fills wrapper,
+                                       clipped left→right via clip-path
+   - .hiw-slider-handle            →  position:absolute inside wrapper,
+                                       the vertical bar + pill knob
+   ============================================= */
+@media (max-width: 640px) {
+
+    /* Override the desktop side-by-side grid → single-column block */
+    .how-it-works-slider-wrapper {
+        display: block !important; /* cancel the 2-col grid */
+        position: relative;        /* anchor for absolute children */
+        width: 100%;
+        border-radius: 16px;
+        /* NO overflow:hidden — that would hide the handle knob */
+    }
+
+    /* Card A — Status Quo: sits in normal flow, defines wrapper height */
+    .how-it-works-path-today {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 16px;
+    }
+
+    /* Card B — LFL: overlaid on top, appears on the RIGHT side */
+    .how-it-works-path-tri {
+        position: absolute;
+        inset: 0;                /* top/right/bottom/left = 0 */
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        border-radius: 16px;
+        margin: 0;
+        z-index: 2;
+        /* Fully opaque bg — no text bleed-through */
+        background: linear-gradient(160deg, #ffffff 0%, #edf5f1 100%) !important;
+        /* Start clipped from LEFT so only RIGHT half shows */
+        clip-path: inset(0 0 0 50%);
+    }
+
+    /* Step alignment: give each step a consistent min-height so rows
+       line up when the two cards are viewed side-by-side in the slider */
+    .how-it-works-p-step {
+        min-height: 60px;
+        display: flex;
+        align-items: flex-start;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    /* Header blocks: fixed height so step 1 starts at the same Y on both cards */
+    .how-it-works-path-header {
+        min-height: 56px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-bottom: 16px;
+    }
+
+    /* Vertical divider line */
+    .hiw-slider-handle {
+        position: absolute;
+        top: 0;
+        left: 50%;               /* JS will update this */
+        transform: translateX(-50%);
+        width: 3px;
+        height: 100%;
+        background: var(--how-coral, #D9534F);
+        z-index: 10;
+        touch-action: none;
+        cursor: ew-resize;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Round knob on the divider — orange-filled to match StatusQuoGap */
+    .hiw-slider-icon {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        background: var(--how-coral, #D9534F);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 0 20px rgba(217, 83, 79, 0.45);
+        color: white;
+        user-select: none;
+    }
+
+    .hiw-slider-icon svg {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+    }
+
+    /* Hide the fork/branch lines on mobile (not needed) */
+    .how-it-works-fork {
+        display: none;
+    }
+}
+
+/* Hide handle on desktop — not needed */
+@media (min-width: 641px) {
+    .hiw-slider-handle {
+        display: none;
     }
 }
