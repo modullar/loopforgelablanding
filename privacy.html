@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | LoopForgeLab</title>
+    <meta name="description" content="LoopForgeLab's privacy policy — how we handle your personal data in compliance with GDPR.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f5f1ed; /* Cream */
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: #2d3436;
+            line-height: 1.6;
+        }
+
+        .privacy-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .privacy-header {
+            margin-bottom: 50px;
+            border-bottom: 3px solid #1e5631; /* Forest green */
+            padding-bottom: 30px;
+        }
+
+        .privacy-header h1 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 48px;
+            color: #1e5631;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+
+        .privacy-header p {
+            font-size: 16px;
+            color: #6b6b6b; /* Warm gray */
+            font-weight: 300;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            border: 2px solid #1e5631;
+            background: transparent;
+            color: #1e5631;
+            font-family: 'DM Sans';
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .lang-btn.active {
+            background-color: #1e5631;
+            color: #f5f1ed;
+        }
+
+        .lang-btn:hover {
+            background-color: #1e5631;
+            color: #f5f1ed;
+        }
+
+        .privacy-content {
+            display: grid;
+            gap: 40px;
+        }
+
+        .privacy-section {
+            border-left: 4px solid #f4a259; /* Accent orange */
+            padding-left: 24px;
+        }
+
+        .privacy-section h2 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 28px;
+            color: #1e5631;
+            margin-bottom: 16px;
+            font-weight: 400;
+        }
+
+        .privacy-section h3 {
+            font-family: 'DM Serif Display', Georgia, serif;
+            font-size: 18px;
+            color: #2d3436;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            font-weight: 400;
+        }
+
+        .privacy-section p {
+            font-size: 15px;
+            color: #4a4a4a;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .privacy-section ul {
+            margin-left: 20px;
+            margin-bottom: 16px;
+        }
+
+        .privacy-section li {
+            font-size: 15px;
+            color: #4a4a4a;
+            margin-bottom: 8px;
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            background-color: #fffaf6;
+            border: 2px solid #f4a259;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 20px;
+        }
+
+        .contact-info p {
+            margin-bottom: 12px;
+        }
+
+        .contact-info a {
+            color: #1e5631;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid #f4a259;
+            transition: border-color 0.2s;
+        }
+
+        .contact-info a:hover {
+            border-bottom-color: #1e5631;
+        }
+
+        .last-updated {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid #e0d5cc;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 40px;
+            color: #1e5631;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .privacy-container {
+                padding: 40px 24px;
+            }
+
+            .privacy-header h1 {
+                font-size: 36px;
+            }
+
+            .privacy-section h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="privacy-container">
+
+    <a href="index.html" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to LoopForgeLab
+    </a>
+
+    <div class="privacy-header">
+        <h1 id="page-title">Privacy Policy</h1>
+        <p id="page-subtitle">How we handle your information</p>
+    </div>
+
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn" onclick="setLanguage('de')">Deutsch</button>
+    </div>
+
+    <!-- ========== ENGLISH VERSION ========== -->
+    <div id="content-en" class="privacy-content">
+
+        <!-- 1. Data Controller -->
+        <div class="privacy-section">
+            <h2>1. Data Controller</h2>
+            <p>Your personal data is processed by:</p>
+            <div class="contact-info">
+                <p>
+                    <strong>LoopForgeLab</strong><br>
+                    <span style="font-size: 13px; color: #888;">(GbR – German civil partnership)</span><br>
+                    Elsenstr. 62<br>
+                    12059 Berlin, Germany<br>
+                    <a href="mailto:contact@loopforgelab.com">contact@loopforgelab.com</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- 2. What Data Do We Collect? -->
+        <div class="privacy-section">
+            <h2>2. What Data Do We Collect?</h2>
+            <p>On our landing page, we collect <strong>no data through forms, cookies, or tracking tools</strong>.</p>
+            <p><strong>Single exception:</strong> If you contact us via email, we collect:</p>
+            <ul>
+                <li>Your email address</li>
+                <li>Your name (if provided in the email)</li>
+                <li>The content of your message</li>
+            </ul>
+            <p style="margin-top: 16px; font-style: italic; color: #666;">We do not use analytics, advertising cookies, or third-party trackers on our site.</p>
+        </div>
+
+        <!-- 3. Legal Basis -->
+        <div class="privacy-section">
+            <h2>3. Legal Basis for Processing</h2>
+            <p>We process your email contact data based on <strong>GDPR Article 6(1)(f)</strong> (legitimate interest): to respond to your inquiry and explore potential business relationships.</p>
+        </div>
+
+        <!-- 4. Data Retention -->
+        <div class="privacy-section">
+            <h2>4. How Long Do We Keep Your Data?</h2>
+            <p>Email communications are retained for:</p>
+            <ul>
+                <li><strong>Up to 3 years</strong> after the last contact, or until the business relationship concludes</li>
+                <li><strong>7 years</strong> if required for tax/business records (German commercial law)</li>
+                <li>Upon request, we will delete your data earlier</li>
+            </ul>
+        </div>
+
+        <!-- 5. Your Rights -->
+        <div class="privacy-section">
+            <h2>5. Your Data Subject Rights</h2>
+            <p>Under GDPR, you have the right to:</p>
+            <ul>
+                <li><strong>Access</strong> your personal data</li>
+                <li><strong>Rectification</strong> of inaccurate data</li>
+                <li><strong>Erasure</strong> ("right to be forgotten")</li>
+                <li><strong>Restrict processing</strong> in certain circumstances</li>
+                <li><strong>Data portability</strong> – receive your data in a structured format</li>
+                <li><strong>Object</strong> to processing</li>
+                <li><strong>Lodge a complaint</strong> with your local data protection authority</li>
+            </ul>
+            <p style="margin-top: 16px;">To exercise these rights, contact: <a href="mailto:contact@loopforgelab.com">contact@loopforgelab.com</a></p>
+        </div>
+
+        <!-- 6. Data Sharing -->
+        <div class="privacy-section">
+            <h2>6. Do We Share Your Data?</h2>
+            <p><strong>No.</strong> We do not share, sell, or transfer your personal data to third parties. Email communications are stored locally within our team and not processed by external services.</p>
+        </div>
+
+        <!-- 7. Security -->
+        <div class="privacy-section">
+            <h2>7. Data Security</h2>
+            <p>We use industry-standard security measures to protect your data (encryption, secure email storage, access controls). However, no transmission over the internet is 100% secure.</p>
+        </div>
+
+        <!-- 8. Contact & Complaints -->
+        <div class="privacy-section">
+            <h2>8. Questions or Complaints?</h2>
+            <p>If you have questions about this privacy policy or wish to exercise your rights:</p>
+            <div class="contact-info">
+                <p>
+                    <strong>Data Protection Contact:</strong><br>
+                    <a href="mailto:contact@loopforgelab.com">contact@loopforgelab.com</a>
+                </p>
+                <p style="margin-top: 12px; font-size: 13px;">
+                    You also have the right to lodge a complaint with the <strong>Berlin Data Protection Authority</strong> (Berliner Beauftragte für Datenschutz und Informationsfreiheit).
+                </p>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            Last updated: April 2026
+        </div>
+
+    </div>
+
+    <!-- ========== GERMAN VERSION ========== -->
+    <div id="content-de" class="privacy-content hidden">
+
+        <!-- 1. Verantwortliche Stelle -->
+        <div class="privacy-section">
+            <h2>1. Verantwortliche Stelle</h2>
+            <p>Deine personenbezogenen Daten werden verarbeitet durch:</p>
+            <div class="contact-info">
+                <p>
+                    <strong>LoopForgeLab</strong><br>
+                    <span style="font-size: 13px; color: #888;">(GbR – Gesellschaft bürgerlichen Rechts)</span><br>
+                    Elsenstr. 62<br>
+                    12059 Berlin, Deutschland<br>
+                    <a href="mailto:contact@loopforgelab.com">contact@loopforgelab.com</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- 2. Welche Daten erheben wir? -->
+        <div class="privacy-section">
+            <h2>2. Welche Daten erheben wir?</h2>
+            <p>Auf unserer Landingpage sammeln wir <strong>keine Daten durch Formulare, Cookies oder Tracking-Tools</strong>.</p>
+            <p><strong>Einzige Ausnahme:</strong> Wenn du uns per E-Mail kontaktierst, erheben wir:</p>
+            <ul>
+                <li>Deine E-Mail-Adresse</li>
+                <li>Deinen Namen (falls angegeben)</li>
+                <li>Den Inhalt deiner Nachricht</li>
+            </ul>
+            <p style="margin-top: 16px; font-style: italic; color: #666;">Wir nutzen keine Analysen, Werbecookies oder Tracker von Drittanbietern.</p>
+        </div>
+
+        <!-- 3. Rechtsgrundlage -->
+        <div class="privacy-section">
+            <h2>3. Rechtsgrundlage der Verarbeitung</h2>
+            <p>Wir verarbeiten deine E-Mail-Daten auf Grundlage von <strong>DSGVO Art. 6 Abs. 1 lit. f</strong> (berechtigtes Interesse): um deine Anfrage zu beantworten und geschäftliche Beziehungen zu initiieren.</p>
+        </div>
+
+        <!-- 4. Speicherdauer -->
+        <div class="privacy-section">
+            <h2>4. Wie lange speichern wir deine Daten?</h2>
+            <p>E-Mail-Kommunikationen werden gespeichert für:</p>
+            <ul>
+                <li><strong>Bis zu 3 Jahre</strong> nach der letzten Kontaktaufnahme oder bis zum Ende der Geschäftsbeziehung</li>
+                <li><strong>7 Jahre</strong>, falls erforderlich für Steuer-/Geschäftsunterlagen (deutsches Handelsrecht)</li>
+                <li>Auf Anfrage löschen wir deine Daten früher</li>
+            </ul>
+        </div>
+
+        <!-- 5. Deine Rechte -->
+        <div class="privacy-section">
+            <h2>5. Deine Rechte als betroffene Person</h2>
+            <p>Nach der DSGVO hast du das Recht auf:</p>
+            <ul>
+                <li><strong>Auskunft</strong> über deine Daten</li>
+                <li><strong>Berichtigung</strong> falscher Daten</li>
+                <li><strong>Löschung</strong> („Recht auf Vergessenwerden")</li>
+                <li><strong>Einschränkung</strong> der Verarbeitung</li>
+                <li><strong>Datenportabilität</strong> – Erhalt deiner Daten in strukturierter Form</li>
+                <li><strong>Widerspruch</strong> gegen die Verarbeitung</li>
+                <li><strong>Beschwerde</strong> bei deiner Datenschutzbehörde</li>
+            </ul>
+            <p style="margin-top: 16px;">Um deine Rechte auszuüben, kontaktiere: <a href="mailto:contact@loopforgelab.com">contact@loopforgelab.com</a></p>
+        </div>
+
+        <!-- 6. Datenweitergabe -->
+        <div class="privacy-section">
+            <h2>6. Geben wir deine Daten weiter?</h2>
+            <p><strong>Nein.</strong> Wir teilen, verkaufen oder übermitteln deine Daten nicht an Dritte. E-Mail-Kommunikationen werden lokal in unserem Team gespeichert und nicht durch externe Dienste verarbeitet.</p>
+        </div>
+
+        <!-- 7. Datensicherheit -->
+        <div class="privacy-section">
+            <h2>7. Datensicherheit</h2>
+            <p>Wir nutzen branchenübliche Sicherheitsmaßnahmen zum Schutz deiner Daten (Verschlüsselung, sichere E-Mail-Speicherung, Zugriffskontrolle). Allerdings ist keine Übertragung im Internet zu 100% sicher.</p>
+        </div>
+
+        <!-- 8. Fragen oder Beschwerde -->
+        <div class="privacy-section">
+            <h2>8. Fragen oder Beschwerde?</h2>
+            <p>Wenn du Fragen zu dieser Datenschutzerklärung hast oder deine Rechte ausüben möchtest:</p>
+            <div class="contact-info">
+                <p>
+                    <strong>Datenschutz-Kontakt:</strong><br>
+                    <a href="mailto:contact@loopforgelab.com">contact@loopforgelab.com</a>
+                </p>
+                <p style="margin-top: 12px; font-size: 13px;">
+                    Du hast auch das Recht, dich bei der <strong>Berliner Beauftragte für Datenschutz und Informationsfreiheit</strong> zu beschweren.
+                </p>
+            </div>
+        </div>
+
+        <div class="last-updated">
+            Zuletzt aktualisiert: April 2026
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function setLanguage(lang) {
+        const enContent = document.getElementById('content-en');
+        const deContent = document.getElementById('content-de');
+        const pageTitle = document.getElementById('page-title');
+        const pageSubtitle = document.getElementById('page-subtitle');
+        const langBtns = document.querySelectorAll('.lang-btn');
+
+        langBtns.forEach(btn => btn.classList.remove('active'));
+
+        if (lang === 'de') {
+            enContent.classList.add('hidden');
+            deContent.classList.remove('hidden');
+            pageTitle.textContent = 'Datenschutz';
+            pageSubtitle.textContent = 'Wie wir mit deinen Daten umgehen';
+            langBtns[1].classList.add('active');
+        } else {
+            enContent.classList.remove('hidden');
+            deContent.classList.add('hidden');
+            pageTitle.textContent = 'Privacy Policy';
+            pageSubtitle.textContent = 'How we handle your information';
+            langBtns[0].classList.add('active');
+        }
+    }
+</script>
+
+</body>
+</html>

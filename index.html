@@ -4,37 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LoopForgeLab - Designing Products for Tomorrow, Today</title>
+    <title>LoopForgeLab - Every design decision has a cost and a carbon footprint</title>
     <meta name="description"
-        content="Designing Products for Tomorrow, Today. LoopForgeLab explores sustainable product design, helping CAD, CAE, and PLM users integrate circular economy principles into their workflows.">
+        content="Every design decision has a cost and a carbon footprint. We make both visible. LoopForgeLab puts cost, carbon, and compliance intelligence directly into the engineering workflow.">
     <meta name="keywords" content="sustainable design, CAD tools, circular economy, product design, research lab">
 
     <!-- Open Graph Tags for Social Media Sharing -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://loopforgelab.com/">
-    <meta property="og:title" content="LoopForgeLab - Designing Products for Tomorrow, Today">
+    <meta property="og:title" content="LoopForgeLab - Every design decision has a cost and a carbon footprint">
     <meta property="og:description"
         content="A research initiative exploring how to help product designers and engineers make sustainability the easy choice through CAD, CAE, and PLM integration.">
     <meta property="og:image" content="https://loopforgelab.com/og-image.svg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="LoopForgeLab - Research for Sustainable Product Futures">
+    <meta property="og:image:alt" content="LoopForgeLab - Cost, Carbon, and Compliance Intelligence for Engineers">
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="LoopForgeLab">
 
     <!-- LinkedIn Tags -->
-    <meta property="linkedin:title" content="LoopForgeLab - Designing Products for Tomorrow, Today">
+    <meta property="linkedin:title" content="LoopForgeLab - Every design decision has a cost and a carbon footprint">
     <meta property="linkedin:description"
         content="A research initiative exploring how to help product designers and engineers make sustainability the easy choice through CAD, CAE, and PLM integration.">
 
     <!-- Twitter/X Card Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@loopforgelab">
-    <meta name="twitter:title" content="LoopForgeLab - Designing Products for Tomorrow, Today">
+    <meta name="twitter:title" content="LoopForgeLab - Every design decision has a cost and a carbon footprint">
     <meta name="twitter:description"
         content="A research initiative exploring how to help product designers and engineers make sustainability the easy choice.">
     <meta name="twitter:image" content="https://loopforgelab.com/og-image.svg">
-    <meta name="twitter:image:alt" content="LoopForgeLab - Research for Sustainable Product Futures">
+    <meta name="twitter:image:alt" content="LoopForgeLab - Cost, Carbon, and Compliance Intelligence for Engineers">
 
     <!-- Additional Meta Tags -->
     <meta name="theme-color" content="#2d5a3d">
@@ -53,7 +53,14 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- React for rendering the component directly in the browser -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
     <script>
         window.va = window.va || function () { (window.va.q = window.va.q || []).push(arguments); };
     </script>
@@ -66,36 +73,13 @@
         <nav class="nav">
             <div class="nav-container">
                 <div class="logo">
-                    <svg class="logo-icon" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Outer Circle - Circular Economy -->
-                        <circle cx="30" cy="30" r="25.5" fill="none" stroke="var(--forest-green)" stroke-width="2.4"
-                            opacity="0.9" />
-
-                        <!-- Dotted Rectangle - Discrete Manufacturing -->
-                        <rect x="15" y="15" width="30" height="30" fill="none" stroke="var(--accent-orange)"
-                            stroke-width="1.8" stroke-dasharray="3.6 2.4" stroke-linecap="round" opacity="0.95" />
-
-                        <!-- Center Dot - Driving Force -->
-                        <circle cx="30" cy="30" r="3.6" fill="var(--accent-orange)" />
-
-                        <!-- Subtle glow effect (Animated) -->
-                        <circle cx="30" cy="30" r="3.6" fill="var(--accent-orange)" opacity="0.3">
-                            <animate attributeName="r" from="3.6" to="6" dur="2s" repeatCount="indefinite" />
-                            <animate attributeName="opacity" from="0.3" to="0" dur="2s" repeatCount="indefinite" />
-                        </circle>
-
-                        <!-- Company name -->
-                        <text x="65" y="25" font-family="Inter, sans-serif" font-size="16" font-weight="600"
-                            fill="var(--forest-green)">LoopForge</text>
-                        <text x="65" y="40" font-family="Inter, sans-serif" font-size="16" font-weight="600"
-                            fill="var(--forest-green)">Lab</text>
-                    </svg>
+                    <h1>LoopForgeLab</h1>
                 </div>
                 <ul class="nav-menu">
-                    <li><a href="index.html#research">Our Research</a></li>
-                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#problem">Problem</a></li>
+                    <li><a href="index.html#solution">Solution</a></li>
+                    <li><a href="index.html#how-it-works">How It Works</a></li>
                     <li><a href="index.html#team">Team</a></li>
-                    <li><a href="index.html#partners">Partners</a></li>
                     <li><a href="index.html#contact" class="cta-nav">Get In Touch</a></li>
                 </ul>
                 <div class="hamburger">
@@ -112,190 +96,271 @@
         <div class="container">
             <div class="hero-inner">
                 <div class="hero-content">
-                    <h1 class="hero-title">Designing Products for Tomorrow, Today</h1>
+                    <h1 class="hero-title">Optimized for Performance.<br>Approved for Price.</h1>
                     <div class="hero-insight">
-                        <p>Here's something we think about: <strong>80% of a product's lifetime emissions are determined at
-                                the design stage.</strong> That's a massive opportunity.</p>
+                        <p>The <strong>Product Intelligence Engine</strong> that embeds market, cost, and carbon data
+                            directly into your engineering workflow. Stop the "Redesign Trap" before it starts.</p>
                     </div>
-                    <p class="hero-intro">LoopForgeLab is a research initiative exploring how we can help product designers
-                        and engineers make sustainability the easy choice.</p>
-                    <p class="hero-context">We're currently in customer discovery - having conversations with CAD, CAE, and
-                        PLM users to understand the real challenges in sustainable product design.</p>
                     <div class="hero-ctas">
-                        <a href="mailto:hello@loopforgelab.com" class="btn-primary">Chat With Us</a>
+                        <a href="mailto:hello@loopforgelab.com" class="btn-primary">Book a Demo</a>
+                        <a href="assets/pdfs/LFL-Whitepaper.pdf" class="btn-secondary glass-btn" target="_blank">Read
+                            the
+                            Whitepaper</a>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <div id="impossible-triangle-container">
-                        <div id="impossible-triangle-info" class="impossible-triangle-info" style="display: none;">
-                            <h3 id="impossible-triangle-title"></h3>
-                            <p id="impossible-triangle-desc"></p>
-                        </div>
+                <div class="hero-visual" style="position: relative; z-index: 0;">
+                    <div id="hero-3d-container" class="hero-3d-wrapper"
+                        style="padding: 0; background: transparent; overflow: visible;">
+                        <!-- The React component will be injected here by TorchHero.jsx -->
                     </div>
-                    <div id="pareto-frontier-container"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Our Mission Section -->
-    <section id="research" class="mission">
+    <!-- Problem Section -->
+    <section id="problem" class="problem" style="padding: 0;">
+        <div id="status-quo-container"></div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="journey">
         <div class="container">
-            <h2>What We're Exploring</h2>
-            <p class="mission-intro">We believe sustainable design shouldn't require extra effort. Currently, tools and
-                workflows make it hard for designers to consider circular economy principles like reparability and
-                remanufacturing.</p>
+            <h2>The Product Intelligence Engine</h2>
+            <p class="journey-intro">LoopForgeLab embeds market, cost, and carbon data directly into your engineering
+                workflow. Stop the "Redesign Trap" before it starts.</p>
 
-            <div class="focus-areas">
-                <div class="focus-card">
-                    <div class="focus-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8" />
-                            <path d="21 21l-4.35-4.35" />
-                        </svg>
+            <div class="solution-grid">
+                <!-- Pillar 1 -->
+                <div class="solution-card pillar-card">
+                    <div class="solution-micro-anim anim-copilot">
+                        <div class="anim-cad-box"></div>
+                        <div class="anim-bars-container">
+                            <div class="anim-bar bar-c1"></div>
+                            <div class="anim-bar bar-c2"></div>
+                        </div>
                     </div>
-                    <h3>Understanding Pain Points</h3>
-                    <p>Mapping current design workflows to identify where sustainability considerations fall through the
-                        cracks.</p>
-                </div>
-
-                <div class="focus-card">
-                    <div class="focus-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path
-                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                            <circle cx="12" cy="12" r="4" />
-                        </svg>
-                    </div>
-                    <h3>R-Strategy Integration</h3>
-                    <p>Researching how circular economy strategies can integrate naturally into CAD/CAE/PLM workflows.
+                    <h3>Design Copilot</h3>
+                    <p>Real-time trade-offs between materials and manufacturing, eliminating guesswork at the CAD level.
                     </p>
                 </div>
 
-                <div class="focus-card">
-                    <div class="focus-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path
-                                d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                        </svg>
+                <!-- Pillar 2 -->
+                <div class="solution-card pillar-card">
+                    <div class="solution-micro-anim anim-rfq">
+                        <div class="anim-doc"></div>
+                        <div class="anim-clock"></div>
                     </div>
-                    <h3>Intuitive Tools</h3>
-                    <p>Imagining design tools that make circular economy principles second nature for engineers.</p>
+                    <h3>RFQ Automation</h3>
+                    <p>Turn weeks of manual quoting and supplier communication into hours.</p>
+                </div>
+
+                <!-- Pillar 3 -->
+                <div class="solution-card pillar-card">
+                    <div class="solution-micro-anim anim-operator">
+                        <div class="anim-chart-line"></div>
+                    </div>
+                    <h3>Operator Insights</h3>
+                    <p>Predict Life Cycle Costs (LCC) early to understand the true long-term impact of your designs.</p>
+                </div>
+
+                <!-- Pillar 4 -->
+                <div class="solution-card pillar-card">
+                    <div class="solution-micro-anim anim-compliance">
+                        <div class="anim-shield">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3>Compliance & Risk</h3>
+                    <p>Automated criticality analysis for supply chains and incoming sustainability regulations.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Research Journey Section -->
-    <section id="about" class="journey">
+    <!-- Circular Engineering Section -->
+    <section id="circular" class="circular-advantage">
         <div class="container">
-            <h2>Where We Are Today</h2>
-            <p class="journey-intro">We're a pre-venture lab in discovery mode</p>
-
-            <div class="journey-content">
-                <div class="journey-text">
-                    <h3>What this means:</h3>
-                    <ul>
-                        <li>Conducting interviews with product engineers and designers</li>
-                        <li>Learning about real-world constraints and opportunities</li>
-                        <li>Building toward solutions informed by actual user needs</li>
+            <div class="circular-inner">
+                <div class="circular-content">
+                    <h2>The "Circular Engineering" Advantage</h2>
+                    <p class="circular-text">Shift from <strong>"post-production reporting"</strong> to
+                        <strong>"real-time decision intelligence"</strong>. LoopForgeLab connects engineering directly
+                        to the balance sheet.
+                    </p>
+                    <ul class="circular-benefits">
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg> Reduce redesign cycles by 40%</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg> Accelerate time-to-market</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg> Design for circularity from Day 1</li>
                     </ul>
-                    <p class="journey-invitation">We'd love to hear your perspective</p>
                 </div>
-                <div class="journey-visual">
-                    <div class="research-phases">
-                        <div class="phase active">
-                            <div class="phase-number">1</div>
-                            <p>Discovery</p>
-                        </div>
-                        <div class="phase">
-                            <div class="phase-number">2</div>
-                            <p>Design</p>
-                        </div>
-                        <div class="phase">
-                            <div class="phase-number">3</div>
-                            <p>Build</p>
-                        </div>
+                <div class="circular-visual">
+                    <div id="feedback-loop-container" class="glass-panel">
+                        <!-- Abstract Feedback Loop Animation -->
+                        <div class="loop-stage stage-1">Engineering Data</div>
+                        <div class="loop-arrow arrow-1"></div>
+                        <div class="loop-stage stage-2">LFL Engine</div>
+                        <div class="loop-arrow arrow-2"></div>
+                        <div class="loop-stage stage-3">Business Value</div>
+                        <div class="loop-arrow arrow-3"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Section -->
-    <section id="team" class="team">
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="how-it-works-scene">
+            <h2 class="how-it-works-title" id="how-it-works-title">How It Works</h2>
+            <p class="how-it-works-sub" id="how-it-works-sub">Same engineer, same CAD — two very different outcomes.</p>
+
+            <div class="how-it-works-origin" id="how-it-works-origin">
+                <div class="how-it-works-origin-card">
+                    <div class="how-it-works-icon-box">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 20h9" />
+                            <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+                        </svg>
+                    </div>
+                    <span>Engineer starts designing in CAD</span>
+                </div>
+            </div>
+
+            <div class="how-it-works-fork" id="how-it-works-fork">
+                <div class="how-it-works-fork-lines">
+                    <svg viewBox="0 0 320 40" fill="none">
+                        <path class="how-it-works-f-line" d="M160 0 C160 20, 40 20, 40 40" stroke="var(--how-coral)"
+                            stroke-width="2" stroke-dasharray="4 4" opacity="0.4" />
+                        <path class="how-it-works-f-line" d="M160 0 C160 20, 280 20, 280 40"
+                            stroke="var(--how-forest-mid)" stroke-width="2" opacity="0.6" />
+                        <circle cx="160" cy="0" r="4" fill="var(--how-amber)" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Mobile Slider wrapper: contains BOTH cards and the drag handle -->
+            <div class="how-it-works-slider-wrapper" id="hiw-slider-wrapper">
+
+                <!-- Card A: Status Quo (back layer, always visible) -->
+                <div class="how-it-works-path how-it-works-path-today" id="how-it-works-path-today">
+                    <div class="how-it-works-path-header">
+                        <span class="how-it-works-badge">Status Quo</span>
+                        <span class="how-it-works-path-title">Today</span>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="0">
+                        <div class="how-it-works-p-num">1</div>
+                        <div class="how-it-works-p-text">Exports BOM &amp; sends to costing team</div>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="1">
+                        <div class="how-it-works-p-num">2</div>
+                        <div class="how-it-works-p-text">Waits days for response</div>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="2">
+                        <div class="how-it-works-p-num">3</div>
+                        <div class="how-it-works-p-text">Gets Excel back with estimates</div>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="3">
+                        <div class="how-it-works-p-num">4</div>
+                        <div class="how-it-works-p-text">Discovers cost &amp; compliance problems</div>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="4">
+                        <div class="how-it-works-p-num">5</div>
+                        <div class="how-it-works-p-text">Redesigns from scratch</div>
+                    </div>
+                    <div class="how-it-works-result" id="how-it-works-res-today">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 12h8" />
+                        </svg>
+                        <span class="how-it-works-strike">Weeks lost per design iteration</span>
+                    </div>
+                </div>
+
+                <!-- Card B: LoopForgeLab (top layer, clipped by slider) -->
+                <div class="how-it-works-path how-it-works-path-tri" id="how-it-works-path-tri">
+                    <div class="how-it-works-path-header">
+                        <span class="how-it-works-badge">LoopForgeLab</span>
+                        <span class="how-it-works-path-title">With LoopForgeLab</span>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="0">
+                        <div class="how-it-works-p-num">1</div>
+                        <div class="how-it-works-p-text">Sees cost, CO₂ &amp; compliance impact instantly</div>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="1">
+                        <div class="how-it-works-p-num">2</div>
+                        <div class="how-it-works-p-text">Makes informed trade-offs in real time</div>
+                    </div>
+                    <div class="how-it-works-p-step" data-d="2">
+                        <div class="how-it-works-p-num">3</div>
+                        <div class="how-it-works-p-text">Moves forward with confidence</div>
+                    </div>
+                    <div class="how-it-works-result" id="how-it-works-res-tri">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                            <polyline points="22 4 12 14.01 9 11.01" />
+                        </svg>
+                        <span>Design right, first time</span>
+                    </div>
+                </div>
+
+                <!-- Drag Handle - consistent with StatusQuoGap style -->
+                <div class="hiw-slider-handle" id="hiw-slider-handle">
+                    <div class="hiw-slider-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                            <polyline points="9 18 3 12 9 6"></polyline>
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                            <polyline points="15 18 21 12 15 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+            </div> <!-- closes how-it-works-slider-wrapper -->
+        </div> <!-- closes how-it-works-scene -->
+    </section>
+
+    <!-- Trust & Market Size Section -->
+    <section id="trust" class="trust-market">
         <div class="container">
-            <h2>Meet Our Founders</h2>
-            <p class="team-intro">LoopForgeLab was founded by three people passionate about making design more
-                sustainable</p>
+            <div class="market-header">
+                <h2>The Market Reality</h2>
+            </div>
 
-            <div class="founder-cards">
-                <div class="founder-card">
-                    <div class="founder-image">
-                        <img src="assets/founders/mouaz.png" alt="Mouaz" loading="lazy"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vdWF6PC90ZXh0Pjwvc3ZnPg=='">
-                    </div>
-                    <h3>Mouaz</h3>
-                    <p>
-                        A software engineer and an entrepreneur with 10 years building and scaling software products and
-                        leading engineering team in Berlin startups ecosystem. Driven by a long standing commitment to
-                        sustainability stemming by early research at the Technical University of Berlin on peer-to-peer
-                        energy trading in decentralised systems— drives his current focus on circular economy solutions
-                        for product design.
-                    </p>
-                    <a href="mailto:mouaz@loopforgelab.com" class="contact-link">mouaz@loopforgelab.com</a>
-                    <a href="https://www.linkedin.com/in/mouaz-al-qudsi-9a63851b9/" class="linkedin-icon"
-                        aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                        </svg>
-                    </a>
+            <div class="market-metrics">
+                <div class="metric-card">
+                    <div class="metric-value">15<span>%</span></div>
+                    <p>CAGR in the engineering software market</p>
                 </div>
+                <div class="metric-card">
+                    <div class="metric-value">99.7<span>M</span></div>
+                    <p>tCO₂e total sustainable impact potential</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">41–194<span>%</span></div>
+                    <p>Increase in engineering hours over 20 years</p>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">38<span>%</span></div>
+                    <p>of companies plan to adopt AI in RFQ processes by next year</p>
+                </div>
+            </div>
 
-                <div class="founder-card">
-                    <div class="founder-image">
-                        <img src="assets/founders/olaf.png" alt="Olaf" loading="lazy"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk9sYWY8L3RleHQ+PC9zdmc+'">
-                    </div>
-                    <h3>Olaf</h3>
-                    <p>
-                        With over two decades in management consulting and leadership roles, Olaf specializes in turning
-                        sustainability ambitions into tangible business outcomes. He has worked with large corporate
-                        clients and agile production companies in energy, renewable energy and sustainability industry.
-                        By bridging economic and environmental priorities with a deep understanding of customer
-                        expectations, Olaf enables companies to develop innovations that are both commercially
-                        successful and environmentally responsible.
-                    </p>
-                    <a href="mailto:olaf@loopforgelab.com" class="contact-link">olaf@loopforgelab.com</a>
-                    <a href="https://www.linkedin.com/in/olaf-pick/" class="linkedin-icon" aria-label="LinkedIn Profile"
-                        target="_blank" rel="noopener noreferrer">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                        </svg>
-                    </a>
-                </div>
 
-                <div class="founder-card">
-                    <div class="founder-image">
-                        <img src="assets/founders/rene.png" alt="René" loading="lazy"
-                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPsOcbsOle8OdPC90ZXh0Pjwvc3ZnPg=='">
-                    </div>
-                    <h3>René</h3>
-                    <p>René has over 5 years of experience in digital product development and digitalisation project
-                        management, he is a second-time startup founder and has a decade of great academically
-                        background and achievements. He has worked closely with engineers and product teams who struggle
-                        to balance performance, cost, and sustainability every day.</p>
-                    <a href="mailto:rene@loopforgelab.com" class="contact-link">rene@loopforgelab.com</a>
-                    <a href="https://www.linkedin.com/in/renereich/" class="linkedin-icon" aria-label="LinkedIn Profile"
-                        target="_blank" rel="noopener noreferrer">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path
-                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                        </svg>
-                    </a>
-                </div>
+
+            <div class="secondary-cta">
+                <p>Not ready for a demo yet?</p>
+                <a href="assets/pdfs/LFL-Whitepaper.pdf" class="btn-secondary glass-btn" target="_blank">Download our
+                    2026
+                    Whitepaper</a>
             </div>
         </div>
     </section>
@@ -322,20 +387,86 @@
         </div>
     </section>
 
-    <!-- Get Involved Section -->
+    <!-- Team Section -->
+    <section id="team" class="team">
+        <div class="container">
+            <h2>Meet Our Founders</h2>
+            <p class="team-intro">LoopForgeLab was founded by three people passionate about making design more
+                sustainable</p>
+
+            <div class="founder-cards">
+                <div class="founder-card">
+                    <div class="founder-image">
+                        <img src="assets/founders/mouaz.png" alt="Mouaz" loading="lazy"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk1vdWF6PC90ZXh0Pjwvc3ZnPg=='">
+                    </div>
+                    <h3>Mouaz</h3>
+                    <p>10 years building and scaling software products in Berlin's startup ecosystem. Background in
+                        decentralized energy systems research at TU Berlin. Builds the tech.</p>
+                    <a href="mailto:mouaz@loopforgelab.com" class="contact-link">mouaz@loopforgelab.com</a>
+                    <a href="https://www.linkedin.com/in/mouaz-al-qudsi-9a63851b9/" class="linkedin-icon"
+                        aria-label="LinkedIn Profile" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="founder-card">
+                    <div class="founder-image">
+                        <img src="assets/founders/olaf.png" alt="Olaf" loading="lazy"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPk9sYWY8L3RleHQ+PC9zdmc+'">
+                    </div>
+                    <h3>Olaf</h3>
+                    <p>20+ years in management consulting, specializing in turning sustainability strategy into business
+                        outcomes for manufacturing and energy companies. Bridges the commercial and environmental sides.
+                    </p>
+                    <a href="mailto:olaf@loopforgelab.com" class="contact-link">olaf@loopforgelab.com</a>
+                    <a href="https://www.linkedin.com/in/olaf-pick/" class="linkedin-icon" aria-label="LinkedIn Profile"
+                        target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="founder-card">
+                    <div class="founder-image">
+                        <img src="assets/founders/rene.png" alt="René" loading="lazy"
+                            onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iI2ZmZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPsOcbsOle8OdPC90ZXh0Pjwvc3ZnPg=='">
+                    </div>
+                    <h3>René</h3>
+                    <p>Second-time founder with a decade in digital product development. Has worked directly with
+                        engineering teams navigating the daily tension between performance, cost, and sustainability.
+                        Shapes the product.</p>
+                    <a href="mailto:rene@loopforgelab.com" class="contact-link">rene@loopforgelab.com</a>
+                    <a href="https://www.linkedin.com/in/renereich/" class="linkedin-icon" aria-label="LinkedIn Profile"
+                        target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
     <section id="contact" class="get-involved">
         <div class="container">
-            <h2>Join the Conversation</h2>
-            <p class="get-involved-intro">Whether you're a designer frustrated with sustainability workflows, or simply
-                curious about where this research leads, we'd love to connect.</p>
+            <h2>Get Early Access</h2>
+            <p class="get-involved-intro">Are you a design or development engineer navigating cost-sustainability
+                trade-offs? We're onboarding early pilot partners.</p>
 
             <div class="involvement-options centered">
                 <div class="involvement-card">
-                    <h3>Share Your Insights</h3>
-                    <p>Are you a product engineer or designer working with CAD, CAE, or PLM tools? We'd love to learn
-                        from your experience.</p>
-                    <a href="mailto:hello@loopforgelab.com?subject=Research Interview" class="btn-primary">Schedule a
-                        Chat</a>
+                    <h3>Join the Pilot</h3>
+                    <p>Be among the first engineering teams to see cost, carbon, and compliance data directly in your
+                        design workflow.</p>
+                    <a href="mailto:hello@loopforgelab.com?subject=Pilot Interest" class="btn-primary">Talk to Us</a>
                 </div>
             </div>
         </div>
@@ -347,15 +478,16 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <h3>LoopForgeLab</h3>
-                    <p>Research for sustainable product futures</p>
+                    <p>Design-to-profit intelligence for engineers</p>
                 </div>
 
                 <div class="footer-nav">
-                    <a href="index.html#research">Research</a>
+                    <a href="index.html#problem">Problem</a>
+                    <a href="index.html#solution">Solution</a>
+                    <a href="index.html#how-it-works">How It Works</a>
                     <a href="index.html#team">Team</a>
-                    <a href="index.html#partners">Partners</a>
                     <a href="#" id="impressum-link">Impressum</a>
-                    <a href="index.html#privacy">Privacy</a>
+                    <a href="privacy.html">Privacy</a>
                     <a href="#" id="disclaimer-link">Haftungsausschluss</a>
                 </div>
             </div>
@@ -443,8 +575,8 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="impossible-triangle.js"></script>
-    <script src="pareto-frontier.js"></script>
+    <script src="TorchHero.js"></script>
+    <script src="StatusQuoGap.js"></script>
     <script src="script.js"></script>
 </body>
 

@@ -3,11 +3,11 @@
 
   if (typeof THREE === 'undefined') return;
 
-  var vertexLabels = ['FEATURES', 'SUSTAINABILITY', 'COST'];
+  var vertexLabels = ['PERFORMANCE', 'SUSTAINABILITY', 'COST'];
   var vertexDescriptions = [
-    'More features = higher complexity & cost',
+    'Higher performance = greater resource & energy demands',
     'Better sustainability = constraints on materials & processes',
-    'Lower cost = trade-offs on features & eco-impact'
+    'Lower cost = trade-offs on performance & eco-impact'
   ];
   var vertexColors = ['#d97706', '#ffffff', '#7ba5b1'];
 
