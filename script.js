@@ -378,7 +378,72 @@ document.addEventListener('DOMContentLoaded', function () {
         window.addEventListener('touchmove', moveSlider, { passive: false });
     }
 
-    console.log('LoopForgeLab landing page initialized successfully! 🌱');
+    // Enhancement loader: keep initial render fast by loading heavy libraries
+    // (React/ReactDOM/Three + their components) after first paint/idle.
+    // This directly targets Lighthouse "render-blocking requests" and LCP delay.
+    (function scheduleEnhancements() {
+        const shouldReduceMotion =
+            window.matchMedia &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        // If the user prefers reduced motion, skip heavy hero animations entirely.
+        if (shouldReduceMotion) return;
+
+        const loadScript = (src, attrs = {}) => new Promise((resolve, reject) => {
+            // Don't double-inject.
+            if ([...document.scripts].some(s => s.src === src)) {
+                resolve();
+                return;
+            }
+
+            const s = document.createElement('script');
+            s.src = src;
+            s.async = true; // async is fine here because we chain with Promises
+            Object.entries(attrs).forEach(([k, v]) => {
+                if (v === true) s.setAttribute(k, '');
+                else if (v != null) s.setAttribute(k, String(v));
+            });
+            s.onload = () => resolve();
+            s.onerror = () => reject(new Error(`Failed to load ${src}`));
+            document.head.appendChild(s);
+        });
+
+        const loadEnhancements = async () => {
+            // If these targets don't exist, don't load the libs at all.
+            const needsHero = !!document.getElementById('hero-3d-container');
+            const needsStatusQuo = !!document.getElementById('status-quo-container');
+            if (!needsHero && !needsStatusQuo) return;
+
+            // React first (StatusQuoGap and TorchHero both depend on it)
+            await loadScript('https://unpkg.com/react@18/umd/react.production.min.js', { crossorigin: '' });
+            await loadScript('https://unpkg.com/react-dom@18/umd/react-dom.production.min.js', { crossorigin: '' });
+
+            // Three only if the hero exists (TorchHero depends on THREE)
+            if (needsHero) {
+                await loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js');
+                await loadScript('TorchHero.js');
+            }
+
+            // Below-the-fold section; safe to load after React.
+            if (needsStatusQuo) {
+                await loadScript('StatusQuoGap.js');
+            }
+        };
+
+        // Prefer: wait for first paint, then idle.
+        const run = () => {
+            if ('requestIdleCallback' in window) {
+                window.requestIdleCallback(() => { loadEnhancements().catch(() => { }); }, { timeout: 2500 });
+            } else {
+                // Fallback: give the browser a moment to render before loading.
+                setTimeout(() => { loadEnhancements().catch(() => { }); }, 1200);
+            }
+        };
+
+        // If load event fires later, that's ok — but we try to start earlier than full load.
+        if (document.readyState === 'complete') run();
+        else setTimeout(run, 0);
+    })();
 });
 
 // Utility Functions
