@@ -1,23 +1,23 @@
 const { useState, useEffect, useRef, useCallback } = React;
 const PARTS = [
-  { id: "tail_cap", label: "Tail Cap", color: 2763306, cost: 1.85, co2: 0.42, risk: 8, mat: "AL6061-T6" },
-  { id: "tail_spring", label: "Tail Spring", color: 13412932, cost: 0.32, co2: 0.08, risk: 14, mat: "Phosphor Bronze" },
-  { id: "tail_switch", label: "Click Switch", color: 3377237, cost: 1.4, co2: 0.18, risk: 22, mat: "FR-4" },
-  { id: "tail_boot", label: "Switch Boot", color: 4478344, cost: 0.18, co2: 0.04, risk: 5, mat: "Silicone" },
-  { id: "body_tube", label: "Body Tube", color: 3815994, cost: 4.2, co2: 1.82, risk: 6, mat: "AL6061-T6" },
-  { id: "oring_tail", label: "O-Ring (Tail)", color: 2236962, cost: 0.06, co2: 0.01, risk: 3, mat: "Nitrile" },
-  { id: "battery", label: "Li-Ion Cell", color: 3385941, cost: 3.6, co2: 4.2, risk: 38, mat: "Li-NiMnCo" },
-  { id: "battery_wrap", label: "Battery Sleeve", color: 5622903, cost: 0.04, co2: 0.02, risk: 4, mat: "PVC" },
-  { id: "driver_pcb", label: "Driver PCB", color: 2254387, cost: 2.8, co2: 0.62, risk: 65, mat: "FR-4/Cu" },
-  { id: "oring_head", label: "O-Ring (Head)", color: 2236962, cost: 0.06, co2: 0.01, risk: 3, mat: "Nitrile" },
-  { id: "head_housing", label: "Head Housing", color: 3355443, cost: 5.4, co2: 2.14, risk: 7, mat: "AL6061-T6" },
-  { id: "mcpcb", label: "LED MCPCB", color: 8939042, cost: 1.1, co2: 0.34, risk: 42, mat: "Al PCB" },
-  { id: "led_emitter", label: "LED Emitter", color: 16777164, cost: 2.2, co2: 0.28, risk: 55, mat: "GaN/SiC" },
-  { id: "reflector", label: "Reflector", color: 14540253, cost: 1.6, co2: 0.72, risk: 12, mat: "AL Vac.Dep." },
-  { id: "lens_gasket", label: "Lens Gasket", color: 4473924, cost: 0.05, co2: 0.01, risk: 3, mat: "EPDM" },
-  { id: "lens", label: "Glass Lens", color: 8956620, cost: 1.9, co2: 1.4, risk: 18, mat: "Borosilicate" },
-  { id: "bezel_ring", label: "Bezel Ring", color: 5592405, cost: 0.95, co2: 0.68, risk: 9, mat: "SS304" },
-  { id: "pocket_clip", label: "Pocket Clip", color: 8947848, cost: 0.72, co2: 0.48, risk: 11, mat: "SS301" }
+  { id: "tail_cap", label: "Tail Cap", cost: 1.85, co2: 0.42, risk: 8, mat: "AL6061-T6" },
+  { id: "tail_spring", label: "Tail Spring", cost: 0.32, co2: 0.08, risk: 14, mat: "Phosphor Bronze" },
+  { id: "tail_switch", label: "Click Switch", cost: 1.4, co2: 0.18, risk: 22, mat: "FR-4" },
+  { id: "tail_boot", label: "Switch Boot", cost: 0.18, co2: 0.04, risk: 5, mat: "Silicone" },
+  { id: "body_tube", label: "Body Tube", cost: 4.2, co2: 1.82, risk: 6, mat: "AL6061-T6" },
+  { id: "oring_tail", label: "O-Ring (Tail)", cost: 0.06, co2: 0.01, risk: 3, mat: "Nitrile" },
+  { id: "battery", label: "Li-Ion Cell", cost: 3.6, co2: 4.2, risk: 38, mat: "Li-NiMnCo" },
+  { id: "battery_wrap", label: "Battery Sleeve", cost: 0.04, co2: 0.02, risk: 4, mat: "PVC" },
+  { id: "driver_pcb", label: "Driver PCB", cost: 2.8, co2: 0.62, risk: 65, mat: "FR-4/Cu" },
+  { id: "oring_head", label: "O-Ring (Head)", cost: 0.06, co2: 0.01, risk: 3, mat: "Nitrile" },
+  { id: "head_housing", label: "Head Housing", cost: 5.4, co2: 2.14, risk: 7, mat: "AL6061-T6" },
+  { id: "mcpcb", label: "LED MCPCB", cost: 1.1, co2: 0.34, risk: 42, mat: "Al PCB" },
+  { id: "led_emitter", label: "LED Emitter", cost: 2.2, co2: 0.28, risk: 55, mat: "GaN/SiC" },
+  { id: "reflector", label: "Reflector", cost: 1.6, co2: 0.72, risk: 12, mat: "AL Vac.Dep." },
+  { id: "lens_gasket", label: "Lens Gasket", cost: 0.05, co2: 0.01, risk: 3, mat: "EPDM" },
+  { id: "lens", label: "Glass Lens", cost: 1.9, co2: 1.4, risk: 18, mat: "Borosilicate" },
+  { id: "bezel_ring", label: "Bezel Ring", cost: 0.95, co2: 0.68, risk: 9, mat: "SS304" },
+  { id: "pocket_clip", label: "Pocket Clip", cost: 0.72, co2: 0.48, risk: 11, mat: "SS301" }
 ];
 const EXPLODE_MAP = { tail_boot: -2.4, tail_cap: -2, tail_switch: -1.6, tail_spring: -1.2, oring_tail: -0.8, body_tube: -0.2, battery_wrap: 0, battery: 0, pocket_clip: 0, driver_pcb: 0.7, oring_head: 1, head_housing: 1.3, mcpcb: 1.8, led_emitter: 2.1, reflector: 2.3, lens_gasket: 2.9, lens: 3.1, bezel_ring: 3.4 };
 const TAG_OFFSETS = { tail_cap: { x: 2.5, y: 0.15 }, tail_spring: { x: -2.4, y: 0 }, tail_switch: { x: 2.4, y: -0.15 }, tail_boot: { x: -2.3, y: 0.1 }, body_tube: { x: 2.6, y: 0.5 }, oring_tail: { x: -2.4, y: 0 }, battery: { x: -2.5, y: 0 }, battery_wrap: { x: 2.4, y: -0.2 }, driver_pcb: { x: -2.4, y: 0.15 }, oring_head: { x: 2.4, y: 0 }, head_housing: { x: 2.7, y: 0.25 }, mcpcb: { x: -2.4, y: 0.1 }, led_emitter: { x: 2.4, y: 0 }, reflector: { x: -2.6, y: 0.15 }, lens_gasket: { x: 2.3, y: 0 }, lens: { x: -2.4, y: 0 }, bezel_ring: { x: 2.5, y: 0.1 }, pocket_clip: { x: 2.3, y: -0.3 } };
@@ -31,130 +31,171 @@ const SHOWCASE_START = TIMELINE[0].duration + TIMELINE[1].duration;
 const SEQ_DUR = HL_SEQ.reduce((s, h) => s + h.dur, 0);
 const CC = { cream: "#FAF7F2", forest: "#1B3A2D", forestMid: "#2A5A42", amber: "#D4891C", coral: "#D9534F", muted: "#94A39C" };
 function buildTorch(scene) {
-  const parts = {}, group = new THREE.Group();
-  const L = (pts, s = 32) => new THREE.LatheGeometry(pts.map(([x, y]) => new THREE.Vector2(x, y)), s);
-  const P = (c, s = 60) => new THREE.MeshPhongMaterial({ color: c, shininess: s });
-  const A = (id, m, y, bx = 0) => {
+  const parts = {};
+  const group = new THREE.Group();
+
+  const matCache = {};
+  const mat = (c, s = 60, extra) => {
+    const key = `${c}-${s}-${extra ? JSON.stringify(extra) : ""}`;
+    if (!matCache[key]) matCache[key] = new THREE.MeshPhongMaterial({ color: c, shininess: s, ...extra });
+    return matCache[key];
+  };
+  const lathe = (pts, segs = 20) => new THREE.LatheGeometry(pts.map(([x, y]) => new THREE.Vector2(x, y)), segs);
+  const add = (id, m, y, bx = 0) => {
     m.position.set(bx, y, 0);
     m.userData = { id, basePos: new THREE.Vector3(bx, y, 0) };
     parts[id] = m;
     group.add(m);
   };
-  const tc = new THREE.Mesh(L([[0, 0], [0.52, 0], [0.52, 0.04], [0.56, 0.04], [0.56, 0.32], [0.52, 0.32], [0.52, 0.36], [0, 0.36]]), P(2763306));
-  const tRingGeo = new THREE.TorusGeometry(0.545, 0.01, 4, 32);
-  const tRingMat = P(1710618);
-  for (let i = 0; i < 5; i++) {
-    const r = new THREE.Mesh(tRingGeo, tRingMat);
+
+  // Tail Cap (reduced rings)
+  const tc = new THREE.Mesh(lathe([[0, 0], [0.52, 0], [0.52, 0.04], [0.56, 0.04], [0.56, 0.32], [0.52, 0.32], [0.52, 0.36], [0, 0.36]]), mat(0x2a2a2a));
+  for (let i = 0; i < 3; i++) {
+    const r = new THREE.Mesh(new THREE.TorusGeometry(0.545, 0.01, 4, 16), mat(0x1a1a1a));
     r.rotation.x = Math.PI / 2;
-    r.position.y = 0.06 + i * 0.045;
+    r.position.y = 0.08 + i * 0.08;
     tc.add(r);
   }
-  A("tail_cap", tc, -2.2);
+  add("tail_cap", tc, -2.2);
+
+  // Tail Spring (reduced curve samples)
   const sG = new THREE.Group();
   const sC = [];
-  for (let i = 0; i <= 80; i++) {
-    const t = i / 80;
+  for (let i = 0; i <= 60; i++) {
+    const t = i / 60;
     sC.push(new THREE.Vector3(Math.cos(t * Math.PI * 10) * 0.15, t * 0.22, Math.sin(t * Math.PI * 10) * 0.15));
   }
-  const sMat = P(13412932, 80);
-  sG.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sC), 60, 0.016, 6), sMat));
-  sG.add(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.025, 20), sMat));
-  A("tail_spring", sG, -1.88);
+  sG.add(new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(sC), 40, 0.016, 5, false), mat(0xccaa44, 80)));
+  sG.add(new THREE.Mesh(new THREE.CylinderGeometry(0.18, 0.18, 0.025, 16), mat(0xccaa44, 80)));
+  add("tail_spring", sG, -1.88);
+
+  // Tail Switch (reduced dots)
   const sw = new THREE.Group();
-  sw.add(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.05, 24), P(2254387)));
-  const a2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.13, 0.08, 12), P(3377237));
-  a2.position.y = -0.06;
-  sw.add(a2);
-  const swDotGeo = new THREE.SphereGeometry(0.025, 6, 6);
-  const swDotMat = P(13421772, 100);
-  for (let i = 0; i < 4; i++) {
-    const s = new THREE.Mesh(swDotGeo, swDotMat);
-    const a = i / 4 * Math.PI * 2;
+  sw.add(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.05, 16), mat(0x226633)));
+  const actuator = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.13, 0.08, 12), mat(0x338855));
+  actuator.position.y = -0.06;
+  sw.add(actuator);
+  for (let i = 0; i < 3; i++) {
+    const s = new THREE.Mesh(new THREE.SphereGeometry(0.025, 6, 4), mat(0xcccccc, 100));
+    const a = i / 3 * Math.PI * 2;
     s.position.set(Math.cos(a) * 0.26, 0.03, Math.sin(a) * 0.26);
     sw.add(s);
   }
-  A("tail_switch", sw, -2.12);
-  A("tail_boot", new THREE.Mesh(L([[0, 0], [0.15, 0], [0.17, 0.05], [0.12, 0.1], [0.1, 0.1], [0.08, 0.05], [0, 0.03]], 24), P(4478344, 20)), -2.38);
-  const oM = P(1118481, 10);
-  const oT = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 8, 32), oM);
+  add("tail_switch", sw, -2.12);
+
+  add("tail_boot", new THREE.Mesh(lathe([[0, 0], [0.15, 0], [0.17, 0.05], [0.12, 0.1], [0.1, 0.1], [0.08, 0.05], [0, 0.03]]), mat(0x445588, 20)), -2.38);
+
+  const oringMat = mat(0x111111, 10);
+  const oT = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 8, 20), oringMat);
   oT.rotation.x = Math.PI / 2;
-  A("oring_tail", oT, -1.84);
-  const bT = new THREE.Mesh(L([[0.44, 0], [0.48, 0], [0.48, 1.8], [0.44, 1.8]]), P(3815994, 50));
-  const bTRingGeo = new THREE.TorusGeometry(0.485, 7e-3, 4, 32);
-  const bTRingMat1 = P(4473924);
-  const bTRingMat2 = P(2763306);
-  for (let i = 0; i < 18; i++) {
-    const k = new THREE.Mesh(bTRingGeo, i % 3 === 0 ? bTRingMat1 : bTRingMat2);
+  add("oring_tail", oT, -1.84);
+
+  // Body Tube (reduced knurl rings)
+  const bT = new THREE.Mesh(lathe([[0.44, 0], [0.48, 0], [0.48, 1.8], [0.44, 1.8]]), mat(0x3a3a3a, 50));
+  for (let i = 0; i < 10; i++) {
+    const k = new THREE.Mesh(new THREE.TorusGeometry(0.485, 0.007, 4, 20), mat(i % 3 === 0 ? 0x444444 : 0x2a2a2a));
     k.rotation.x = Math.PI / 2;
-    k.position.y = 0.3 + i * 0.07;
+    k.position.y = 0.3 + i * 0.13;
     bT.add(k);
   }
-  A("body_tube", bT, -1.84);
+  add("body_tube", bT, -1.84);
+
+  // Battery
   const ba = new THREE.Group();
-  ba.add(new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 1.4, 32), P(3385941, 40)));
-  const nub = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.12, 0.05, 16), P(13421772, 80));
+  ba.add(new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.34, 1.4, 16), mat(0x33aa55, 40)));
+  const nub = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.12, 0.05, 12), mat(0xcccccc, 80));
   nub.position.y = 0.725;
   ba.add(nub);
-  const ng = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.015, 32), P(13421772, 80));
-  ng.position.y = -0.71;
-  ba.add(ng);
-  A("battery", ba, -0.88);
-  A("battery_wrap", new THREE.Mesh(new THREE.CylinderGeometry(0.345, 0.345, 1.36, 32, 1, true), new THREE.MeshPhongMaterial({ color: 5622903, shininess: 10, transparent: true, opacity: 0.4, side: THREE.DoubleSide })), -0.88);
+  const neg = new THREE.Mesh(new THREE.CylinderGeometry(0.32, 0.32, 0.015, 16), mat(0xcccccc, 80));
+  neg.position.y = -0.71;
+  ba.add(neg);
+  add("battery", ba, -0.88);
+
+  add("battery_wrap", new THREE.Mesh(
+    new THREE.CylinderGeometry(0.345, 0.345, 1.36, 16, 1, true),
+    new THREE.MeshPhongMaterial({ color: 0x55cc77, shininess: 10, transparent: true, opacity: 0.4, side: THREE.DoubleSide })
+  ), -0.88);
+
+  // Driver PCB (reduced components)
   const dG = new THREE.Group();
-  dG.add(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.07, 32), P(2254387)));
-  for (let i = 0; i < 6; i++) {
-    const c = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.035, 0.035), P(i < 3 ? 1118481 : 8947848));
-    const a = i / 6 * Math.PI * 2 + 0.3;
+  dG.add(new THREE.Mesh(new THREE.CylinderGeometry(0.4, 0.4, 0.07, 16), mat(0x226633)));
+  for (let i = 0; i < 4; i++) {
+    const c = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.035, 0.035), mat(i < 2 ? 0x111111 : 0x888888));
+    const a = i / 4 * Math.PI * 2 + 0.3;
     c.position.set(Math.cos(a) * 0.25, 0.05, Math.sin(a) * 0.25);
     dG.add(c);
   }
-  const ft = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.025, 0.1), P(1118481));
-  ft.position.y = 0.048;
-  dG.add(ft);
-  A("driver_pcb", dG, -0.06);
-  const oH = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 8, 32), oM.clone());
+  const fet = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.025, 0.1), mat(0x111111));
+  fet.position.y = 0.048;
+  dG.add(fet);
+  add("driver_pcb", dG, -0.06);
+
+  const oH = new THREE.Mesh(new THREE.TorusGeometry(0.44, 0.022, 8, 20), oringMat);
   oH.rotation.x = Math.PI / 2;
-  A("oring_head", oH, 0);
-  const hH = new THREE.Mesh(L([[0.44, 0], [0.48, 0], [0.48, 0.15], [0.66, 0.28], [0.68, 0.32], [0.68, 0.9], [0.66, 0.94], [0.64, 0.94], [0.64, 0.9], [0.64, 0.36], [0.48, 0.24], [0.44, 0.24]]), P(3355443, 50));
-  const fGeo = new THREE.TorusGeometry(0.665, 0.012, 4, 32);
-  const fMat = P(2763306);
-  for (let i = 0; i < 4; i++) {
-    const f = new THREE.Mesh(fGeo, fMat);
+  add("oring_head", oH, 0);
+
+  // Head Housing (reduced fins)
+  const hH = new THREE.Mesh(lathe([[0.44, 0], [0.48, 0], [0.48, 0.15], [0.66, 0.28], [0.68, 0.32], [0.68, 0.9], [0.66, 0.94], [0.64, 0.94], [0.64, 0.9], [0.64, 0.36], [0.48, 0.24], [0.44, 0.24]]), mat(0x333333, 50));
+  for (let i = 0; i < 3; i++) {
+    const f = new THREE.Mesh(new THREE.TorusGeometry(0.665, 0.012, 4, 20), mat(0x2a2a2a));
     f.rotation.x = Math.PI / 2;
-    f.position.y = 0.4 + i * 0.12;
+    f.position.y = 0.45 + i * 0.15;
     hH.add(f);
   }
-  A("head_housing", hH, 0);
-  const mc = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.035, 32), P(8939042));
-  for (let i = 0; i < 3; i++) {
-    const tr = new THREE.Mesh(new THREE.BoxGeometry(0.44, 4e-3, 0.035), P(13412932));
+  add("head_housing", hH, 0);
+
+  // MCPCB (reduced traces)
+  const mc = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 0.035, 16), mat(0x886622));
+  for (let i = 0; i < 2; i++) {
+    const tr = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.004, 0.035), mat(0xccaa44));
     tr.position.y = 0.02;
-    tr.rotation.y = i / 3 * Math.PI;
+    tr.rotation.y = i / 2 * Math.PI;
     mc.add(tr);
   }
-  A("mcpcb", mc, 0.28);
+  add("mcpcb", mc, 0.28);
+
+  // LED
   const lG = new THREE.Group();
-  lG.add(new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.035, 0.12), P(15658734, 100)));
-  const dm = new THREE.Mesh(new THREE.SphereGeometry(0.05, 16, 12, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshPhongMaterial({ color: 16777181, emissive: 16777096, emissiveIntensity: 0.7, shininess: 100 }));
-  dm.position.y = 0.018;
-  lG.add(dm);
-  A("led_emitter", lG, 0.32);
-  A("reflector", new THREE.Mesh(L([[0.07, 0], [0.58, 0.58], [0.62, 0.58], [0.62, 0.55], [0.1, 0.015], [0.07, 0]]), new THREE.MeshPhongMaterial({ color: 14540253, shininess: 120, specular: 16777215 })), 0.34);
-  const gk = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.018, 6, 32), P(3355443, 5));
+  lG.add(new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.035, 0.12), mat(0xeeeeee, 100)));
+  const dome = new THREE.Mesh(
+    new THREE.SphereGeometry(0.05, 10, 6, 0, Math.PI * 2, 0, Math.PI / 2),
+    new THREE.MeshPhongMaterial({ color: 0xffffdd, emissive: 0xffff88, emissiveIntensity: 0.7, shininess: 100 })
+  );
+  dome.position.y = 0.018;
+  lG.add(dome);
+  add("led_emitter", lG, 0.32);
+
+  add("reflector", new THREE.Mesh(
+    lathe([[0.07, 0], [0.58, 0.58], [0.62, 0.58], [0.62, 0.55], [0.1, 0.015], [0.07, 0]]),
+    new THREE.MeshPhongMaterial({ color: 0xdddddd, shininess: 120, specular: 0xffffff })
+  ), 0.34);
+
+  const gk = new THREE.Mesh(new THREE.TorusGeometry(0.6, 0.018, 6, 20), mat(0x333333, 5));
   gk.rotation.x = Math.PI / 2;
-  A("lens_gasket", gk, 0.92);
-  A("lens", new THREE.Mesh(L([[0, 0.025], [0.58, 0.025], [0.58, -0.025], [0, -0.012]]), new THREE.MeshPhongMaterial({ color: 8956620, transparent: true, opacity: 0.45, shininess: 120, specular: 16777215 })), 0.94);
-  A("bezel_ring", new THREE.Mesh(L([[0.58, 0], [0.68, 0], [0.69, 0.015], [0.69, 0.08], [0.67, 0.1], [0.58, 0.1]]), new THREE.MeshPhongMaterial({ color: 6710886, shininess: 90, specular: 8947848 })), 0.9);
+  add("lens_gasket", gk, 0.92);
+
+  add("lens", new THREE.Mesh(
+    lathe([[0, 0.025], [0.58, 0.025], [0.58, -0.025], [0, -0.012]]),
+    new THREE.MeshPhongMaterial({ color: 0x88aacc, transparent: true, opacity: 0.45, shininess: 120, specular: 0xffffff })
+  ), 0.94);
+
+  add("bezel_ring", new THREE.Mesh(
+    lathe([[0.58, 0], [0.68, 0], [0.69, 0.015], [0.69, 0.08], [0.67, 0.1], [0.58, 0.1]]),
+    new THREE.MeshPhongMaterial({ color: 0x666666, shininess: 90, specular: 0x888888 })
+  ), 0.9);
+
+  // Pocket Clip
   const cl = new THREE.Group();
-  cl.add(new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.2, 0.18), P(8947848, 80)));
-  const cu = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.025, 6, 8, Math.PI), P(8947848, 80));
-  cu.position.y = -0.6;
-  cu.rotation.z = Math.PI / 2;
-  cl.add(cu);
+  cl.add(new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.2, 0.18), mat(0x888888, 80)));
+  const curl = new THREE.Mesh(new THREE.TorusGeometry(0.06, 0.025, 6, 8, Math.PI), mat(0x888888, 80));
+  curl.position.y = -0.6;
+  curl.rotation.z = Math.PI / 2;
+  cl.add(curl);
   cl.position.set(0.52, -0.8, 0);
   cl.userData = { id: "pocket_clip", basePos: new THREE.Vector3(0.52, -0.8, 0) };
   parts.pocket_clip = cl;
   group.add(cl);
+
   group.rotation.x = -Math.PI / 2;
   scene.add(group);
   return { parts, group };
@@ -211,8 +252,12 @@ function TorchHero() {
     const startTime = performance.now();
     const easeInOut = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
     let animId;
+    let isVisible = true;
+    const onVisibility = () => { isVisible = !document.hidden; };
+    document.addEventListener("visibilitychange", onVisibility);
     const animate = (now) => {
       animId = requestAnimationFrame(animate);
+      if (!isVisible) return;
       const elapsed = now - startTime;
       const cycleTime = elapsed % TOTAL_CYCLE;
       let accum = 0, phase = "assembled", progress = 0;
@@ -265,12 +310,28 @@ function TorchHero() {
       }
       hlRef.current = curHL;
       modeRef.current = curMode;
+
+      const anyHL = curHL !== null;
       Object.entries(parts).forEach(([k2, m]) => {
+        const isHL = curHL === k2;
         m.traverse((c) => {
-          if (c.isMesh && c.material && c.material.emissive) {
-            const isHL = hlRef.current === k2;
-            c.material.emissive.setHex(isHL ? 2775618 : 0);
-            c.material.emissiveIntensity = isHL ? 0.5 : 0;
+          if (!c.isMesh || !c.material) return;
+          if (c.material.emissive) {
+            c.material.emissive.setHex(isHL ? 0x2A5A42 : 0x000000);
+            c.material.emissiveIntensity = isHL ? 0.55 : 0;
+          }
+          const targetOpacity = !anyHL ? 1 : isHL ? 1 : 0.22;
+          const currentOpacity = c.material.opacity !== void 0 ? c.material.opacity : 1;
+          const newOpacity = currentOpacity + (targetOpacity - currentOpacity) * 0.12;
+          const isIntentionallyTransparent = c.material.userData && c.material.userData.origTransparent;
+          if (!isIntentionallyTransparent) {
+            if (Math.abs(targetOpacity - 1) > 0.01 || newOpacity < 0.99) {
+              c.material.transparent = true;
+              c.material.opacity = newOpacity;
+            } else {
+              c.material.transparent = false;
+              c.material.opacity = 1;
+            }
           }
         });
       });
@@ -279,16 +340,23 @@ function TorchHero() {
         const np = {};
         Object.entries(parts).forEach(([id, mesh]) => {
           mesh.getWorldPosition(tmpV);
-          const o = TAG_OFFSETS[id] || { x: 1.5, y: 0 };
-          const sp = proj(tmpV.clone().add(new THREE.Vector3(o.x, o.y, 0)), camera, container);
+          const o = TAG_OFFSETS[id] || { x: 2.0, y: 0 };
           const ap = proj(tmpV, camera, container);
-          if (sp && ap && sp.z > 0 && sp.z < 1) np[id] = { tag: sp, anchor: ap };
+          if (!ap || !(ap.z > 0 && ap.z < 1)) return;
+
+          // IMPORTANT: keep the anchor on the part (world-projected),
+          // and place the label using a SCREEN-SPACE offset so it never "floats" in 3D.
+          const TAG_PX = 34;
+          const tag = { x: ap.x + o.x * TAG_PX, y: ap.y + o.y * TAG_PX, z: ap.z };
+          np[id] = { tag, anchor: ap };
         });
         screenPosRef.current = np;
       } else {
         screenPosRef.current = {};
       }
     };
+    if (parts.lens) parts.lens.traverse((c) => { if (c.isMesh && c.material) c.material.userData = { origTransparent: true }; });
+    if (parts.battery_wrap) parts.battery_wrap.traverse((c) => { if (c.isMesh && c.material) c.material.userData = { origTransparent: true }; });
     animId = requestAnimationFrame(animate);
     const syncId = setInterval(() => {
       setScreenPositions({ ...screenPosRef.current });
@@ -307,6 +375,7 @@ function TorchHero() {
     return () => {
       clearInterval(syncId);
       window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibility);
       cancelAnimationFrame(animId);
       try {
         container.removeChild(renderer.domElement);
@@ -321,11 +390,12 @@ function TorchHero() {
   const modeColor = MODE_COLORS[tagMode];
   const hlPart = PARTS.find((p) => p.id === highlightId);
   const fontMain = "'DM Sans','Segoe UI',system-ui,sans-serif";
-  return /* @__PURE__ */ React.createElement("div", { style: { position: "relative", width: "100%", height: "100%", minHeight: 520, background: "transparent", overflow: "visible", fontFamily: fontMain } }, /* @__PURE__ */ React.createElement("div", { ref: mountRef, style: { position: "absolute", inset: "-150px" } }), showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 20, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6, background: "rgba(255,255,255,.92)", backdropFilter: "blur(10px)", padding: "8px 20px", borderRadius: 40, border: `1.5px solid ${modeColor}30`, boxShadow: "0 2px 16px rgba(27,58,45,.08)" } }, TAG_MODES.map((m) => {
+  const anyHL = highlightId !== null;
+  return /* @__PURE__ */ React.createElement("div", { style: { position: "relative", width: "100%", height: "100%", minHeight: 520, background: "transparent", overflow: "hidden", fontFamily: fontMain } }, /* @__PURE__ */ React.createElement("div", { ref: mountRef, style: { position: "absolute", inset: 0 } }), showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 20, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6, background: "rgba(255,255,255,.92)", backdropFilter: "blur(10px)", padding: "8px 20px", borderRadius: 40, border: `1.5px solid ${modeColor}30`, boxShadow: "0 2px 16px rgba(27,58,45,.08)", zIndex: 20 } }, TAG_MODES.map((m) => {
     const active = tagMode === m;
     const mc = MODE_COLORS[m];
     return /* @__PURE__ */ React.createElement("div", { key: m, style: { display: "flex", alignItems: "center", gap: 5, padding: "4px 14px", borderRadius: 20, background: active ? mc + "12" : "transparent", border: `1px solid ${active ? mc + "35" : "transparent"}`, transition: "all .5s" } }, /* @__PURE__ */ React.createElement("div", { style: { flexShrink: 0, width: 7, height: 7, borderRadius: "50%", background: active ? mc : CC.muted, boxShadow: active ? `0 0 8px ${mc}55` : "none", transition: "all .5s" } }), /* @__PURE__ */ React.createElement("span", { style: { whiteSpace: "nowrap", fontSize: 11, fontWeight: active ? 700 : 500, color: active ? mc : CC.muted, transition: "all .5s" } }, MODE_LABELS[m]));
-  })), hlPart && showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,.95)", backdropFilter: "blur(12px)", padding: "14px 28px", borderRadius: 16, border: `1px solid ${CC.forest}12`, boxShadow: "0 4px 32px rgba(27,58,45,.1)", display: "flex", alignItems: "center", gap: 24, minWidth: 320 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: CC.forest, fontFamily: "Georgia,serif" } }, hlPart.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: CC.muted, marginTop: 2 } }, hlPart.mat)), /* @__PURE__ */ React.createElement("div", { style: { width: 1, height: 36, background: CC.forest + "18" } }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 20 } }, [
+  })), hlPart && showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,.95)", backdropFilter: "blur(12px)", padding: "14px 28px", borderRadius: 16, border: `1px solid ${CC.forest}12`, boxShadow: "0 4px 32px rgba(27,58,45,.1)", display: "flex", alignItems: "center", gap: 24, minWidth: 320, zIndex: 20 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: CC.forest, fontFamily: "Georgia,serif" } }, hlPart.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: CC.muted, marginTop: 2 } }, hlPart.mat)), /* @__PURE__ */ React.createElement("div", { style: { width: 1, height: 36, background: CC.forest + "18" } }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 20 } }, [
     { v: `\u20AC${hlPart.cost.toFixed(2)}`, l: "Cost", c: CC.amber },
     { v: hlPart.co2.toFixed(2), l: "kg CO\u2082e", c: CC.forestMid },
     { v: `${hlPart.risk}%`, l: "Risk", c: hlPart.risk > 40 ? CC.coral : hlPart.risk > 20 ? CC.amber : CC.forestMid }
@@ -334,13 +404,15 @@ function TorchHero() {
     if (!pos) return null;
     const isHL = highlightId === p.id;
     const tc = getTagColor(p);
-    return /* @__PURE__ */ React.createElement("line", { key: p.id, x1: pos.anchor.x, y1: pos.anchor.y, x2: pos.tag.x, y2: pos.tag.y, stroke: isHL ? tc : CC.muted, strokeWidth: isHL ? 1.5 : 0.5, strokeDasharray: isHL ? "none" : "3,4", opacity: isHL ? 0.8 : 0.15 });
+    const isDim = anyHL && !isHL;
+    return /* @__PURE__ */ React.createElement("g", { key: p.id }, /* @__PURE__ */ React.createElement("line", { x1: pos.anchor.x, y1: pos.anchor.y, x2: pos.tag.x, y2: pos.tag.y, stroke: isHL ? tc : CC.muted, strokeWidth: isHL ? 1.8 : 0.9, opacity: isDim ? 0.08 : isHL ? 0.9 : 0.45, style: { transition: "opacity .3s, stroke-width .3s" } }), /* @__PURE__ */ React.createElement("circle", { cx: pos.anchor.x, cy: pos.anchor.y, r: isHL ? 3.5 : 2, fill: isHL ? tc : CC.muted, opacity: isDim ? 0.1 : isHL ? 1 : 0.55, style: { transition: "all .3s" } }), isHL && /* @__PURE__ */ React.createElement("circle", { cx: pos.anchor.x, cy: pos.anchor.y, r: 6, fill: "none", stroke: tc, strokeWidth: 1.5, opacity: 0.5 }, /* @__PURE__ */ React.createElement("animate", { attributeName: "r", values: "3.5;10;3.5", dur: "2s", repeatCount: "indefinite" }), /* @__PURE__ */ React.createElement("animate", { attributeName: "opacity", values: "0.7;0;0.7", dur: "2s", repeatCount: "indefinite" })));
   })), PARTS.map((p) => {
     const pos = screenPositions[p.id];
     if (!pos) return null;
     const isHL = highlightId === p.id;
     const tc = getTagColor(p);
-    return /* @__PURE__ */ React.createElement("div", { key: p.id + "-tag", style: { position: "absolute", left: pos.tag.x, top: pos.tag.y, transform: "translate(-50%,-50%)", opacity: isHL ? 1 : 0.55, zIndex: isHL ? 10 : 1, transition: "opacity .3s" } }, isHL ? /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.95)", border: `1.5px solid ${tc}50`, borderRadius: 10, padding: "6px 12px", minWidth: 110, boxShadow: `0 4px 16px rgba(27,58,45,.08), 0 0 0 3px ${tc}12` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: CC.forest, marginBottom: 3 } }, p.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 10.5, gap: 8 } }, /* @__PURE__ */ React.createElement("span", { style: { color: CC.muted } }, tagMode === "cost" ? "Cost" : tagMode === "co2" ? "CO\u2082e" : "Risk"), /* @__PURE__ */ React.createElement("span", { style: { color: tc, fontWeight: 800 } }, getTagLabel(p)))) : /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.82)", border: `1px solid ${tc}28`, borderRadius: 6, padding: "2px 8px", display: "flex", alignItems: "center", gap: 4, backdropFilter: "blur(6px)" } }, /* @__PURE__ */ React.createElement("div", { style: { width: 5, height: 5, borderRadius: "50%", background: tc, boxShadow: `0 0 4px ${tc}44` } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 9.5, fontWeight: 700, color: tc, whiteSpace: "nowrap" } }, getTagLabel(p))));
+    const isDim = anyHL && !isHL;
+    return /* @__PURE__ */ React.createElement("div", { key: p.id + "-tag", style: { position: "absolute", left: pos.tag.x, top: pos.tag.y, transform: "translate(-50%,-50%)", opacity: isDim ? 0.15 : 1, zIndex: isHL ? 10 : 1, transition: "opacity .4s ease" } }, isHL ? /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.97)", border: `2px solid ${tc}`, borderRadius: 10, padding: "7px 13px", minWidth: 120, boxShadow: `0 6px 24px rgba(27,58,45,.15), 0 0 0 4px ${tc}20` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: CC.forest, marginBottom: 4 } }, p.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 11, gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { color: CC.muted } }, tagMode === "cost" ? "Cost" : tagMode === "co2" ? "CO\u2082e" : "Risk"), /* @__PURE__ */ React.createElement("span", { style: { color: tc, fontWeight: 800 } }, getTagLabel(p)))) : /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.88)", border: `1px solid ${tc}35`, borderRadius: 6, padding: "3px 9px", display: "flex", alignItems: "center", gap: 5, backdropFilter: "blur(6px)", boxShadow: "0 1px 4px rgba(27,58,45,.06)" } }, /* @__PURE__ */ React.createElement("div", { style: { width: 5, height: 5, borderRadius: "50%", background: tc, boxShadow: `0 0 4px ${tc}55` } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, fontWeight: 700, color: tc, whiteSpace: "nowrap" } }, getTagLabel(p))));
   })));
 }
 const rootElement = document.getElementById("hero-3d-container");
