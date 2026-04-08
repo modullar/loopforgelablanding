@@ -251,14 +251,20 @@ function TorchHero() {
     const tmpV = new THREE.Vector3();
     const startTime = performance.now();
     const easeInOut = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-    let animId;
-    let isVisible = true;
-    const onVisibility = () => { isVisible = !document.hidden; };
+    let animId = null;
+    let isDocumentVisible = !document.hidden;
+    let isInViewport = true;
+    let animationRunning = false;
+    let pauseStartedAt = 0;
+    let totalPausedMs = 0;
+    const onVisibility = () => {
+      isDocumentVisible = !document.hidden;
+      updateAnimationState();
+    };
     document.addEventListener("visibilitychange", onVisibility);
     const animate = (now) => {
-      animId = requestAnimationFrame(animate);
-      if (!isVisible) return;
-      const elapsed = now - startTime;
+      if (!animationRunning) return;
+      const elapsed = now - startTime - totalPausedMs;
       const cycleTime = elapsed % TOTAL_CYCLE;
       let accum = 0, phase = "assembled", progress = 0;
       for (const t of TIMELINE) {
@@ -354,11 +360,41 @@ function TorchHero() {
       } else {
         screenPosRef.current = {};
       }
+      animId = requestAnimationFrame(animate);
     };
+    const startAnimation = () => {
+      if (animationRunning) return;
+      if (pauseStartedAt) {
+        totalPausedMs += performance.now() - pauseStartedAt;
+        pauseStartedAt = 0;
+      }
+      animationRunning = true;
+      animId = requestAnimationFrame(animate);
+    };
+    const stopAnimation = () => {
+      if (!animationRunning) return;
+      animationRunning = false;
+      pauseStartedAt = performance.now();
+      if (animId !== null) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
+    };
+    const updateAnimationState = () => {
+      if (isDocumentVisible && isInViewport) startAnimation();
+      else stopAnimation();
+    };
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0];
+      isInViewport = !!(entry && entry.isIntersecting);
+      updateAnimationState();
+    }, { threshold: 0.15 });
+    observer.observe(container);
     if (parts.lens) parts.lens.traverse((c) => { if (c.isMesh && c.material) c.material.userData = { origTransparent: true }; });
     if (parts.battery_wrap) parts.battery_wrap.traverse((c) => { if (c.isMesh && c.material) c.material.userData = { origTransparent: true }; });
-    animId = requestAnimationFrame(animate);
+    updateAnimationState();
     const syncId = setInterval(() => {
+      if (!animationRunning) return;
       setScreenPositions({ ...screenPosRef.current });
       setHighlightId(hlRef.current);
       setTagMode(modeRef.current);
@@ -376,7 +412,8 @@ function TorchHero() {
       clearInterval(syncId);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
-      cancelAnimationFrame(animId);
+      observer.disconnect();
+      stopAnimation();
       try {
         container.removeChild(renderer.domElement);
       } catch (e) {
