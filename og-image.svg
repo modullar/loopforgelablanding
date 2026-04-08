@@ -1,42 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <!-- Forest Green Gradient Background -->
   <defs>
-    <linearGradient id="forestGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2d5a3d;stop-opacity:1" />
-      <stop offset="100%" style="stop-color:#1e3d2b;stop-opacity:1" />
+    <linearGradient id="heroGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f1f17" />
+      <stop offset="100%" stop-color="#2d5a3d" />
     </linearGradient>
   </defs>
-  
-  <!-- Background -->
-  <rect width="1200" height="630" fill="url(#forestGradient)"/>
-  
-  <!-- Main Content -->
-  <text x="60" y="100" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="72" font-weight="700" fill="#ffffff">TriForge</text>
-  
-  <text x="60" y="160" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="36" font-weight="500" fill="rgba(255, 255, 255, 0.95)">Designing Products for Tomorrow, Today</text>
-  
-  <!-- Accent line -->
-  <line x1="60" y1="180" x2="400" y2="180" stroke="#f59e0b" stroke-width="4"/>
-  
-  <!-- Description -->
-  <text x="60" y="250" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="400" fill="rgba(255, 255, 255, 0.85)">Research for Sustainable Product Futures</text>
-  <text x="60" y="295" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="400" fill="rgba(255, 255, 255, 0.8)">Helping CAD, CAE, and PLM users integrate</text>
-  <text x="60" y="335" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="24" font-weight="400" fill="rgba(255, 255, 255, 0.8)">circular economy principles</text>
-  
-  <!-- Research Phases Visualization -->
-  <!-- Phase 1 (Active) -->
-  <circle cx="900" cy="480" r="50" fill="#f59e0b"/>
-  <text x="900" y="490" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
-  <text x="900" y="560" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#ffffff" text-anchor="middle">Discovery</text>
-  
-  <!-- Line between phases -->
-  <line x1="970" y1="480" x2="1020" y2="480" stroke="rgba(255, 255, 255, 0.4)" stroke-width="3"/>
-  
-  <!-- Phase 2 -->
-  <circle cx="1070" cy="480" r="50" fill="rgba(255, 255, 255, 0.25)"/>
-  <text x="1070" y="490" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="48" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
-  <text x="1070" y="560" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="500" fill="#ffffff" text-anchor="middle">Design</text>
-  
-  <!-- Branding footer -->
-  <text x="60" y="620" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="400" fill="rgba(255, 255, 255, 0.6)">triforge.com</text>
+
+  <rect width="1200" height="630" fill="url(#heroGradient)" />
+
+  <circle cx="1040" cy="140" r="170" fill="rgba(212, 174, 102, 0.12)" />
+  <circle cx="1040" cy="140" r="120" fill="rgba(212, 174, 102, 0.12)" />
+  <circle cx="1040" cy="140" r="70" fill="rgba(212, 174, 102, 0.18)" />
+
+  <text x="70" y="120" font-family="Inter, Arial, sans-serif" font-size="40" font-weight="600" fill="#d4ae66">LoopForgeLab</text>
+
+  <text x="70" y="230" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="700" fill="#ffffff">Optimized for Performance.</text>
+  <text x="70" y="320" font-family="Inter, Arial, sans-serif" font-size="76" font-weight="700" fill="#ffffff">Approved for Price.</text>
+
+  <line x1="70" y1="360" x2="360" y2="360" stroke="#d4ae66" stroke-width="6" />
+
+  <text x="70" y="430" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="500" fill="rgba(255,255,255,0.95)">
+    Product Intelligence Engine
+  </text>
+  <text x="70" y="474" font-family="Inter, Arial, sans-serif" font-size="27" fill="rgba(255,255,255,0.82)">
+    Market, cost, and carbon intelligence directly in your workflow.
+  </text>
+  <text x="70" y="610" font-family="Inter, Arial, sans-serif" font-size="22" fill="rgba(255,255,255,0.68)">
+    loopforgelab.com
+  </text>
 </svg>
