@@ -211,18 +211,19 @@ function TorchHero() {
   const [tagMode, setTagMode] = useState("cost");
   const [highlightId, setHighlightId] = useState(null);
   const [explodeVal, setExplodeVal] = useState(0);
-  const proj = useCallback((wp, cam, el) => {
-    if (!cam || !el) return null;
+  const proj = useCallback((wp, cam, rectW, rectH) => {
+    if (!cam || rectW === 0 || rectH === 0) return null;
     const v = wp.clone().project(cam);
-    const r = el.getBoundingClientRect();
-    if (r.width === 0 || r.height === 0) return null;
-    return { x: (v.x * 0.5 + 0.5) * r.width, y: (-v.y * 0.5 + 0.5) * r.height, z: v.z };
+    return { x: (v.x * 0.5 + 0.5) * rectW, y: (-v.y * 0.5 + 0.5) * rectH, z: v.z };
   }, []);
   useEffect(() => {
     const container = mountRef.current;
     if (!container) return;
     const w = container.clientWidth, h = container.clientHeight;
     if (w === 0 || h === 0) return;
+    // Cache container rect to avoid forced reflows in the animation loop
+    let cachedRect = container.getBoundingClientRect();
+    let cachedW = w, cachedH = h;
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(28, w / h, 0.1, 100);
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -289,7 +290,7 @@ function TorchHero() {
       const theta = elapsed * 25e-5;
       const phiBase = phase === "beauty" ? 0.95 : 1.05;
       const phi = phiBase + Math.sin(elapsed * 15e-5) * 0.2;
-      const heightScale = h / 480;
+      const heightScale = cachedH / 480;
       let targetR;
       if (phase === "assembled") targetR = 8 * heightScale;
       else if (phase === "exploding") targetR = (8 + easeInOut(progress) * 5) * heightScale;
@@ -347,7 +348,7 @@ function TorchHero() {
         Object.entries(parts).forEach(([id, mesh]) => {
           mesh.getWorldPosition(tmpV);
           const o = TAG_OFFSETS[id] || { x: 2.0, y: 0 };
-          const ap = proj(tmpV, camera, container);
+          const ap = proj(tmpV, camera, cachedRect.width, cachedRect.height);
           if (!ap || !(ap.z > 0 && ap.z < 1)) return;
 
           // IMPORTANT: keep the anchor on the part (world-projected),
@@ -403,6 +404,9 @@ function TorchHero() {
     const onResize = () => {
       const w2 = container.clientWidth, h2 = container.clientHeight;
       if (w2 === 0 || h2 === 0) return;
+      cachedW = w2;
+      cachedH = h2;
+      cachedRect = container.getBoundingClientRect();
       renderer.setSize(w2, h2);
       camera.aspect = w2 / h2;
       camera.updateProjectionMatrix();
@@ -428,15 +432,17 @@ function TorchHero() {
   const hlPart = PARTS.find((p) => p.id === highlightId);
   const fontMain = "'DM Sans','Segoe UI',system-ui,sans-serif";
   const anyHL = highlightId !== null;
-  return /* @__PURE__ */ React.createElement("div", { style: { position: "relative", width: "100%", height: "100%", minHeight: 520, background: "transparent", overflow: "hidden", fontFamily: fontMain } }, /* @__PURE__ */ React.createElement("div", { ref: mountRef, style: { position: "absolute", inset: 0 } }), showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 20, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6, background: "rgba(255,255,255,.92)", backdropFilter: "blur(10px)", padding: "8px 20px", borderRadius: 40, border: `1.5px solid ${modeColor}30`, boxShadow: "0 2px 16px rgba(27,58,45,.08)", zIndex: 20 } }, TAG_MODES.map((m) => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
+  const rootMinH = isMobile ? 320 : 520;
+  return /* @__PURE__ */ React.createElement("div", { style: { position: "relative", width: "100%", height: "100%", minHeight: rootMinH, background: "transparent", overflow: "hidden", fontFamily: fontMain, contain: "layout style" } }, /* @__PURE__  */ React.createElement("div", { ref: mountRef, style: { position: "absolute", inset: 0 } }), showTags && !isMobile && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", top: 20, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 6, background: "rgba(255,255,255,.92)", backdropFilter: "blur(10px)", padding: "8px 20px", borderRadius: 40, border: `1.5px solid ${modeColor}30`, boxShadow: "0 2px 16px rgba(27,58,45,.08)", zIndex: 20 } }, TAG_MODES.map((m) => {
     const active = tagMode === m;
     const mc = MODE_COLORS[m];
     return /* @__PURE__ */ React.createElement("div", { key: m, style: { display: "flex", alignItems: "center", gap: 5, padding: "4px 14px", borderRadius: 20, background: active ? mc + "12" : "transparent", border: `1px solid ${active ? mc + "35" : "transparent"}`, transition: "all .5s" } }, /* @__PURE__ */ React.createElement("div", { style: { flexShrink: 0, width: 7, height: 7, borderRadius: "50%", background: active ? mc : CC.muted, boxShadow: active ? `0 0 8px ${mc}55` : "none", transition: "all .5s" } }), /* @__PURE__ */ React.createElement("span", { style: { whiteSpace: "nowrap", fontSize: 11, fontWeight: active ? 700 : 500, color: active ? mc : CC.muted, transition: "all .5s" } }, MODE_LABELS[m]));
-  })), hlPart && showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,.95)", backdropFilter: "blur(12px)", padding: "14px 28px", borderRadius: 16, border: `1px solid ${CC.forest}12`, boxShadow: "0 4px 32px rgba(27,58,45,.1)", display: "flex", alignItems: "center", gap: 24, minWidth: 320, zIndex: 20 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: CC.forest, fontFamily: "Georgia,serif" } }, hlPart.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: CC.muted, marginTop: 2 } }, hlPart.mat)), /* @__PURE__ */ React.createElement("div", { style: { width: 1, height: 36, background: CC.forest + "18" } }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 20 } }, [
+  })), hlPart && showTags && !isMobile && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", bottom: 28, left: "50%", transform: "translateX(-50%)", background: "rgba(255,255,255,.95)", backdropFilter: "blur(12px)", padding: "14px 28px", borderRadius: 16, border: `1px solid ${CC.forest}12`, boxShadow: "0 4px 32px rgba(27,58,45,.1)", display: "flex", alignItems: "center", gap: 24, minWidth: 320, zIndex: 20 } }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 15, fontWeight: 700, color: CC.forest, fontFamily: "Georgia,serif" } }, hlPart.label), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, color: CC.muted, marginTop: 2 } }, hlPart.mat)), /* @__PURE__ */ React.createElement("div", { style: { width: 1, height: 36, background: CC.forest + "18" } }), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", gap: 20 } }, [
     { v: `\u20AC${hlPart.cost.toFixed(2)}`, l: "Cost", c: CC.amber },
     { v: hlPart.co2.toFixed(2), l: "kg CO\u2082e", c: CC.forestMid },
     { v: `${hlPart.risk}%`, l: "Risk", c: hlPart.risk > 40 ? CC.coral : hlPart.risk > 20 ? CC.amber : CC.forestMid }
-  ].map((d, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: d.c, fontFamily: "Georgia,serif" } }, d.v), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: CC.muted, marginTop: 1 } }, d.l))))), showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" } }, /* @__PURE__ */ React.createElement("svg", { style: { position: "absolute", inset: 0, width: "100%", height: "100%" } }, PARTS.map((p) => {
+  ].map((d, i) => /* @__PURE__ */ React.createElement("div", { key: i, style: { textAlign: "center" } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 18, fontWeight: 800, color: d.c, fontFamily: "Georgia,serif" } }, d.v), /* @__PURE__ */ React.createElement("div", { style: { fontSize: 9, color: CC.muted, marginTop: 1 } }, d.l))))), showTags && /* @__PURE__ */ React.createElement("div", { style: { position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden" } }, /* @__PURE__  */ React.createElement("svg", { style: { position: "absolute", inset: 0, width: "100%", height: "100%" } }, PARTS.map((p) => {
     const pos = screenPositions[p.id];
     if (!pos) return null;
     const isHL = highlightId === p.id;
@@ -449,7 +455,7 @@ function TorchHero() {
     const isHL = highlightId === p.id;
     const tc = getTagColor(p);
     const isDim = anyHL && !isHL;
-    return /* @__PURE__ */ React.createElement("div", { key: p.id + "-tag", style: { position: "absolute", left: pos.tag.x, top: pos.tag.y, transform: "translate(-50%,-50%)", opacity: isDim ? 0.15 : 1, zIndex: isHL ? 10 : 1, transition: "opacity .4s ease" } }, isHL ? /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.97)", border: `2px solid ${tc}`, borderRadius: 10, padding: "7px 13px", minWidth: 120, boxShadow: `0 6px 24px rgba(27,58,45,.15), 0 0 0 4px ${tc}20` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: CC.forest, marginBottom: 4 } }, p.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 11, gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { color: CC.muted } }, tagMode === "cost" ? "Cost" : tagMode === "co2" ? "CO\u2082e" : "Risk"), /* @__PURE__ */ React.createElement("span", { style: { color: tc, fontWeight: 800 } }, getTagLabel(p)))) : /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.88)", border: `1px solid ${tc}35`, borderRadius: 6, padding: "3px 9px", display: "flex", alignItems: "center", gap: 5, backdropFilter: "blur(6px)", boxShadow: "0 1px 4px rgba(27,58,45,.06)" } }, /* @__PURE__ */ React.createElement("div", { style: { width: 5, height: 5, borderRadius: "50%", background: tc, boxShadow: `0 0 4px ${tc}55` } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: 10, fontWeight: 700, color: tc, whiteSpace: "nowrap" } }, getTagLabel(p))));
+    return /* @__PURE__ */ React.createElement("div", { key: p.id + "-tag", style: { position: "absolute", left: pos.tag.x, top: pos.tag.y, transform: "translate(-50%,-50%)", opacity: isDim ? 0.15 : 1, zIndex: isHL ? 10 : 1, transition: "opacity .4s ease" } }, isHL && !isMobile ? /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.97)", border: `2px solid ${tc}`, borderRadius: 10, padding: "7px 13px", minWidth: 120, boxShadow: `0 6px 24px rgba(27,58,45,.15), 0 0 0 4px ${tc}20` } }, /* @__PURE__ */ React.createElement("div", { style: { fontSize: 11, fontWeight: 700, color: CC.forest, marginBottom: 4 } }, p.label), /* @__PURE__ */ React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 11, gap: 10 } }, /* @__PURE__ */ React.createElement("span", { style: { color: CC.muted } }, tagMode === "cost" ? "Cost" : tagMode === "co2" ? "CO\u2082e" : "Risk"), /* @__PURE__ */ React.createElement("span", { style: { color: tc, fontWeight: 800 } }, getTagLabel(p)))) : /* @__PURE__ */ React.createElement("div", { style: { background: "rgba(255,255,255,.88)", border: `1px solid ${tc}35`, borderRadius: 6, padding: isMobile ? "2px 5px" : "3px 9px", display: "flex", alignItems: "center", gap: isMobile ? 3 : 5, backdropFilter: "blur(6px)", boxShadow: "0 1px 4px rgba(27,58,45,.06)" } }, /* @__PURE__ */ React.createElement("div", { style: { width: isMobile ? 4 : 5, height: isMobile ? 4 : 5, borderRadius: "50%", background: tc, boxShadow: `0 0 4px ${tc}55` } }), /* @__PURE__ */ React.createElement("span", { style: { fontSize: isMobile ? 8 : 10, fontWeight: 700, color: tc, whiteSpace: "nowrap" } }, getTagLabel(p))));
   })));
 }
 const rootElement = document.getElementById("hero-3d-container");

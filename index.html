@@ -52,11 +52,9 @@
     <link rel="shortcut icon" href="favicon.ico?v=2">
     <link rel="apple-touch-icon" href="assets/favicon.png?v=2">
 
-    <!-- Non-blocking styles and self-hosted fonts -->
-    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
-    <link rel="preload" href="fonts.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="fonts.css"></noscript>
+    <!-- Critical styles — loaded blocking to prevent CLS from FOUC -->
+    <link rel="stylesheet" href="fonts.css">
+    <link rel="stylesheet" href="styles.css">
     <link rel="preload" href="fonts/dm-serif-display-latin-regular.woff2" as="font" type="font/woff2" crossorigin>
     <style>
         * {
@@ -100,6 +98,8 @@
             font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: var(--font-weight-bold);
             line-height: 1.3;
+            /* Reserve vertical space to prevent CLS from font swap */
+            min-height: 2.6em;
         }
 
         .header {
@@ -158,6 +158,9 @@
             color: var(--white);
             position: relative;
             overflow: hidden;
+            /* Prevent CLS by reserving minimum hero height */
+            min-height: 480px;
+            contain: layout;
         }
 
         .hero-inner {
@@ -175,6 +178,8 @@
         .hero-title {
             margin-bottom: 2rem;
             color: var(--white);
+            /* Prevent CLS: reserve vertical space matching final rendered size */
+            min-height: 2.6em;
         }
 
         .hero-insight {
@@ -204,6 +209,16 @@
 
             .nav-menu {
                 display: none;
+            }
+
+            .hero-3d-wrapper {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                transform: none;
+                overflow: hidden;
             }
         }
     </style>
@@ -258,7 +273,7 @@
                 </div>
                 <div class="hero-visual" style="position: relative; z-index: 0;">
                     <div id="hero-3d-container" class="hero-3d-wrapper"
-                        style="padding: 0; background: transparent; overflow: visible;">
+                        style="padding: 0; background: transparent; overflow: visible; contain: layout size style;">
                         <!-- The React component will be injected here by TorchHero.jsx -->
                     </div>
                 </div>

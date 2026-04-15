@@ -2257,6 +2257,23 @@ strong {
 
     .hero-visual {
         min-height: 350px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .hero-3d-wrapper {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        transform: none;
+        overflow: hidden;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 10;
     }
 
     #impossible-triangle-container {
