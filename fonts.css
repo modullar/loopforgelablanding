@@ -2,7 +2,7 @@
     font-family: 'DM Sans';
     font-style: normal;
     font-weight: 300 700;
-    font-display: swap;
+    font-display: optional;
     src: url('fonts/dm-sans-latin.woff2') format('woff2');
 }
 

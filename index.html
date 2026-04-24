@@ -62,7 +62,7 @@
             font-family: 'DM Sans';
             font-style: normal;
             font-weight: 300 700;
-            font-display: swap;
+            font-display: optional;
             src: url('fonts/dm-sans-latin.woff2') format('woff2');
         }
         @font-face {
@@ -230,6 +230,65 @@
             flex-wrap: wrap;
         }
 
+        /* Critical button styles — prevent CLS from deferred styles.css */
+        .btn-primary,
+        .btn-secondary {
+            display: inline-block;
+            padding: 1rem 2rem;
+            border-radius: var(--border-radius);
+            font-weight: var(--font-weight-medium);
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-family: var(--font-primary);
+            /* Reserve stable dimensions to prevent reflow on font swap */
+            min-height: 3.25rem;
+            line-height: 1.25;
+        }
+
+        .btn-primary {
+            background: var(--forest-green);
+            color: var(--white);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--forest-green);
+            border: 2px solid var(--forest-green);
+        }
+
+        .hero-ctas .btn-secondary {
+            color: var(--white);
+            border-color: var(--white);
+        }
+
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        }
+
+        /* Reserve space for dynamically-injected StatusQuoGap component */
+        #status-quo-container {
+            min-height: 200vh;
+            contain: layout style;
+        }
+
+        /* Critical .journey styles — prevent CLS when styles.css loads */
+        .journey {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-green-dark) 100%);
+            color: var(--white);
+            overflow: hidden;
+        }
+
+        .journey h2 {
+            color: var(--white);
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            margin-bottom: 1.5rem;
+        }
+
         @media (max-width: 900px) {
             .hero-inner {
                 grid-template-columns: 1fr;
@@ -247,6 +306,10 @@
                 left: 0;
                 transform: none;
                 overflow: hidden;
+            }
+
+            #status-quo-container {
+                min-height: 250vh;
             }
         }
     </style>
