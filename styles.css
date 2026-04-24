@@ -1,3 +1,13 @@
+/* Deferred @font-face — italic variant not needed for initial render.
+   Kept out of inline <style> to avoid a critical request chain. */
+@font-face {
+    font-family: 'DM Serif Display';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('fonts/dm-serif-display-latin-italic.woff2') format('woff2');
+}
+
 /* CSS Reset and Base Styles */
 * {
     margin: 0;
