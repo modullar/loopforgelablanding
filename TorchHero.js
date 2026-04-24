@@ -247,6 +247,16 @@ function TorchHero() {
     backRim.position.set(0, 2, -6);
     scene.add(backRim);
     const { parts, group } = buildTorch(scene);
+    // Pre-flatten mesh/material refs to avoid per-frame traverse()
+    const meshList = [];
+    Object.entries(parts).forEach(([partId, root]) => {
+      root.traverse((c) => {
+        if (c.isMesh && c.material) {
+          meshList.push({ partId, material: c.material });
+        }
+      });
+    });
+    const partEntries = Object.entries(parts);
     let lastRadius = 8.5;
     const lookAt = new THREE.Vector3(0, -0.3, 0);
     const tmpV = new THREE.Vector3();
@@ -258,6 +268,10 @@ function TorchHero() {
     let animationRunning = false;
     let pauseStartedAt = 0;
     let totalPausedMs = 0;
+     // Dirty-flag for material updates — only run during highlight transitions
+    let prevHL = undefined;
+    let fadeFramesLeft = 0;
+    const FADE_FRAMES = 20;
     const onVisibility = () => {
       isDocumentVisible = !document.hidden;
       updateAnimationState();
@@ -281,7 +295,7 @@ function TorchHero() {
       else if (phase === "showcase") expl = 1;
       else if (phase === "imploding") expl = 1 - easeInOut(progress);
       explRef.current = expl;
-      Object.entries(parts).forEach(([k2, m]) => {
+      partEntries.forEach(([k2, m]) => {
         if (m.userData.basePos && EXPLODE_MAP[k2] !== void 0) {
           m.position.y = m.userData.basePos.y + EXPLODE_MAP[k2] * expl;
           if (k2 === "pocket_clip") m.position.x = m.userData.basePos.x + expl * 0.7;
@@ -318,34 +332,45 @@ function TorchHero() {
       hlRef.current = curHL;
       modeRef.current = curMode;
 
-      const anyHL = curHL !== null;
-      Object.entries(parts).forEach(([k2, m]) => {
-        const isHL = curHL === k2;
-        m.traverse((c) => {
-          if (!c.isMesh || !c.material) return;
-          if (c.material.emissive) {
-            c.material.emissive.setHex(isHL ? 0x2A5A42 : 0x000000);
-            c.material.emissiveIntensity = isHL ? 0.55 : 0;
+      // Dirty-flag: only update materials during highlight transitions
+      if (curHL !== prevHL) {
+        prevHL = curHL;
+        fadeFramesLeft = FADE_FRAMES;
+      }
+      if (fadeFramesLeft > 0) {
+        fadeFramesLeft--;
+        const anyHL = curHL !== null;
+        const isLastFrame = fadeFramesLeft === 0;
+        meshList.forEach(({ partId, material }) => {
+          const isHL = curHL === partId;
+          if (material.emissive) {
+            material.emissive.setHex(isHL ? 0x2A5A42 : 0x000000);
+            material.emissiveIntensity = isHL ? 0.55 : 0;
           }
           const targetOpacity = !anyHL ? 1 : isHL ? 1 : 0.22;
-          const currentOpacity = c.material.opacity !== void 0 ? c.material.opacity : 1;
-          const newOpacity = currentOpacity + (targetOpacity - currentOpacity) * 0.12;
-          const isIntentionallyTransparent = c.material.userData && c.material.userData.origTransparent;
-          if (!isIntentionallyTransparent) {
-            if (Math.abs(targetOpacity - 1) > 0.01 || newOpacity < 0.99) {
-              c.material.transparent = true;
-              c.material.opacity = newOpacity;
+          const isOrig = material.userData && material.userData.origTransparent;
+          if (!isOrig) {
+            if (isLastFrame) {
+              material.transparent = targetOpacity < 0.99;
+              material.opacity = targetOpacity;
             } else {
-              c.material.transparent = false;
-              c.material.opacity = 1;
+              const cur = material.opacity !== void 0 ? material.opacity : 1;
+              const nxt = cur + (targetOpacity - cur) * 0.18;
+              if (Math.abs(targetOpacity - 1) > 0.01 || nxt < 0.99) {
+                material.transparent = true;
+                material.opacity = nxt;
+              } else {
+                material.transparent = false;
+                material.opacity = 1;
+              }
             }
           }
         });
-      });
+      }
       renderer.render(scene, camera);
       if (expl > 0.3) {
         const np = {};
-        Object.entries(parts).forEach(([id, mesh]) => {
+        partEntries.forEach(([id, mesh]) => {
           mesh.getWorldPosition(tmpV);
           const o = TAG_OFFSETS[id] || { x: 2.0, y: 0 };
           const ap = proj(tmpV, camera, cachedRect.width, cachedRect.height);
@@ -400,7 +425,7 @@ function TorchHero() {
       setHighlightId(hlRef.current);
       setTagMode(modeRef.current);
       setExplodeVal(explRef.current);
-    }, 40);
+    }, 50);
     const onResize = () => {
       const w2 = container.clientWidth, h2 = container.clientHeight;
       if (w2 === 0 || h2 === 0) return;
