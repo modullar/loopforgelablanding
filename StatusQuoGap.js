@@ -723,7 +723,7 @@
           grid-area: 1 / 1;
           width: 100vw;
           min-height: 100vh;
-          padding: 80px 24px 100px;
+          padding: 80px 24px 80px;
           display: flex;
           flex-direction: column;
           align-items: center;

@@ -513,6 +513,7 @@ strong {
     background: linear-gradient(135deg, var(--forest-green-dark) 0%, #162e1f 100%);
     color: var(--white);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
 }
 
 .problem h2 {
@@ -972,7 +973,12 @@ strong {
 
 /* Solution Section */
 .journey {
-    padding: var(--section-padding);
+    position: relative;
+    z-index: 11;
+    padding-top: 10rem;
+    padding-bottom: 5rem;
+    padding-left: 0;
+    padding-right: 0;
     background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-green-dark) 100%);
     color: var(--white);
     overflow: hidden;
@@ -1594,94 +1600,164 @@ strong {
     color: var(--how-forest);
 }
 
-.how-it-works-p-step {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 8px 0;
-    position: relative;
+/* ── Flow Diagram base ─────────────────────────────── */
+.hiw-flow {
+    width: 100%;
+    max-width: 280px;
+    margin: 4px auto 8px;
+    display: block;
+    overflow: visible;
+}
+
+.hiw-flow-sq { height: auto; }
+.hiw-flow-lfl { height: auto; }
+
+/* ── Nodes: fade-in staggered by data-n ───────────── */
+.hiw-node,
+.hiw-overlay,
+.hiw-bolt-badge {
     opacity: 0;
-    transform: translateX(-8px);
+    transform: translateY(6px);
 }
 
-.how-it-works-path-tri .how-it-works-p-step {
-    transform: translateX(8px);
+.how-it-works-path.vis .hiw-node,
+.how-it-works-path.vis .hiw-overlay,
+.how-it-works-path.vis .hiw-bolt-badge {
+    animation: hiw-fade-node 0.45s ease forwards;
 }
 
-.how-it-works-p-step.vis {
-    opacity: 1;
-    transform: translateX(0);
-    transition: all 0.4s ease;
+/* Status Quo stagger (~3.5s total for 5 nodes + extras) */
+.how-it-works-path-today.vis .hiw-node[data-n="0"] { animation-delay: 0s; }
+.how-it-works-path-today.vis .hiw-node[data-n="1"] { animation-delay: 0.55s; }
+.how-it-works-path-today.vis .hiw-node[data-n="2"] { animation-delay: 1.1s; }
+.how-it-works-path-today.vis .hiw-node[data-n="3"] { animation-delay: 1.65s; }
+.how-it-works-path-today.vis .hiw-node[data-n="4"] { animation-delay: 2.2s; }
+.how-it-works-path-today.vis .hiw-speed-badge-sq    { animation-delay: 2.8s; }
+
+/* LoopForgeLab stagger (~1.2s total for 3 nodes + extras) */
+.how-it-works-path-tri.vis .hiw-node[data-n="0"] { animation-delay: 0s; }
+.how-it-works-path-tri.vis .hiw-overlay[data-n="0"] { animation-delay: 0.25s; animation-name: hiw-pop-overlay; }
+.how-it-works-path-tri.vis .hiw-node[data-n="1"] { animation-delay: 0.35s; }
+.how-it-works-path-tri.vis .hiw-node[data-n="2"] { animation-delay: 0.65s; }
+.how-it-works-path-tri.vis .hiw-bolt-badge         { animation-delay: 0.85s; animation-name: hiw-pop-overlay; }
+
+/* ── Connectors: draw-in ─────────────────────────── */
+.hiw-line {
+    stroke-width: 1.8;
+    opacity: 0;
 }
 
-.how-it-works-p-num {
-    flex-shrink: 0;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    font-weight: 700;
-    margin-top: 1px;
-    position: relative;
+.hiw-line-sq { stroke: var(--how-coral); }
+.hiw-line-lfl { stroke: var(--how-forest-mid); stroke-dasharray: none; }
+
+.how-it-works-path.vis .hiw-line {
+    animation: hiw-draw-line 0.35s ease forwards;
 }
 
-.how-it-works-path-today .how-it-works-p-num {
-    background: rgba(217, 83, 79, 0.08);
-    color: var(--how-coral);
+/* SQ connector delays (between node arrivals) */
+.how-it-works-path-today.vis .hiw-line:nth-of-type(1) { animation-delay: 0.35s; }
+.how-it-works-path-today.vis .hiw-line:nth-of-type(2) { animation-delay: 0.9s; }
+.how-it-works-path-today.vis .hiw-line:nth-of-type(3) { animation-delay: 1.45s; }
+.how-it-works-path-today.vis .hiw-line:nth-of-type(4) { animation-delay: 2.0s; }
+
+/* LFL connector delays */
+.how-it-works-path-tri.vis .hiw-line:nth-of-type(1) { animation-delay: 0.2s; }
+.how-it-works-path-tri.vis .hiw-line:nth-of-type(2) { animation-delay: 0.5s; }
+
+/* ── Loopback arrow (SQ only) ────────────────────── */
+.hiw-loopback {
+    stroke: var(--how-coral);
+    stroke-width: 1.5;
+    opacity: 0;
 }
 
-.how-it-works-path-today .how-it-works-p-step:nth-last-child(-n+2) .how-it-works-p-num {
-    background: var(--how-coral);
-    color: white;
+.hiw-loopback-arrow { opacity: 0; }
+
+.how-it-works-path-today.vis .hiw-loopback {
+    animation: hiw-draw-loopback 0.8s ease forwards;
+    animation-delay: 2.6s;
 }
 
-.how-it-works-path-tri .how-it-works-p-num {
-    background: rgba(42, 90, 66, 0.08);
-    color: var(--how-forest-mid);
+.how-it-works-path-today.vis .hiw-loopback-arrow {
+    animation: hiw-fade-node 0.3s ease forwards;
+    animation-delay: 3.3s;
 }
 
-.how-it-works-path-tri .how-it-works-p-step:nth-last-child(-n+2) .how-it-works-p-num {
-    background: var(--how-forest);
-    color: white;
+/* ── Spinning clock hand (SQ node 2) ─────────────── */
+.hiw-clock-hand {
+    transform-origin: 40px 94px;
 }
 
-.how-it-works-p-step:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    left: 12.5px;
-    top: 34px;
-    bottom: -8px;
-    width: 1.5px;
-    border-radius: 1px;
+.how-it-works-path-today.vis .hiw-clock-hand {
+    animation: hiw-spin-clock 2.5s linear infinite;
+    animation-delay: 0.55s;
 }
 
-.how-it-works-path-today .how-it-works-p-step:not(:last-child)::after {
-    background: rgba(217, 83, 79, 0.12);
+/* ── Pulsing warning triangle (SQ node 4) ────────── */
+.how-it-works-path-today.vis .hiw-warn {
+    animation: hiw-pulse-warn 1.2s ease-in-out infinite;
+    animation-delay: 1.65s;
 }
 
-.how-it-works-path-tri .how-it-works-p-step:not(:last-child)::after {
-    background: rgba(42, 90, 66, 0.12);
+/* ── Checkmark draw (LFL node 3) ─────────────────── */
+.hiw-check {
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
 }
 
-.how-it-works-p-text {
-    font-size: 0.84rem;
-    font-weight: 500;
-    line-height: 1.45;
-    color: var(--how-forest);
-    padding-top: 3px;
+.how-it-works-path-tri.vis .hiw-check {
+    animation: hiw-draw-check-lg 0.5s ease forwards;
+    animation-delay: 0.75s;
 }
 
-.how-it-works-path-today .how-it-works-p-step:nth-last-child(-n+2) .how-it-works-p-text {
-    color: var(--how-coral);
-    font-weight: 600;
+/* ── Lightning bolt flash (LFL badge) ────────────── */
+.how-it-works-path-tri.vis .hiw-bolt {
+    animation: hiw-bolt-flash 1.5s ease-in-out infinite;
+    animation-delay: 0.95s;
 }
 
-.how-it-works-path-tri .how-it-works-p-step:nth-last-child(-n+2) .how-it-works-p-text {
-    color: var(--how-forest);
-    font-weight: 600;
+/* ══════════════════════════════════════════════════
+   Keyframes
+   ══════════════════════════════════════════════════ */
+
+@keyframes hiw-fade-node {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hiw-draw-line {
+    from { opacity: 0; }
+    to   { opacity: 0.5; }
+}
+
+@keyframes hiw-draw-loopback {
+    from { opacity: 0; }
+    to   { opacity: 0.45; }
+}
+
+@keyframes hiw-spin-clock {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes hiw-pulse-warn {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.35; }
+}
+
+@keyframes hiw-pop-overlay {
+    from { opacity: 0; transform: translateY(4px) scale(0.92); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes hiw-draw-check-lg {
+    from { stroke-dashoffset: 30; }
+    to   { stroke-dashoffset: 0; }
+}
+
+@keyframes hiw-bolt-flash {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.4; }
 }
 
 .how-it-works-result {
@@ -1776,6 +1852,39 @@ strong {
 
     .how-it-works-path {
         padding: 20px 16px 16px;
+    }
+
+    /* Mobile: show diagram elements instantly (no entrance animation) but keep loops */
+    .hiw-node,
+    .hiw-overlay,
+    .hiw-bolt-badge,
+    .hiw-line,
+    .hiw-loopback,
+    .hiw-loopback-arrow,
+    .hiw-check {
+        opacity: 1 !important;
+        transform: none !important;
+        animation-delay: 0s !important;
+    }
+
+    .hiw-check {
+        stroke-dashoffset: 0 !important;
+    }
+
+    /* Keep continuous loops on mobile */
+    .how-it-works-path.vis .hiw-clock-hand {
+        animation: hiw-spin-clock 2.5s linear infinite !important;
+        animation-delay: 0s !important;
+    }
+
+    .how-it-works-path.vis .hiw-warn {
+        animation: hiw-pulse-warn 1.2s ease-in-out infinite !important;
+        animation-delay: 0s !important;
+    }
+
+    .how-it-works-path.vis .hiw-bolt {
+        animation: hiw-bolt-flash 1.5s ease-in-out infinite !important;
+        animation-delay: 0s !important;
     }
 }
 
@@ -2613,16 +2722,6 @@ strong {
         background: linear-gradient(160deg, #ffffff 0%, #edf5f1 100%) !important;
         /* Start clipped from LEFT so only RIGHT half shows */
         clip-path: inset(0 0 0 50%);
-    }
-
-    /* Step alignment: give each step a consistent min-height so rows
-       line up when the two cards are viewed side-by-side in the slider */
-    .how-it-works-p-step {
-        min-height: 60px;
-        display: flex;
-        align-items: flex-start;
-        padding-top: 4px;
-        padding-bottom: 4px;
     }
 
     /* Header blocks: fixed height so step 1 starts at the same Y on both cards */

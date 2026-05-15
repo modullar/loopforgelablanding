@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (targetElement) {
                 const headerHeight = document.querySelector('.header').offsetHeight;
-                const targetPosition = targetElement.offsetTop - headerHeight - 20;
+                const targetPosition = targetElement.offsetTop - headerHeight - 40;
 
                 window.scrollTo({
                     top: targetPosition,
@@ -77,13 +77,14 @@ document.addEventListener('DOMContentLoaded', function () {
             e.target.classList.add('vis');
 
             if (e.target.classList.contains('how-it-works-path')) {
-                const steps = e.target.querySelectorAll('.how-it-works-p-step');
-                const delay = isMobileHIW ? 0 : 150; // no delay on mobile
-                steps.forEach((s, i) => {
-                    setTimeout(() => s.classList.add('vis'), delay + i * (isMobileHIW ? 0 : 120));
-                });
+                // SVG flow diagrams animate via CSS when .vis is added to the card.
+                // Only the result badge needs a JS delay to appear after the diagram finishes.
                 const res = e.target.querySelector('.how-it-works-result');
-                if (res) setTimeout(() => res.classList.add('vis'), isMobileHIW ? 0 : 200 + steps.length * 120);
+                if (res) {
+                    const isSQ = e.target.classList.contains('how-it-works-path-today');
+                    const delay = isMobileHIW ? 0 : (isSQ ? 3500 : 1200);
+                    setTimeout(() => res.classList.add('vis'), delay);
+                }
             }
 
             howItWorksIO.unobserve(e.target);
@@ -96,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const el = document.querySelector(sel);
             if (!el) return;
             el.classList.add('vis');
-            el.querySelectorAll('.how-it-works-p-step, .how-it-works-result').forEach(s => s.classList.add('vis'));
+            el.querySelectorAll('.how-it-works-result').forEach(s => s.classList.add('vis'));
         });
     }
 
